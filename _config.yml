@@ -2,5 +2,5 @@ theme: jekyll-theme-minimal
 title: Welcome to Manya's homepage!
 image: images/headshot.jpg
 
-# owner:
-#   avatar: headshot.jpg
+owner:
+  avatar: images/headshot.jpg
