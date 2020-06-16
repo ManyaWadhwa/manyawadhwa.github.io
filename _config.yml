@@ -1,27 +1,9 @@
 theme: jekyll-theme-minimal
 title: Manya Wadhwa
-logo: "assests/img/headshot.png"
+avatar: "assests/img/headshot.png"
 name: Manya Wadhwa
-description: Manya Wadhwa's home page!
+description: Research Engineer @ Goldman Sachs R&D
 
-# Site Author
-author:
-  name             : ""
-  avatar           : "assests/img/headshot.png"
-  bio              : "Research Engineer @ Goldman Sachs R&D"
-  location         : "New York City, New York"
-  email            : manyaa.wadhwa@gmail.com
-  links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-    - label: "Scholar"
-      icon: "fas fa-fw fa-link"
-      url: https://scholar.google.com/citations?user=4_uMjzgAAAAJ&hl=en&oi=ao
-    - label: "LinkedIn"
-      icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/manya-wadhwa-9798a79a/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/manya.wadhwa"
+linkedin_username: https://www.linkedin.com/in/manya-wadhwa-9798a79a/
+aboutme_username:
+instagram_username: https://instagram.com/manya.wadhwa
