@@ -1,12 +1,7 @@
 theme: jekyll-theme-minimal
-title: Welcome to Manya's homepage!
+title: Manya Wadhwa
 logo: assests/img/headshot.png
 
-social-network-links:
-  email: "manyaa.wadhwa@gmail.com"
-  linkedin: manya-wadhwa-9798a79a
-  instagram: manya.wadhwa
-
-share-links-active:
-  instagram: true
-  linkedin: true
+email: "manyaa.wadhwa@gmail.com"
+linkedin: manya-wadhwa-9798a79a
+instagram: manya.wadhwa
