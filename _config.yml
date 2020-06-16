@@ -1,8 +1,8 @@
-theme: jekyll-theme-minimal
+theme: minimal-mistakes-jekyll #jekyll-theme-minimal
 title: Manya Wadhwa
 logo: "assests/img/headshot.png"
 name: Manya Wadhwa
-description: Manya Wadhwa's home page! 
+description: Manya Wadhwa's home page!
 
 # Site Author
 author:
