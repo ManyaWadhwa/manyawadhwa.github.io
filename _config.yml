@@ -1,8 +1,5 @@
 theme: jekyll-theme-minimal
 title: Manya Wadhwa
-description: >
-Research Engineer @ Goldman Sachs R&D
-<br><br>
-<a href="https://www.linkedin.com/in/manya-wadhwa-9798a79a/">View My LinkedIn Profile</a>
+description: Research Engineer @ Goldman Sachs R&D <br><br> <a href="https://www.linkedin.com/in/manya-wadhwa-9798a79a/">View My LinkedIn Profile</a>
 logo: assests/img/headshot.png
 show_social: true
