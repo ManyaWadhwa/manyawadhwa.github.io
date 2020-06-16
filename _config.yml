@@ -2,6 +2,9 @@ theme: jekyll-theme-minimal
 title: Manya Wadhwa
 logo: assests/img/headshot.png
 
-email: "manyaa.wadhwa@gmail.com"
-linkedin: manya-wadhwa-9798a79a
-instagram: manya.wadhwa
+owner:
+  name: Manya Wadhwa
+  avatar: assests/img/headshot.png
+  email: "manyaa.wadhwa@gmail.com"
+  linkedin: manya-wadhwa-9798a79a
+  instagram: manya.wadhwa
