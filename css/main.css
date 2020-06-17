@@ -15,18 +15,18 @@ h {color:#006400}
 img { padding-top: 10px; padding-bottom: 10px; padding-left: 0px; padding-right: 0px }
 p {padding-right: 250px}
 
-a {								
+a {
     text-decoration: none;
-    color: #006400;
+    color: #034076;
 }
 a:hover {    text-decoration: underline; }
 
-nav ul, footer ul {				
+nav ul, footer ul {
     padding: 0px;
     list-style: none;
     font-weight: bold;
 }
-nav ul li, footer ul li {		
+nav ul li, footer ul li {
     display: inline;
     margin-right: 20px;
 }
@@ -37,8 +37,8 @@ footer {
     color: #777
 }
 
-ul.posts { 
-    margin: 20px auto 40px; 
+ul.posts {
+    margin: 20px auto 40px;
     font-size: 1.2em;
 }
 ul.posts li {    list-style: none; padding:3px}
