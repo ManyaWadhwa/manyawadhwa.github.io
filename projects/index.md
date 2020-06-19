@@ -1,9 +1,3 @@
----
-layout: default
-title: Publications
-permalink: /projects/
----
-
 ## Experience
 
 #### Industry Research
