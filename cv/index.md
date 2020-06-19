@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Research
+title: CV
 ---
 
 Coming soon!

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Research
+title: TIL
 ---
 
 Coming soon!
