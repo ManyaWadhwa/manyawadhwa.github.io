@@ -5,9 +5,10 @@ title: TIL
 
 With the huge amount of information that is being published and put on the internet these days, I get very overwhelmed. To keep track, I end up journaling my "learnings" from papers/courses/blogs etc. Helps me track my progress. From now on, I'll document them here! It'll be a list of my TILs :)) I will journal these on my end throughout the week, and will post them out on the weekends!
 
-> 20th June 2020
 
-Read the paper ["Representation Learning for Information Extraction from Form-like Documents"]().
+
+> #### 20th June 2020
+###### Read the paper ["Representation Learning for Information Extraction from Form-like Documents"]().
 
 Problem Statement : Extracting structured information from "form" like documents i.e. given a set of fields for a particular domain, extract fields from unseen documents.
 
