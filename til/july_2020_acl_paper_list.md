@@ -6,7 +6,61 @@ title: TIL/ACL 2020 paper list
 [Go to the main TIL page](https://manyawadhwa.github.io/til/)
 [Go to the July TIL page](july_2020.md)
 
+### 8th July
+[Decoding Brain Activity Associated with Literal and Metaphoric Sentence Comprehension using Distributional Semantic Models](https://virtual.acl2020.org/paper_tacl.1912.html)
 
+[Learning Interpretable Relationships between Entities, Relations and Concepts via Bayesian Structure Learning on Open Domain Facts](https://virtual.acl2020.org/paper_main.717.html)
+
+[BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://virtual.acl2020.org/paper_main.703.html)
+
+[TaBERT: Pretraining for Joint Understanding of Textual and Tabular Data](https://virtual.acl2020.org/paper_main.745.html)
+
+[Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks](https://virtual.acl2020.org/paper_main.740.html)
+
+[Predicting the Focus of Negation: Model and Error Analysis](https://virtual.acl2020.org/paper_main.743.html)
+
+[Document-Level Event Role Filler Extraction using Multi-Granularity Contextualized Encoding](https://virtual.acl2020.org/paper_main.714.html)
+
+[https://virtual.acl2020.org/paper_srw.9.html](https://virtual.acl2020.org/paper_srw.9.html)
+
+
+[From Zero to Hero: Human-In-The-Loop Entity Linking in Low Resource Domains](https://virtual.acl2020.org/paper_main.624.html)
+
+[Premise Selection in Natural Language Mathematical Texts](https://virtual.acl2020.org/paper_main.657.html)
+
+[A Mixture of h - 1 Heads is Better than h Heads](https://virtual.acl2020.org/paper_main.587.html)
+
+[Handling Rare Entities for Neural Sequence Labeling](https://virtual.acl2020.org/paper_main.574.html)
+
+[Connecting Embeddings for Knowledge Graph Entity Typing](https://virtual.acl2020.org/paper_main.572.html)
+
+[Neighborhood Matching Network for Entity Alignment](https://virtual.acl2020.org/paper_main.578.html)
+
+[Named Entity Recognition as Dependency Parsing](https://virtual.acl2020.org/paper_main.577.html)
+
+[Relation Extraction with Explanation](https://virtual.acl2020.org/paper_main.579.html)
+
+[Instance-Based Learning of Span Representations: A Case Study through Named Entity Recognition](https://virtual.acl2020.org/paper_main.575.html)
+
+[Pyramid: A Layered Model for Nested Named Entity Recognition](https://virtual.acl2020.org/paper_main.525.html)
+
+[Curriculum Learning for Natural Language Understanding](https://virtual.acl2020.org/paper_main.542.html)
+
+[Improving Low-Resource Named Entity Recognition using Joint Sentence and Token Labeling](https://virtual.acl2020.org/paper_main.523.html)
+
+[LogicalFactChecker: Leveraging Logical Operations for Fact Checking with Graph Module Network](https://virtual.acl2020.org/paper_main.539.html)
+
+[Neural-DINF: A Neural Network based Framework for Measuring Document Influence](https://virtual.acl2020.org/paper_main.534.html)
+
+[Reasoning Over Semantic-Level Graph for Fact Checking](https://virtual.acl2020.org/paper_main.549.html)
+
+[The State and Fate of Linguistic Diversity and Inclusion in the NLP World](https://virtual.acl2020.org/paper_main.560.html)
+
+[The Unstoppable Rise of Computational Linguistics in Deep Learning](https://virtual.acl2020.org/paper_main.561.html)
+
+
+
+---
 ### 7th July
 
 Interesting papers that I came across and didn't actually get time to make notes:
