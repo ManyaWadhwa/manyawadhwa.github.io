@@ -3,8 +3,13 @@ layout: default
 title: Reading List
 ---
 
-https://www.youtube.com/watch?v=8FIEZXMUM2I&t=17s
+* [NLP-progress](http://nlpprogress.com/)
 
+* [High Resource Languages vs Low Resource Languages](https://thegradient.pub/the-benderrule-on-naming-the-languages-we-study-and-why-it-matters/)
+* https://www.youtube.com/watch?v=8FIEZXMUM2I&t=17s
+* [A Call for More Rigor in Unsupervised Cross-lingual Learning](A Call for More Rigor in Unsupervised Cross-lingual Learning)
+* [The State and Fate of Linguistic Diversity and Inclusion in the NLP World](https://arxiv.org/abs/2004.09095)
+* [Unsupervised cross lingual representation learning](https://docs.google.com/presentation/d/1miPu0hkBFSRTAxP-Psg0xXOvAbVSJPhQXehMQdUI88I/edit#slide=id.p)
 * [On the Measure of Intelligence](https://arxiv.org/abs/1911.01547)
 * [Radioactive data: tracing through training](https://arxiv.org/pdf/2002.00937.pdf)
 * ["Transformers as Soft reasoners over language"](https://arxiv.org/abs/2002.05867) by Allen AI
