@@ -3,4 +3,4 @@ layout: default
 title: CV
 ---
 
-![some discription]("images/manya_wadhmaa_resume-1.png")
+![cv-pdf]("https://manyawadhwa.github.io/cv/images/manya_wadhwa_resume-1.png")
