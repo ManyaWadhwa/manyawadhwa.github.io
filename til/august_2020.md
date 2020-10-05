@@ -1,7 +1,78 @@
 ---
 layout: default
 title: TIL/August 2020
+
+--
+
+## August 17th 2020
+* tbox vs abox
+* how can tbox concepts be used to supplement NLP tasks more efficiently
+* wikidata: you have crowd annotated samples with a Description. Entity, Aliases, Description
+* knowledge: is specified by all the meta information associated with the entity
+* KG Aliases: expand the entity with the aliases to make it more semantically rich.
+Subject -> from DBPedia
+Predicate -> from Oxford dictionary
+
+* POS Tagging
+* Tokenization nd Compounding ( always start with the longest word in the order of tokens )
+* longest subsequence of the mention should match an entity in the DB
+* three step process: CHOLAN:
+* generating candidate: DCA Candidate -> pre calculated probability map , re-use the FALCON KG ( which as KG aliases), and added descriptions
+* entity recognition -> plane BERT
+* input: mention, sentence, candidate_context
+* 
+
+
+
+
+## August 12th 2020
+
+* Logits - I think this is something very basic that I should have known, but today I learnt and properly read what a logit is.
+* f_beta generic formula, just realized how stupid I am!!!!! Need to retake aa statistis course for sure.
+
+
 ---
+## August 5th 2020
+Attended a session on "Information-Theoretic Probing with Minimum Description Length" session hosted by NLP Friends. This was hosted by "Lena Voita" from Amsterdam and Edinburgh
+* How to understand id a model captures a linguistic property?
+* Probing Classifiers, sanity checks, information Theoretic point of view
+* Sanity Checks: Accuracies  between pretrained vs random initialized models - Kelly Zhang and Sam Bowman - BlackBoxNLP2018
+* Random labels : each type is assifned a random label - these labels are independent of contexts,
+* differences in performance fails to capture differences in representations
+* problems: random models as good as trained, models incode random labels not much worse than
+* information Theoretic POV : what can be put between representations and labels to mesure the goodness?
+
+* how can a probing classsifier be a compression algorithm?
+* change the goal of predicting the classifier aim from predicting labels TO transmimtting the data / compressing data - it would become an MDL probe, and then the metric becomes codelength
+* why is accuracy better than codelength - theoretical
+* how is codelength = final quality + amount of effort
+* Data part -> there is a probabilistic model
+* shannon huffman code ( read  <- cross entropy loss of the data evaluated with the )
+* Question: "What is regularity?"
+* Strength of the regularity? looks the clustering of similar points together in space.
+
+## 4th August 2020
+* GPT-3 playground -- search end point, the similarity seems like
+the document length for the documents is about 1000 words / 2000 documents, same for all applications
+* text classification -- you can do it in the playground as a prompt - text classification / sentiment analysis
+* you can fine tune models
+* the initial prompt you send it will help determine the behavior of the bot - check Chat prompt
+* "Parse unstructured data" :
+* notion.so/OpenAI-API-Community-Examples
+* GPT3 is a bunch of humans together, so youu nudge it in the dieection for the kind of human you want it to be
+* explanation: maybe prompt it? "Why do you believe this?"
+* Another way that it can be done - you can teach the model to say "i don't know" - in question answers
+* is there some way to do a continuous learning pattern? reinforcement learning is possible
+* temperature setting -> Q&A is very -> stochasticity of the output
+* more useful if you want storetelling
+* financial document analysis
+* typically have fairly long pieces of formal english texts, - pick out those things relevant for analysis ; key value extracttions; simplification ; text correction -> form coherent sentences with ;
+* multi-task : helps to have it one task
+
+## 3d August 2020
+https://www.youtube.com/watch?v=WVPE62Gk3EM&feature=youtu.be
+
+
 
 ## 1st August 2020
 
