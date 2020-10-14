@@ -6,11 +6,11 @@ title: Research
 ## Experience
 
 #### Industry Research
-- Research Engineer, NLP, Goldman Sachs R&D under [Vijay Saraswat](https://scholar.google.com/citations?user=yT1DBNsAAAAJ&hl=en)
-- Research Engineer, NLP, [Aspiring Minds](https://www.aspiringminds.com/)
+- Research Engineer, NLP, Goldman Sachs R&D under [Vijay Saraswat](https://scholar.google.com/citations?user=yT1DBNsAAAAJ&hl=en), [Johannes Hoffart](https://scholar.google.com/citations?user=odKVNH0AAAAJ&hl=en&oi=ao)
+- Research Engineer, NLP, [Aspiring Minds](https://www.aspiringminds.com/) under [Varun Aggarwal](https://scholar.google.com/citations?user=T9P8hx4AAAAJ&hl=en)
 
 #### Academic
-- Research Assistant under [Mark Dredze](https://www.cs.jhu.edu/~mdredze/), [CLSP](https://www.clsp.jhu.edu/), Johns Hopkins University
+- Research Assistant under [Mark Dredze](https://scholar.google.com/citations?user=7jNkTbYAAAAJ&hl=en&oi=ao), [CLSP](https://www.clsp.jhu.edu/), Johns Hopkins University
 - Research Assistant with [VecTech](https://www.vectech.io/), CBID, Johns Hopkins University
 - Research Assistant, [SBILab](http://sbilab.iiitd.edu.in/), IIIT-Delhi
 - Research Assistant, [IAB](http://iab-rubric.org/), IIIT-Delhi
