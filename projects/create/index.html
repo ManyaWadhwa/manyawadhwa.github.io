@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREATE: Creative Associations Test for LLMs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+            color: #2c3e50;
+            line-height: 1.7;
+            min-height: 100vh;
+            font-size: 14px;
+        }
+        
+        /* Header */
+        .header {
+            background-color: #fff;
+            padding: 24px 40px;
+            border-bottom: 1px solid rgba(87, 6, 140, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
+            box-shadow: 0 4px 12px rgba(87, 6, 140, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(87, 6, 140, 0.3);
+        }
+        
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 4px;
+        }
+        
+        .logo-subtitle {
+            font-size: 11px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .logo-title {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .btn-secondary {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(87, 6, 140, 0.2);
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(87, 6, 140, 0.3);
+            background: linear-gradient(135deg, #45056F 0%, #57068C 100%);
+        }
+        
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary span {
+            font-size: 15px;
+        }
+        
+        /* Navigation */
+        .nav-btn {
+            padding: 14px 28px;
+            background-color: #f8f9fa;
+            color: #495057;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            white-space: nowrap;
+        }
+        
+        .nav-btn:hover {
+            background-color: #e9ecef;
+            transform: translateY(-1px);
+            color: #57068C;
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(87, 6, 140, 0.25);
+        }
+        
+        .nav-btn.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(87, 6, 140, 0.3);
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        
+        /* Full width container for data browser */
+        .container.full-width {
+            max-width: 100%;
+            padding: 0;
+        }
+        
+        /* Home Tab Content */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Overview Section */
+        .overview-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 0;
+            padding-top: 20px;
+        }
+        
+        .overview-left {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .overview-left h2 {
+            font-size: 36px;
+            margin-bottom: 28px;
+            color: #2c3e50;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .overview-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .overview-list li {
+            font-size: 20px;
+            margin-bottom: 24px;
+            padding-left: 40px;
+            position: relative;
+            color: #495057;
+            line-height: 1.8;
+        }
+        
+        .overview-list li::before {
+            content: "▲";
+            position: absolute;
+            left: 0;
+            color: #57068C;
+            font-size: 14px;
+            top: 2px;
+        }
+        
+        .overview-list strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .overview-list a {
+            color: #57068C;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid #57068C;
+            transition: all 0.2s ease;
+        }
+        
+        .overview-list a:hover {
+            color: #7B2CBF;
+            border-bottom-color: #7B2CBF;
+        }
+        
+        .overview-right {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .overview-right h2 {
+            font-size: 36px;
+            margin-bottom: 24px;
+            color: #2c3e50;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .overview-right p {
+            font-size: 20px;
+            color: #495057;
+            line-height: 2.0;
+        }
+        
+        /* Data Browser Styles (for EXPLORE tab) */
+        .data-browser-container {
+            background-color: #fff;
+            padding: 0;
+            border-radius: 0;
+            overflow: hidden;
+            width: 100%;
+            margin: 0;
+        }
+        
+        .data-browser-container iframe {
+            width: 100%;
+            height: 1400px;
+            border: none;
+            display: block;
+        }
+        
+        /* Compare Container Styles */
+        .compare-container {
+            background-color: #fff;
+            padding: 0;
+            border-radius: 0;
+            overflow: hidden;
+            width: 100%;
+            margin: 0;
+        }
+        
+        .compare-container iframe {
+            width: 100%;
+            height: 1400px;
+            border: none;
+            display: block;
+        }
+        
+        .tab-content h2 {
+            font-size: 26px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .tab-content p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        /* Smooth animations */
+        .tab-content {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .overview-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .container {
+                padding: 40px 24px;
+            }
+            
+            .header {
+                padding: 20px 24px;
+            }
+            
+            .nav {
+                padding: 16px 24px;
+            }
+        }
+        
+        @media (max-width: 968px) {
+            .header-right {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 12px;
+            }
+            
+            .header-nav {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            
+            .header-right {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-links {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .header-nav {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            
+            .logo-title {
+                font-size: 28px;
+            }
+            
+            .overview-left, .overview-right {
+                padding: 28px;
+            }
+            
+            .overview-left h2, .overview-right h2 {
+                font-size: 30px;
+            }
+            
+            .overview-list li {
+                font-size: 18px;
+            }
+            
+            .overview-right p {
+                font-size: 18px;
+            }
+            
+            .nav-btn {
+                font-size: 15px;
+                padding: 12px 22px;
+            }
+            
+            .btn-secondary {
+                font-size: 15px;
+                padding: 12px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <img src="logo.png" alt="CREATE Logo">
+            </div>
+            <div class="logo-text">
+                <div class="logo-subtitle">Creative Associations Test</div>
+                <div class="logo-title">CREATE</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-nav">
+                <button class="nav-btn active" data-tab="home">Home</button>
+                <button class="nav-btn" data-tab="explore">Explore</button>
+                <button class="nav-btn" data-tab="compare">Compare</button>
+                <button class="nav-btn" data-tab="downloads">Downloads</button>
+                <button class="nav-btn" data-tab="evaluation">Evaluation</button>
+            </div>
+            <div class="header-links">
+                <a href="#" class="btn-secondary" id="paper-link">
+                    <span>📄</span> Paper
+                </a>
+                <a href="#" class="btn-secondary" id="code-link">
+                    <span>{ }</span> Code
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Tab -->
+        <div id="home-tab" class="tab-content active">
+            <!-- Overview Section -->
+            <div class="overview-section">
+                <div class="overview-left">
+                    <h2>Overview of CREATE</h2>
+                    <ul class="overview-list">
+                        <li> 900 creative association tasks </li>
+                        <li>Benchmarking LLM creative capabilities with multiple prompting strategies</li>
+                        <li>Comprehensive evaluation of LLM creative capabilities</li>
+                        <li>Large collection of examples with queries, source paths, and predictions</li>
+                        <li>Tasks require creative thinking: <a href="#explore" onclick="showTab('explore')">browse and see for yourself!</a></li>
+                    </ul>
+                </div>
+                <div class="overview-right">
+                    <h2>CREATE: Creative Associations Test for LLMs</h2>
+                    <p>
+                        A key component of creativity is associative reasoning: the ability to draw novel yet meaningful connections between concepts. 
+                        We introduce CREATE, a benchmark designed to evaluate models' capacity for creative associative reasoning. 
+                        The benchmark requires models to  generate valid paths connecting concepts where exhaustive search is infeasible.
+                    A creative model needs to generate connections that have high strength, based on how many concepts would have a similar connection, and high diversity, based on how novel the connection is relative to previous generations.
+                    Our setting requires nontrivial brainstorming drawing on parametric knowledge, reflecting the demands of real creativity tasks like hypothesis generation, yet crucially remains objectively verifiable. 
+                    CREATE illustrates tradeoffs between thinking and non-thinking models: thinking models can find more connections with very high token budgets, and recent proposed approaches for 
+                    "creative prompting" give some limited additional improvement. 
+                    Unlike benchmarks derived from human creativity tests such as the Alternative Uses Test, our benchmark displays less saturation, with stronger models achieving higher utility.
+                    CREATE is an effective yardstick for measuring gains in models to be deployed for combinatorial creativity.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Explore Tab (Data Browser) -->
+        <div id="explore-tab" class="tab-content">
+            <div class="data-browser-container">
+                <iframe src="data-browser.html" title="CREATE Data Browser"></iframe>
+            </div>
+        </div>
+        
+        <!-- Compare Tab -->
+        <div id="compare-tab" class="tab-content">
+            <div class="compare-container">
+                <iframe src="compare.html" title="CREATE Compare"></iframe>
+            </div>
+        </div>
+        
+        <!-- Downloads Tab -->
+        <div id="downloads-tab" class="tab-content">
+            <h2>Downloads</h2>
+            <p>Download links and resources will be available here.</p>
+        </div>
+        
+        <!-- Evaluation Tab -->
+        <div id="evaluation-tab" class="tab-content">
+            <h2>Evaluation</h2>
+            <p>Evaluation metrics and results will be available here.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            const container = document.querySelector('.container');
+            
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const selectedTab = document.getElementById(`${tabName}-tab`);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+                
+                // Make container full width for explore and compare tabs
+                if (tabName === 'explore' || tabName === 'compare') {
+                    container.classList.add('full-width');
+                } else {
+                    container.classList.remove('full-width');
+                }
+            }
+            
+            // Add active class to corresponding nav button
+            const selectedBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('active');
+            }
+        }
+        
+        // Add event listeners to nav buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                showTab(tabName);
+            });
+        });
+        
+        // Handle paper and code links (placeholders for now)
+        document.getElementById('paper-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Paper link will be added here');
+        });
+        
+        document.getElementById('code-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Code link will be added here');
+        });
+    </script>
+</body>
+</html>

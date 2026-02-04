@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Data Browser</title> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'SF Pro Display', Roboto, 'Helvetica Neue', Helvetica, Arial, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+            color: #2c3e50;
+            padding: 0;
+            margin: 0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            background: white;
+            padding: 30px;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid rgba(87, 6, 140, 0.1);
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 14px;
+            letter-spacing: -0.01em;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid rgba(87, 6, 140, 0.15);
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 180px;
+            font-family: inherit;
+            background: white;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            letter-spacing: -0.01em;
+            box-shadow: 0 2px 8px rgba(87, 6, 140, 0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(87, 6, 140, 0.3);
+            background: linear-gradient(135deg, #45056F 0%, #57068C 100%);
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .data-display {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .data-section {
+            margin-bottom: 30px;
+        }
+        
+        .data-section-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .query-section {
+            background: linear-gradient(135deg, rgba(87, 6, 140, 0.05) 0%, rgba(123, 44, 191, 0.05) 100%);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(87, 6, 140, 0.1);
+            box-shadow: 0 2px 12px rgba(87, 6, 140, 0.08);
+        }
+        
+        .query-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #57068C;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .data-section h3 {
+            color: #2c3e50;
+            margin-bottom: 6px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        .data-section-subtitle {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 16px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        
+        .statistics-info {
+            display: inline-block;
+            margin-left: 8px;
+            color: #57068C;
+            font-weight: 500;
+        }
+        
+        .data-content {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .source-section {
+            border-left: 4px solid rgba(87, 6, 140, 0.3);
+        }
+        
+        .source-section h3 {
+            color: #57068C;
+        }
+        
+        .reasoning-section {
+            border-left: 4px solid rgba(87, 6, 140, 0.5);
+        }
+        
+        .reasoning-section h3 {
+            color: #57068C;
+        }
+        
+        .prediction-section {
+            border-left: 4px solid #57068C;
+        }
+        
+        .prediction-section h3 {
+            color: #57068C;
+        }
+        
+        .reasoning-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .reasoning-header h3 {
+            margin: 0;
+            flex: 1;
+        }
+        
+        .reasoning-toggle {
+            font-size: 18px;
+            color: #57068C;
+            margin-left: 12px;
+            transition: transform 0.2s ease;
+        }
+        
+        .reasoning-section.collapsed .reasoning-toggle {
+            transform: rotate(-90deg);
+        }
+        
+        .reasoning-content {
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'SF Pro Display', Roboto, 'Helvetica Neue', Helvetica, Arial, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #2c3e50;
+            letter-spacing: -0.01em;
+            /* Better handling of empty lines and spacing */
+            tab-size: 4;
+        }
+        
+        .reasoning-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .reasoning-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .reasoning-content::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        .reasoning-content::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        .reasoning-section.collapsed .reasoning-content {
+            display: none;
+        }
+        
+        .query {
+            font-size: 17px;
+            color: #2c3e50;
+            line-height: 1.7;
+            letter-spacing: -0.01em;
+        }
+        
+        .source-path {
+            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+            font-size: 18px;
+            color: #2c3e50;
+            word-break: break-all;
+            line-height: 1.8;
+            letter-spacing: 0.01em;
+        }
+        
+        .paths-container {
+            max-height: 600px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 5px;
+        }
+        
+        .paths-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .paths-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .paths-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        .paths-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        .paths-table {
+            width: 100%;
+            max-width: 90%;
+            margin: 0 auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'SF Pro Display', Roboto, 'Helvetica Neue', Helvetica, Arial, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 18px;
+        }
+        
+        .paths-table thead {
+            background-color: #f8f9fa;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .paths-table th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #57068C;
+            font-size: 18px;
+            letter-spacing: -0.01em;
+        }
+        
+        .paths-table th:first-child {
+            position: sticky;
+            left: 0;
+            background-color: #f8f9fa;
+            z-index: 11;
+        }
+        
+        .paths-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            vertical-align: top;
+            line-height: 1.8;
+            letter-spacing: -0.01em;
+        }
+        
+        .paths-table tbody tr {
+            background: white;
+            transition: background-color 0.2s ease;
+        }
+        
+        .paths-table tbody tr:hover {
+            background-color: rgba(87, 6, 140, 0.03);
+        }
+        
+        .paths-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .paths-table tbody tr:first-child td:first-child {
+            border-top-left-radius: 8px;
+        }
+        
+        .paths-table tbody tr:first-child td:last-child {
+            border-top-right-radius: 8px;
+        }
+        
+        .paths-table tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 8px;
+        }
+        
+        .paths-table tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 8px;
+        }
+        
+        .path-cell {
+            padding-left: 15px !important;
+            position: sticky;
+            left: 0;
+            background-color: white;
+            z-index: 1;
+        }
+        
+        .paths-table tbody tr:hover .path-cell {
+            background-color: rgba(87, 6, 140, 0.03);
+        }
+        
+        .path-step {
+            padding: 12px 16px;
+            background: rgba(87, 6, 140, 0.02);
+            border-radius: 8px;
+            border-left: 3px solid #57068C;
+            line-height: 1.8;
+            font-size: 18px;
+        }
+        
+        .path-entity {
+            font-weight: normal;
+            color: #2c3e50;
+            font-family: inherit;
+            font-size: 18px;
+        }
+        
+        .path-relation {
+            color: #2c3e50;
+            font-style: normal;
+            font-weight: normal;
+            font-family: inherit;
+            font-size: 18px;
+        }
+        
+        .path-arrow {
+            color: #57068C;
+            font-weight: normal;
+            margin: 0 4px;
+            font-family: inherit;
+            font-size: 18px;
+        }
+        
+        .triple-start,
+        .triple-end {
+            color: #2c3e50;
+            font-weight: normal;
+            margin: 0 2px;
+            font-size: 18px;
+        }
+        
+        .score-cell {
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .score-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .score-valid {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .score-invalid {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .score-factual {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .score-not-factual {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .score-uncertain {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .quality-stars {
+            display: inline-flex;
+            gap: 2px;
+            align-items: center;
+        }
+        
+        .quality-star {
+            color: #ffc107;
+            font-size: 14px;
+        }
+        
+        .quality-star.empty {
+            color: #e0e0e0;
+        }
+        
+        .score-na {
+            color: #999;
+            font-style: italic;
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            flex-wrap: wrap;
+        }
+        
+        .filter-control {
+            padding: 8px 12px;
+            border: 1px solid rgba(87, 6, 140, 0.15);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .filter-control:hover {
+            border-color: #57068C;
+        }
+        
+        .filter-control:focus {
+            outline: none;
+            border-color: #57068C;
+            box-shadow: 0 0 0 2px rgba(87, 6, 140, 0.1);
+        }
+        
+        .filter-search {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #2c3e50;
+            user-select: none;
+        }
+        
+        .filter-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #57068C;
+        }
+        
+        .filter-checkbox span {
+            white-space: nowrap;
+        }
+        
+        .navigation {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 16px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            flex-wrap: wrap;
+        }
+        
+        .navigation-hint {
+            margin-left: auto;
+            font-size: 12px;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        .index-input {
+            width: 80px;
+            text-align: center;
+        }
+        
+        .index-info {
+            margin-left: auto;
+            color: #666;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+        
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        /* Reduced font sizes when embedded in iframe */
+        body.embedded {
+            font-size: 11px;
+        }
+        
+        body.embedded .container {
+            padding: 15px;
+        }
+        
+        body.embedded h1 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        body.embedded .controls {
+            padding: 8px 10px;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        body.embedded label {
+            font-size: 10px;
+        }
+        
+        body.embedded select,
+        body.embedded input {
+            padding: 5px 8px;
+            font-size: 10px;
+            min-width: 120px;
+        }
+        
+        body.embedded button {
+            padding: 6px 12px;
+            font-size: 11px;
+        }
+        
+        body.embedded .query-section {
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+        
+        body.embedded .query-label {
+            font-size: 9px;
+            margin-bottom: 8px;
+        }
+        
+        body.embedded .query {
+            font-size: 12px;
+        }
+        
+        body.embedded .data-section-card {
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+        
+        body.embedded .data-section h3 {
+            font-size: 14px;
+        }
+        
+        body.embedded .data-section-subtitle {
+            font-size: 10px;
+            margin-bottom: 10px;
+        }
+        
+        body.embedded .source-path {
+            font-size: 12px;
+        }
+        
+        body.embedded .paths-table {
+            font-size: 12px;
+        }
+        
+        body.embedded .paths-table th {
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+        
+        body.embedded .paths-table td {
+            padding: 8px 10px;
+        }
+        
+        body.embedded .path-step {
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+        
+        body.embedded .path-entity,
+        body.embedded .path-relation,
+        body.embedded .path-arrow,
+        body.embedded .triple-start,
+        body.embedded .triple-end {
+            font-size: 12px;
+        }
+        
+        body.embedded .score-badge {
+            padding: 3px 8px;
+            font-size: 9px;
+        }
+        
+        body.embedded .quality-star {
+            font-size: 10px;
+        }
+        
+        body.embedded .reasoning-content {
+            font-size: 11px;
+            padding: 12px;
+        }
+        
+        body.embedded .navigation {
+            padding: 10px 12px;
+            margin-bottom: 14px;
+        }
+        
+        body.embedded .index-info {
+            font-size: 11px;
+        }
+        
+        body.embedded .navigation-hint {
+            font-size: 9px;
+        }
+        
+        body.embedded .filter-control {
+            padding: 5px 8px;
+            font-size: 10px;
+        }
+        
+        body.embedded .error {
+            padding: 10px;
+            font-size: 11px;
+        }
+        
+        body.embedded .loading {
+            padding: 12px;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- <h1>Data Browser</h1> -->
+        
+        <div class="controls" id="controls">
+            <div class="control-group">
+                <label for="model-select">Model</label>
+                <select id="model-select">
+                    <option value="">Select a model</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="prompt-select">Prompt Type</label>
+                <select id="prompt-select" disabled>
+                    <option value="">Select a prompt type</option>
+                </select>
+            </div>
+            
+            <div class="control-group" style="justify-content: flex-end;">
+                <label>&nbsp;</label>
+                <button id="load-btn" disabled>Load Dataset</button>
+            </div>
+        </div>
+        
+        <div id="data-display" class="data-display" style="display: none;">
+            <div class="navigation">
+                <button id="prev-btn">← Back</button>
+                <button id="next-btn">Next →</button>
+                <label for="index-input" style="margin-left: 12px;">Go to index:</label>
+                <input type="number" id="index-input" class="index-input" min="0" value="0">
+                <button id="jump-btn">Jump</button>
+                <div class="index-info" id="index-info"></div>
+                <div class="navigation-hint">Use ← → arrow keys to navigate</div>
+            </div>
+            
+            <div class="data-section">
+                <div class="query-section">
+                    <div class="query-label">🔍 Question</div>
+                    <div class="query" id="query-display"></div>
+                </div>
+            </div>
+            
+            <div class="data-section source-section">
+                <div class="data-section-card">
+                    <h3>Source Path</h3>
+                    <div class="data-section-subtitle">Input triples used to generate candidate paths</div>
+                    <div class="data-content">
+                        <div class="source-path" id="source-path-display"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-section prediction-section">
+                <div class="data-section-card">
+                    <h3>Predictions</h3>
+                    <div class="data-section-subtitle">
+                        Ranked inferred relationship chains
+                        <span class="statistics-info" id="predictions-stats"></span>
+                    </div>
+                    <div class="filter-bar">
+                        <select id="filter-show" class="filter-control">
+                            <option value="all">Show: All</option>
+                            <option value="valid">Show: Structurally Valid Only</option>
+                            <option value="invalid">Show: Structurally Invalid Only</option>
+                            <option value="factual">Show: Factually Correct Only</option>
+                            <option value="not-factual">Show: Not Factually Correct Only</option>
+                        </select>
+                        <select id="filter-quality" class="filter-control">
+                            <option value="">Quality: All</option>
+                            <option value="0">Quality ≥ 0</option>
+                            <option value="1">Quality ≥ 1</option>
+                            <option value="2">Quality ≥ 2</option>
+                            <option value="3" selected>Quality ≥ 3</option>
+                            <option value="4">Quality ≥ 4</option>
+                            <option value="5">Quality ≥ 5</option>
+                        </select>
+                        <input type="text" id="filter-search" class="filter-control filter-search" placeholder="Search entity…">
+                    </div>
+                    <div class="data-content paths-container">
+                        <table class="paths-table" id="paths-display">
+                            <thead>
+                                <tr>
+                                    <th>Path</th>
+                                    <th>Structurally Valid</th>
+                                    <th>Factually Correct</th>
+                                    <th>Quality</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paths-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-section reasoning-section" id="reasoning-section" style="display: none;">
+                <div class="data-section-card">
+                    <div class="reasoning-header" id="reasoning-header">
+                        <h3>Reasoning</h3>
+                        <span class="reasoning-toggle">▼</span>
+                    </div>
+                    <div class="data-section-subtitle">
+                        Model reasoning for this instance
+                        <span class="statistics-info" id="reasoning-token-count"></span>
+                    </div>
+                    <div class="data-content">
+                        <div class="reasoning-content" id="reasoning-display"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="error-message" class="error" style="display: none;"></div>
+        <div id="loading" class="loading" style="display: none;">Loading dataset... This may take a moment.</div>
+        <div id="pyodide-loading" class="loading" style="display: none;">Initializing Python runtime...</div>
+    </div>
+    
+    <!-- Load Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    
+    <script type="module">
+        // Detect if page is embedded in an iframe and add class to body
+        if (window.self !== window.top) {
+            document.body.classList.add('embedded');
+        }
+        
+        // Configuration mapping: model -> prompt_type -> dataset_repo
+        // This will be loaded from Python (python_functions.py)
+        let DATASET_CONFIG = {};
+
+        // In-memory dataset cache
+        let datasetCache = {};
+        let currentDataset = null;
+        let currentIndex = 0;
+        let totalInstances = 0;
+        let pyodide = null;
+        let configLoaded = false;
+
+        // Initialize Pyodide (Python runtime in browser)
+        async function initPyodide() {
+            if (pyodide) return; // Already initialized
+            
+            document.getElementById('pyodide-loading').style.display = 'block';
+            try {
+                pyodide = await loadPyodide();
+                
+                // Try to load python_functions.py from the server
+                let pythonCode = '';
+                
+                // Skip file fetch if running from file:// protocol (won't work due to CORS)
+                const isFileProtocol = window.location.protocol === 'file:';
+                
+                if (!isFileProtocol) {
+                    // Determine the base path from current page location
+                    const currentPath = window.location.pathname;
+                    const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+                    
+                    // Try different possible paths relative to current page
+                    const possiblePaths = [
+                        'python_functions.py',  // Same directory
+                        './python_functions.py',  // Same directory (explicit)
+                        basePath + 'python_functions.py',  // Relative to current page
+                        '/projects/create/python_functions.py',  // Absolute path (GitHub Pages)
+                        '../python_functions.py'  // Parent directory (if needed)
+                    ];
+                    
+                    console.log('Attempting to load python_functions.py from paths:', possiblePaths);
+                    console.log('Current path:', currentPath, 'Base path:', basePath);
+                    
+                    let loaded = false;
+                    let lastError = null;
+                    
+                    for (const path of possiblePaths) {
+                        try {
+                            console.log(`Trying to fetch: ${path}`);
+                            // Add cache-busting query parameter to force fresh fetch
+                            const cacheBuster = `?t=${Date.now()}`;
+                            const response = await fetch(path + cacheBuster, {
+                                method: 'GET',
+                                headers: {
+                                    'Accept': 'text/plain, text/x-python, */*',
+                                    'Cache-Control': 'no-cache'
+                                },
+                                cache: 'no-store'  // Force bypass cache
+                            });
+                            console.log(`Response status for ${path}:`, response.status, response.statusText, 'Content-Type:', response.headers.get('content-type'));
+                            
+                            if (response.ok && response.status === 200) {
+                                const text = await response.text();
+                                console.log(`File content preview (first 100 chars):`, text.substring(0, 100));
+                                
+                                // DEBUG: Check if file contains expected models
+                                if (text.includes('DATASET_CONFIG')) {
+                                    console.log('=== FILE CONTENT CHECK ===');
+                                    // Extract DATASET_CONFIG section for verification
+                                    const configMatch = text.match(/DATASET_CONFIG\s*=\s*\{[\s\S]*?\n\}/);
+                                    if (configMatch) {
+                                        console.log('DATASET_CONFIG found in file:', configMatch[0].substring(0, 200));
+                                    }
+                                    // Check for specific model names (case-insensitive)
+                                    const modelNames = ['GPT-4.1-mini', 'gpt-4.1-mini', 'Olmo-31-32B', 'olmo-31-32b'];
+                                    modelNames.forEach(name => {
+                                        if (text.includes(name)) {
+                                            console.log(`  ✓ Found model name in file: "${name}"`);
+                                        }
+                                    });
+                                    console.log('=== END FILE CHECK ===');
+                                }
+                                
+                                // Verify it looks like Python code (contains DATASET_CONFIG)
+                                if (text && text.trim().length > 0) {
+                                    if (text.includes('DATASET_CONFIG') || text.includes('def ') || text.includes('import ')) {
+                                        pythonCode = text;
+                                        loaded = true;
+                                        console.log(`✓ Successfully loaded python_functions.py from ${path} (${text.length} characters)`);
+                                        break;
+                                    } else {
+                                        console.warn(`File ${path} doesn't look like Python code (missing DATASET_CONFIG or function definitions)`);
+                                    }
+                                } else {
+                                    console.warn(`File ${path} is empty`);
+                                }
+                            } else {
+                                console.warn(`File ${path} returned status ${response.status} ${response.statusText}`);
+                            }
+                        } catch (e) {
+                            lastError = e;
+                            console.warn(`Failed to fetch ${path}:`, e.message);
+                            // Continue to next path
+                            continue;
+                        }
+                    }
+                    
+                    if (!loaded) {
+                        const errorMsg = `Could not load python_functions.py from any path. Last error: ${lastError?.message || 'Unknown error'}. Tried paths: ${possiblePaths.join(', ')}`;
+                        console.error(errorMsg);
+                        throw new Error(errorMsg + '. Please ensure python_functions.py is accessible from the same directory as this HTML file.');
+                    }
+                } else {
+                    throw new Error('Cannot load python_functions.py when running from file:// protocol due to CORS restrictions. Please serve this page from a web server (e.g., GitHub Pages, localhost, or a web server).');
+                }
+                
+                // Ensure we have Python code loaded
+                if (!pythonCode) {
+                    throw new Error('Failed to load python_functions.py. The file is required for this application to work.');
+                }
+                
+                // Execute the Python code
+                try {
+                    pyodide.runPython(pythonCode);
+                    console.log('Python code executed successfully');
+                } catch (error) {
+                    console.error('Error executing Python code:', error);
+                    console.error('Python code that failed:', pythonCode.substring(0, 200));
+                    throw new Error('Failed to execute Python code: ' + error.message);
+                }
+                
+                // Load DATASET_CONFIG from Python
+                try {
+                    // Check if DATASET_CONFIG exists in Python globals
+                    const availableGlobals = Array.from(pyodide.globals.keys());
+                    console.log('Available Python globals:', availableGlobals);
+                    
+                    if (!pyodide.globals.has('DATASET_CONFIG')) {
+                        throw new Error('DATASET_CONFIG not found in Python globals. Available: ' + availableGlobals.join(', '));
+                    }
+                    
+                    const pyConfig = pyodide.globals.get('DATASET_CONFIG');
+                    console.log('Python DATASET_CONFIG type:', typeof pyConfig);
+                    
+                    if (!pyConfig) {
+                        throw new Error('DATASET_CONFIG is None or empty');
+                    }
+                    
+                    // Convert Python dict to JavaScript object using JSON serialization
+                    // This is the most reliable method across Pyodide versions
+                    const jsonStr = pyodide.runPython('import json; json.dumps(DATASET_CONFIG)');
+                    DATASET_CONFIG = JSON.parse(jsonStr);
+                    console.log('Converted DATASET_CONFIG:', DATASET_CONFIG);
+                    
+                    // DEBUG: Log detailed model list
+                    console.log('=== DATASET_CONFIG DEBUG ===');
+                    console.log('Model keys:', Object.keys(DATASET_CONFIG));
+                    console.log('Number of models:', Object.keys(DATASET_CONFIG).length);
+                    Object.keys(DATASET_CONFIG).forEach(model => {
+                        console.log(`  - Model: "${model}"`);
+                        console.log(`    Prompt types:`, Object.keys(DATASET_CONFIG[model]));
+                    });
+                    console.log('=== END DEBUG ===');
+                    
+                    // Validate that we got a valid config
+                    if (!DATASET_CONFIG || typeof DATASET_CONFIG !== 'object' || Object.keys(DATASET_CONFIG).length === 0) {
+                        throw new Error('DATASET_CONFIG is empty or invalid. Got: ' + JSON.stringify(DATASET_CONFIG));
+                    }
+                    
+                    configLoaded = true;
+                    console.log('Dataset config loaded successfully from Python:', DATASET_CONFIG);
+                    
+                    // Initialize models dropdown after config is loaded
+                    initModels();
+                } catch (error) {
+                    console.error('Could not load dataset config from Python:', error);
+                    console.error('Error details:', error.stack);
+                    throw new Error('Failed to load DATASET_CONFIG from python_functions.py: ' + error.message);
+                }
+                
+                document.getElementById('pyodide-loading').style.display = 'none';
+                console.log('Pyodide initialized successfully');
+            } catch (error) {
+                console.error('Failed to initialize Pyodide:', error);
+                document.getElementById('pyodide-loading').style.display = 'none';
+                const errorMsg = `Failed to initialize Python runtime: ${error.message}. Please check the browser console for details.`;
+                document.getElementById('error-message').textContent = errorMsg;
+                document.getElementById('error-message').style.display = 'block';
+                throw error; // Re-throw to prevent silent failures
+            }
+        }
+
+        // Call Python function wrapper
+        async function callPythonFunction(funcName, ...args) {
+            if (!pyodide) {
+                await initPyodide();
+            }
+            
+            if (!pyodide) {
+                throw new Error('Pyodide not available');
+            }
+            
+            try {
+                // Get the Python function
+                const pyFunc = pyodide.globals.get(funcName);
+                if (!pyFunc) {
+                    throw new Error(`Python function ${funcName} not found`);
+                }
+                
+                // Convert JavaScript arguments to Python objects
+                const pyArgs = args.map(arg => {
+                    if (arg === null || arg === undefined) {
+                        return pyodide.globals.get('None');
+                    }
+                    return pyodide.toPy(arg);
+                });
+                
+                // Call the function
+                const result = pyFunc(...pyArgs);
+                
+                // Convert Python result back to JavaScript
+                // Pyodide automatically converts most types, but for complex types use JSON
+                if (result === null || result === undefined) {
+                    return null;
+                }
+                
+                // For simple types, Pyodide auto-converts
+                if (typeof result === 'string' || typeof result === 'number' || typeof result === 'boolean') {
+                    return result;
+                }
+                
+                // For lists and dicts, use JSON serialization for reliability
+                // Store result in a Python variable first
+                pyodide.globals.set('_temp_py_result', result);
+                try {
+                    const jsonStr = pyodide.runPython('import json; json.dumps(_temp_py_result)');
+                    const jsResult = JSON.parse(jsonStr);
+                    pyodide.globals.delete('_temp_py_result');
+                    return jsResult;
+                } catch (e) {
+                    // Clean up temp variable
+                    try {
+                        pyodide.globals.delete('_temp_py_result');
+                    } catch (cleanupError) {
+                        // Ignore cleanup errors
+                    }
+                    // If JSON fails, return as-is (Pyodide might have auto-converted)
+                    console.warn('JSON conversion failed, using direct result:', e);
+                    return result;
+                }
+            } catch (error) {
+                console.error(`Error calling Python function ${funcName}:`, error);
+                throw error;
+            }
+        }
+
+        // Initialize models dropdown
+        function initModels() {
+            if (!configLoaded || Object.keys(DATASET_CONFIG).length === 0) {
+                console.warn('DATASET_CONFIG not loaded yet, models dropdown not initialized');
+                return;
+            }
+            
+            const modelSelect = document.getElementById('model-select');
+            // Clear existing options except the first one
+            while (modelSelect.options.length > 1) {
+                modelSelect.remove(1);
+            }
+            
+            const modelKeys = Object.keys(DATASET_CONFIG);
+            console.log('Initializing models dropdown with models:', modelKeys);
+            
+            modelKeys.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model;
+                option.textContent = model;
+                modelSelect.appendChild(option);
+                console.log(`  Added model option: "${model}"`);
+            });
+            
+            console.log(`Models dropdown initialized with ${modelKeys.length} model(s)`);
+        }
+
+        // Format source path from triple labels (with Python fallback)
+        async function formatSourcePath(triple1_labels, triple2_labels, triple3_labels) {
+            if (pyodide) {
+                try {
+                    let result = await callPythonFunction('format_source_path', triple1_labels, triple2_labels, triple3_labels);
+                    // Clean up formatting: remove single quotes and replace square brackets with round brackets
+                    result = result.replace(/'/g, '');
+                    result = result.replace(/\[/g, '(');
+                    result = result.replace(/\]/g, ')');
+                    return result;
+                } catch (error) {
+                    console.warn('Python function failed, using JS fallback:', error);
+                }
+            }
+            // JavaScript fallback
+            const parts = [];
+            if (triple1_labels) {
+                let str = String(triple1_labels);
+                // Remove single quotes
+                str = str.replace(/'/g, '');
+                // Replace square brackets with round brackets
+                str = str.replace(/\[/g, '(');
+                str = str.replace(/\]/g, ')');
+                // Add space after commas (but not if already present)
+                str = str.replace(/,(?!\s)/g, ', ');
+                parts.push(str);
+            }
+            if (triple2_labels) {
+                let str = String(triple2_labels);
+                str = str.replace(/'/g, '');
+                str = str.replace(/\[/g, '(');
+                str = str.replace(/\]/g, ')');
+                str = str.replace(/,(?!\s)/g, ', ');
+                parts.push(str);
+            }
+            if (triple3_labels) {
+                let str = String(triple3_labels);
+                str = str.replace(/'/g, '');
+                str = str.replace(/\[/g, '(');
+                str = str.replace(/\]/g, ')');
+                str = str.replace(/,(?!\s)/g, ', ');
+                parts.push(str);
+            }
+            return parts.join(' + ');
+        }
+
+        // Format paths_0 array to list of lists (with Python fallback)
+        async function formatPaths(paths_0) {
+            if (pyodide) {
+                try {
+                    return await callPythonFunction('format_paths', paths_0);
+                } catch (error) {
+                    console.warn('Python function failed, using JS fallback:', error);
+                }
+            }
+            // JavaScript fallback
+            if (!paths_0) return [];
+            
+            if (Array.isArray(paths_0)) {
+                return paths_0.map(path => {
+                    if (Array.isArray(path)) {
+                        return path;
+                    } else {
+                        return [path];
+                    }
+                });
+            } else {
+                return [[paths_0]];
+            }
+        }
+
+        // Process paths with scores (using Python) - for single instance
+        async function processPathsWithScores(instance) {
+            if (pyodide) {
+                try {
+                    console.log('Calling Python function process_paths_with_scores with instance:', instance);
+                    return await callPythonFunction('process_paths_with_scores', instance);
+                } catch (error) {
+                    console.warn('Python function failed, using JS fallback:', error);
+                }
+            }
+            // JavaScript fallback
+            if (!instance || !instance.paths_0) return [];
+            
+            const paths_0 = instance.paths_0 || [];
+            const validityScores = instance.validity_per_path_0 || [];
+            const factualScores = instance.factuality_scores_0 || instance.factualiy_scores_0 || [];
+            const qualityScores = instance.min_salience_scores_0 || [];
+            
+            const formattedPaths = await formatPaths(paths_0);
+            
+            return formattedPaths.map((path, index) => ({
+                path: Array.isArray(path) ? path : [path],
+                valid: validityScores[index] !== undefined ? validityScores[index] : null,
+                factual: factualScores[index] !== undefined ? factualScores[index] : null,
+                quality: qualityScores[index] !== undefined ? qualityScores[index] : null
+            }));
+        }
+
+        // Pre-process entire dataset (using Python)
+        async function preprocessDataset(dataset) {
+            if (pyodide) {
+                try {
+                    return await callPythonFunction('preprocess_dataset', dataset);
+                } catch (error) {
+                    console.warn('Python preprocessing failed, using JS fallback:', error);
+                }
+            }
+            // JavaScript fallback - process each instance
+            const processedInstances = await Promise.all(
+                dataset.map(async (instance) => {
+                    const processedInstance = {...instance};
+                    processedInstance.processed_paths = await processPathsWithScores(instance);
+                    return processedInstance;
+                })
+            );
+            return processedInstances;
+        }
+
+        // Load dataset from HuggingFace using their API
+        async function loadDatasetFromHF(repoName) {
+            const cacheKey = repoName;
+            
+            if (datasetCache[cacheKey]) {
+                return datasetCache[cacheKey];
+            }
+
+            showLoading(true);
+            hideError();
+
+            try {
+                // Use HuggingFace Dataset Viewer API
+                // First, get dataset info to find the split
+                const infoResponse = await fetch(`https://datasets-server.huggingface.co/info?dataset=${encodeURIComponent(repoName)}`);
+                
+                if (!infoResponse.ok) {
+                    throw new Error(`Failed to get dataset info: ${infoResponse.statusText}`);
+                }
+                
+                const info = await infoResponse.json();
+                
+                // Determine which split to use (prefer 'train', otherwise first available)
+                let split = 'train';
+                if (info.splits && info.splits.length > 0) {
+                    if (info.splits.includes('train')) {
+                        split = 'train';
+                    } else {
+                        split = info.splits[0];
+                    }
+                }
+
+                // Load dataset rows in batches (limit to 50 instances)
+                const dataset = [];
+                const maxInstances = 50;
+                const batchSize = 50; // Load in batches of 50
+                let offset = 0;
+                let hasMore = true;
+                let totalRows = info.splits ? (info.splits.find(s => s.split === split)?.num_rows || 0) : 0;
+
+                while (hasMore && dataset.length < maxInstances) {
+                    // Calculate how many rows we still need
+                    const remaining = maxInstances - dataset.length;
+                    const length = Math.min(batchSize, remaining);
+                    
+                    const url = `https://datasets-server.huggingface.co/rows?dataset=${encodeURIComponent(repoName)}&config=default&split=${encodeURIComponent(split)}&offset=${offset}&length=${length}`;
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Failed to load dataset rows: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    if (data.rows && data.rows.length > 0) {
+                        // Extract the row data (only up to maxInstances)
+                        for (const row of data.rows) {
+                            if (dataset.length >= maxInstances) {
+                                break;
+                            }
+                            dataset.push(row.row);
+                        }
+                        offset += data.rows.length;
+                        
+                        // Update loading message
+                        document.getElementById('loading').textContent = 
+                            `Loading dataset... Loaded ${dataset.length} of ${maxInstances} instances`;
+                        
+                        // Check if we've reached the limit or if there are no more rows
+                        if (dataset.length >= maxInstances || data.rows.length < length || (totalRows > 0 && offset >= totalRows)) {
+                            hasMore = false;
+                        }
+                    } else {
+                        hasMore = false;
+                    }
+                }
+
+                if (dataset.length === 0) {
+                    throw new Error('No data found in dataset');
+                }
+
+                // Pre-process the dataset (add processed_paths to each instance)
+                document.getElementById('loading').textContent = 
+                    `Pre-processing dataset...`;
+                const processedDataset = await preprocessDataset(dataset);
+
+                datasetCache[cacheKey] = processedDataset;
+                showLoading(false);
+                return processedDataset;
+            } catch (error) {
+                showLoading(false);
+                console.error('Error loading dataset:', error);
+                throw new Error(`Failed to load dataset: ${error.message}. Please check that the dataset exists and is publicly accessible.`);
+            }
+        }
+
+        // Display data for a specific index
+        async function displayData(index) {
+            if (!currentDataset || index < 0 || index >= currentDataset.length) {
+                return;
+            }
+
+            const instance = currentDataset[index];
+            currentIndex = index;
+
+            // Format and display query
+            const query = instance.query || '';
+            document.getElementById('query-display').textContent = query || '(empty)';
+
+            // Format and display source path (using Python if available)
+            const triple1_labels = instance.triple1_labels || '';
+            const triple2_labels = instance.triple2_labels || '';
+            const triple3_labels = instance.triple3_labels || '';
+            const sourcePath = await formatSourcePath(triple1_labels, triple2_labels, triple3_labels);
+            document.getElementById('source-path-display').textContent = sourcePath || '(empty)';
+
+            // Check for and display reasoning_0 if it exists
+            const reasoningSection = document.getElementById('reasoning-section');
+            const reasoningDisplay = document.getElementById('reasoning-display');
+            
+            if (instance.reasoning_0 !== undefined && instance.reasoning_0 !== null && instance.reasoning_0 !== '') {
+                // Format reasoning text - handle newlines and other escape sequences
+                let reasoningText = String(instance.reasoning_0);
+                
+                // Try to decode if it's JSON-encoded (some datasets store strings as JSON)
+                try {
+                    if (reasoningText.startsWith('"') && reasoningText.endsWith('"')) {
+                        const decoded = JSON.parse(reasoningText);
+                        if (typeof decoded === 'string') {
+                            reasoningText = decoded;
+                        }
+                    }
+                } catch (e) {
+                    // Not JSON-encoded, continue with original text
+                }
+                
+                // Handle various newline representations
+                // Replace literal \n with actual newlines (handles escaped strings)
+                reasoningText = reasoningText.replace(/\\n/g, '\n');
+                // Replace \r\n with newlines (Windows line endings)
+                reasoningText = reasoningText.replace(/\\r\\n/g, '\n');
+                // Replace \r with newlines (old Mac line endings)
+                reasoningText = reasoningText.replace(/\\r/g, '\n');
+                // Replace literal \t with tabs
+                reasoningText = reasoningText.replace(/\\t/g, '\t');
+                // Handle other common escape sequences
+                reasoningText = reasoningText.replace(/\\"/g, '"');
+                reasoningText = reasoningText.replace(/\\'/g, "'");
+                reasoningText = reasoningText.replace(/\\\\/g, '\\');
+                
+                // Clean up excessive whitespace while preserving intentional formatting
+                // Replace 3+ consecutive newlines with double newline (paragraph break)
+                reasoningText = reasoningText.replace(/\n{3,}/g, '\n\n');
+                // Replace spaces followed by newline with just newline (trailing spaces)
+                reasoningText = reasoningText.replace(/ +\n/g, '\n');
+                // Replace newline followed by spaces with just newline (leading spaces)
+                reasoningText = reasoningText.replace(/\n +/g, '\n');
+                // Replace multiple spaces (but not tabs) with single space (except in code blocks)
+                reasoningText = reasoningText.replace(/[ \t]+$/gm, ''); // Remove trailing whitespace from lines
+                
+                // Trim leading/trailing whitespace
+                reasoningText = reasoningText.trim();
+                
+                // Set the text content (preserves newlines with white-space: pre-wrap)
+                reasoningDisplay.textContent = reasoningText || '(empty)';
+                
+                // Calculate and display token count (approximate: len(reasoning_0)/4)
+                const originalReasoning = String(instance.reasoning_0);
+                const tokenCount = Math.round(originalReasoning.length / 4);
+                const tokenCountElement = document.getElementById('reasoning-token-count');
+                if (tokenCountElement) {
+                    tokenCountElement.textContent = `(~${tokenCount} tokens)`;
+                }
+                
+                reasoningSection.style.display = 'block';
+            } else {
+                reasoningSection.style.display = 'none';
+                // Clear token count if reasoning doesn't exist
+                const tokenCountElement = document.getElementById('reasoning-token-count');
+                if (tokenCountElement) {
+                    tokenCountElement.textContent = '';
+                }
+            }
+
+            // Display paths in a table (using pre-processed data)
+            const processedPaths = instance.processed_paths || [];
+            
+            const tbody = document.getElementById('paths-tbody');
+            tbody.innerHTML = '';
+
+            // Helper function to format path with arrows
+            // Python already provides paths as a list of triples, so we just format them
+            function formatPathWithArrows(pathTriples) {
+                if (!pathTriples || pathTriples.length === 0) return '';
+                
+                if (!Array.isArray(pathTriples)) {
+                    let str = String(pathTriples);
+                    // Remove single quotes and replace square brackets with round brackets
+                    str = str.replace(/'/g, '');
+                    str = str.replace(/\[/g, '(');
+                    str = str.replace(/\]/g, ')');
+                    return str;
+                }
+                
+                const parts = [];
+                
+                // Format all triples with parentheses and arrows
+                // pathTriples should already be a list of triples: [[entity, relation, entity], [entity, relation, entity], ...]
+                for (let i = 0; i < pathTriples.length; i++) {
+                    const triple = pathTriples[i];
+                    if (Array.isArray(triple) && triple.length >= 2) {
+                        // Start triple with opening parenthesis
+                        parts.push('<span class="triple-start">(</span>');
+                        
+                        // First entity of triple
+                        if (triple[0]) {
+                            let entity = String(triple[0]);
+                            // Remove single quotes and replace square brackets with round brackets
+                            entity = entity.replace(/'/g, '');
+                            entity = entity.replace(/\[/g, '(');
+                            entity = entity.replace(/\]/g, ')');
+                            parts.push(`<span class="path-entity">${entity}</span>`);
+                        }
+                        // Relation
+                        if (triple[1]) {
+                            parts.push('<span class="path-arrow"> → </span>');
+                            let relation = String(triple[1]);
+                            // Remove single quotes and replace square brackets with round brackets
+                            relation = relation.replace(/'/g, '');
+                            relation = relation.replace(/\[/g, '(');
+                            relation = relation.replace(/\]/g, ')');
+                            parts.push(`<span class="path-relation">${relation}</span>`);
+                        }
+                        // Second entity (if exists)
+                        if (triple[2]) {
+                            parts.push('<span class="path-arrow"> → </span>');
+                            let entity = String(triple[2]);
+                            // Remove single quotes and replace square brackets with round brackets
+                            entity = entity.replace(/'/g, '');
+                            entity = entity.replace(/\[/g, '(');
+                            entity = entity.replace(/\]/g, ')');
+                            parts.push(`<span class="path-entity">${entity}</span>`);
+                        }
+                        
+                        // Close triple with closing parenthesis
+                        parts.push('<span class="triple-end">)</span>');
+                        
+                        // Add arrow between triples (but not after the last one)
+                        if (i < pathTriples.length - 1) {
+                            parts.push('<span class="path-arrow"> → </span>');
+                        }
+                    }
+                }
+                
+                return parts.length > 0 ? parts.join('') : String(pathTriples);
+            }
+            
+            // Helper function to get score badge class
+            function getScoreBadgeClass(value, type) {
+                if (value === null || value === undefined) return 'score-na';
+                
+                if (type === 'valid') {
+                    return value === true || value === 1 || String(value).toLowerCase() === 'true' 
+                        ? 'score-valid' 
+                        : 'score-invalid';
+                } else if (type === 'factual') {
+                    const boolValue = value === true || value === 1 || value === '1' || String(value).toLowerCase() === 'true';
+                    if (boolValue) {
+                        return 'score-factual';
+                    } else {
+                        return 'score-not-factual';
+                    }
+                }
+                return '';
+            }
+            
+            // Helper function to format score value with human-readable labels
+            function formatScoreValue(value, type) {
+                if (value === null || value === undefined) return 'N/A';
+                
+                // Convert to boolean/number for comparison
+                const boolValue = value === true || value === 1 || value === '1' || String(value).toLowerCase() === 'true';
+                
+                if (type === 'valid') {
+                    return boolValue ? '✓ Valid' : '✗ Invalid';
+                } else if (type === 'factual') {
+                    return boolValue ? '✓ Correct' : '✗ Incorrect';
+                } else if (type === 'quality') {
+                    // For quality, show stars
+                    return formatQualityStars(value);
+                }
+                return String(value);
+            }
+            
+            // Helper function to format quality as stars
+            function formatQualityStars(value) {
+                const numValue = parseFloat(value);
+                if (isNaN(numValue) || numValue === null || numValue === undefined) return 'N/A';
+                
+                const maxStars = 5;
+                // Scale value to 0-5 range (assuming quality is 0-5 or similar)
+                const scaledValue = Math.min(Math.max(numValue, 0), maxStars);
+                const filledStars = Math.round(scaledValue);
+                const emptyStars = maxStars - filledStars;
+                
+                let starsHTML = '';
+                for (let i = 0; i < filledStars; i++) {
+                    starsHTML += '<span class="quality-star">★</span>';
+                }
+                for (let i = 0; i < emptyStars; i++) {
+                    starsHTML += '<span class="quality-star empty">★</span>';
+                }
+                return starsHTML;
+            }
+
+            if (processedPaths.length > 0) {
+                processedPaths.forEach((entry, index) => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-path-index', index);
+                    
+                    // Store original data as data attributes for filtering
+                    const validBool = entry.valid === true || entry.valid === 1 || entry.valid === '1' || String(entry.valid).toLowerCase() === 'true';
+                    const factualBool = entry.factual === true || entry.factual === 1 || entry.factual === '1' || String(entry.factual).toLowerCase() === 'true';
+                    const qualityNum = parseFloat(entry.quality) || 0;
+                    const pathText = JSON.stringify(entry.path).toLowerCase();
+                    
+                    tr.setAttribute('data-valid', validBool ? 'true' : 'false');
+                    tr.setAttribute('data-factual', factualBool ? 'true' : 'false');
+                    tr.setAttribute('data-quality', qualityNum);
+                    tr.setAttribute('data-path-text', pathText);
+                    
+                    // Path column - format with arrows
+                    const pathCell = document.createElement('td');
+                    pathCell.className = 'path-cell';
+                    // entry.path should already be a list of triples from Python
+                    const pathHTML = formatPathWithArrows(entry.path);
+                    pathCell.innerHTML = `<div class="path-step">${pathHTML}</div>`;
+                    tr.appendChild(pathCell);
+                    
+                    // Status column (Structurally Valid/Invalid) with semantic color
+                    const validCell = document.createElement('td');
+                    validCell.className = 'score-cell';
+                    const validValue = entry.valid;
+                    const validBadge = document.createElement('span');
+                    validBadge.className = `score-badge ${getScoreBadgeClass(validValue, 'valid')}`;
+                    validBadge.textContent = formatScoreValue(validValue, 'valid');
+                    validCell.appendChild(validBadge);
+                    tr.appendChild(validCell);
+                    
+                    // Truth column (Factually Correct/Incorrect) with semantic color
+                    const factualCell = document.createElement('td');
+                    factualCell.className = 'score-cell';
+                    const factualValue = entry.factual;
+                    const factualBadge = document.createElement('span');
+                    factualBadge.className = `score-badge ${getScoreBadgeClass(factualValue, 'factual')}`;
+                    factualBadge.innerHTML = formatScoreValue(factualValue, 'factual');
+                    factualCell.appendChild(factualBadge);
+                    tr.appendChild(factualCell);
+                    
+                    // Quality column with stars
+                    const qualityCell = document.createElement('td');
+                    qualityCell.className = 'score-cell';
+                    const qualityValue = entry.quality;
+                    const qualityBadge = document.createElement('span');
+                    qualityBadge.className = 'quality-stars';
+                    qualityBadge.innerHTML = formatScoreValue(qualityValue, 'quality');
+                    qualityCell.appendChild(qualityBadge);
+                    tr.appendChild(qualityCell);
+                    
+                    tbody.appendChild(tr);
+                });
+                
+                // Apply initial filters
+                applyFilters();
+            } else {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = 4;
+                td.textContent = '(no paths)';
+                td.style.textAlign = 'center';
+                td.style.padding = '20px';
+                td.style.color = '#999';
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            }
+
+            // Calculate and display prediction statistics
+            const totalPaths = processedPaths.length;
+            const validPaths = processedPaths.filter(entry => {
+                const valid = entry.valid;
+                return valid === true || valid === 1 || valid === '1' || String(valid).toLowerCase() === 'true';
+            }).length;
+            
+            const statsElement = document.getElementById('predictions-stats');
+            if (statsElement && totalPaths > 0) {
+                statsElement.textContent = `${totalPaths} paths, ${validPaths}/${totalPaths} valid`;
+            } else if (statsElement) {
+                statsElement.textContent = '';
+            }
+
+            // Update index info
+            document.getElementById('index-info').textContent = 
+                `Instance ${currentIndex + 1} of ${totalInstances}`;
+            document.getElementById('index-input').value = currentIndex;
+
+            document.getElementById('data-display').style.display = 'block';
+        }
+
+        // Filter functions
+        function applyFilters() {
+            const showFilter = document.getElementById('filter-show').value;
+            const qualityFilter = document.getElementById('filter-quality').value;
+            const searchTerm = document.getElementById('filter-search').value.toLowerCase().trim();
+            
+            const rows = document.querySelectorAll('#paths-tbody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const isValid = row.getAttribute('data-valid') === 'true';
+                const isFactual = row.getAttribute('data-factual') === 'true';
+                const quality = parseFloat(row.getAttribute('data-quality')) || 0;
+                const pathText = row.getAttribute('data-path-text') || '';
+                
+                let show = true;
+                
+                // Apply show filter
+                if (showFilter !== 'all') {
+                    if (showFilter === 'valid' && !isValid) show = false;
+                    if (showFilter === 'invalid' && isValid) show = false;
+                    if (showFilter === 'factual' && !isFactual) show = false;
+                    if (showFilter === 'not-factual' && isFactual) show = false;
+                }
+                
+                // Apply quality filter
+                if (qualityFilter !== '' && quality < parseFloat(qualityFilter)) {
+                    show = false;
+                }
+                
+                // Apply search filter
+                if (searchTerm && !pathText.includes(searchTerm)) {
+                    show = false;
+                }
+                
+                // Show/hide row
+                if (show) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Update filter bar to show count (optional)
+            // Could add a "Showing X of Y" indicator here
+        }
+        
+        // Set up filter event listeners
+        function setupFilters() {
+            document.getElementById('filter-show').addEventListener('change', applyFilters);
+            document.getElementById('filter-quality').addEventListener('change', applyFilters);
+            document.getElementById('filter-search').addEventListener('input', applyFilters);
+        }
+        
+        // Initialize filters when page loads
+        setupFilters();
+
+        // Navigation functions
+        async function navigateNext() {
+            if (currentDataset && currentIndex < currentDataset.length - 1) {
+                await displayData(currentIndex + 1);
+            } else if (currentDataset && currentIndex === currentDataset.length - 1) {
+                await displayData(0); // Wrap around
+            }
+        }
+
+        async function navigatePrev() {
+            if (currentDataset && currentIndex > 0) {
+                await displayData(currentIndex - 1);
+            } else if (currentDataset && currentIndex === 0) {
+                await displayData(currentDataset.length - 1); // Wrap around
+            }
+        }
+
+        async function navigateToIndex(index) {
+            if (currentDataset && index >= 0 && index < currentDataset.length) {
+                await displayData(index);
+            } else {
+                showError(`Index ${index} is out of range (0-${currentDataset.length - 1})`);
+            }
+        }
+
+        // Event handlers
+        document.getElementById('model-select').addEventListener('change', function() {
+            const model = this.value;
+            const promptSelect = document.getElementById('prompt-select');
+            const loadBtn = document.getElementById('load-btn');
+            
+            if (model && DATASET_CONFIG[model]) {
+                promptSelect.innerHTML = '<option value="">Select a prompt type</option>';
+                Object.keys(DATASET_CONFIG[model]).forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type;
+                    option.textContent = type;
+                    promptSelect.appendChild(option);
+                });
+                promptSelect.disabled = false;
+            } else {
+                promptSelect.innerHTML = '<option value="">Select a prompt type</option>';
+                promptSelect.disabled = true;
+                loadBtn.disabled = true;
+            }
+        });
+
+        document.getElementById('prompt-select').addEventListener('change', function() {
+            const loadBtn = document.getElementById('load-btn');
+            loadBtn.disabled = !this.value;
+        });
+
+        document.getElementById('load-btn').addEventListener('click', async function() {
+            const model = document.getElementById('model-select').value;
+            const promptType = document.getElementById('prompt-select').value;
+            
+            if (!model || !promptType) {
+                showError('Please select both model and prompt type');
+                return;
+            }
+
+            if (!DATASET_CONFIG[model] || !DATASET_CONFIG[model][promptType]) {
+                showError('Invalid model or prompt type');
+                return;
+            }
+
+            const repoName = DATASET_CONFIG[model][promptType];
+            
+            try {
+                currentDataset = await loadDatasetFromHF(repoName);
+                totalInstances = currentDataset.length;
+                displayData(0);
+            } catch (error) {
+                showError('Error loading dataset: ' + error.message);
+                console.error(error);
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', navigateNext);
+        document.getElementById('prev-btn').addEventListener('click', navigatePrev);
+        document.getElementById('jump-btn').addEventListener('click', function() {
+            const index = parseInt(document.getElementById('index-input').value);
+            navigateToIndex(index);
+        });
+
+        // Utility functions
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('error-message').style.display = 'none';
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        // Setup reasoning section toggle
+        function setupReasoningToggle() {
+            const reasoningHeader = document.getElementById('reasoning-header');
+            const reasoningSection = document.getElementById('reasoning-section');
+            
+            if (reasoningHeader && reasoningSection) {
+                reasoningHeader.addEventListener('click', function() {
+                    reasoningSection.classList.toggle('collapsed');
+                });
+            }
+        }
+        
+        // Keyboard shortcuts
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                // Only handle shortcuts when data is displayed and not typing in input
+                if (!currentDataset || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+                    return;
+                }
+                
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (e.key === 'ArrowLeft') {
+                        navigatePrev();
+                    } else {
+                        navigateNext();
+                    }
+                }
+            });
+        }
+        
+        // Initialize on page load
+        // Note: initModels() will be called automatically after Pyodide loads the config
+        initPyodide(); // Initialize Python runtime and load DATASET_CONFIG
+        setupKeyboardShortcuts(); // Setup keyboard navigation
+        setupReasoningToggle(); // Setup reasoning section toggle
+    </script>
+</body>
+</html>
