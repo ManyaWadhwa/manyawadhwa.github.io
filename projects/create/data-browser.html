@@ -1082,7 +1082,7 @@
                     console.warn('Python preprocessing failed, using JS fallback:', error);
                 }
             }
-            // JavaScript fallback - process each instance
+            // JavaScript fallback - process each instance, then filter out instances with no displayable paths
             const processedInstances = await Promise.all(
                 dataset.map(async (instance) => {
                     const processedInstance = {...instance};
@@ -1090,7 +1090,15 @@
                     return processedInstance;
                 })
             );
-            return processedInstances;
+            const hasDisplayablePath = (entry) => {
+                const valid = entry.valid === true || entry.valid === 1 || entry.valid === '1' || String(entry.valid || '').toLowerCase() === 'true';
+                const factual = entry.factual === true || entry.factual === 1 || entry.factual === '1' || String(entry.factual || '').toLowerCase() === 'true';
+                return valid && factual;
+            };
+            return processedInstances.filter(inst => {
+                const paths = inst.processed_paths || [];
+                return paths.length > 0 && paths.some(hasDisplayablePath);
+            });
         }
 
         // Load dataset from local JSONL file on disk
@@ -1384,10 +1392,11 @@
                 // Apply initial filters
                 applyFilters();
             } else {
+                console.log('[DEBUG] No paths displayed. Instance index:', currentIndex, '| processedPaths:', processedPaths.length, '| filteredPaths:', filteredPaths.length, '| sample valid/factual:', processedPaths.slice(0, 3).map(p => ({ valid: p.valid, factual: p.factual })));
                 const tr = document.createElement('tr');
                 const td = document.createElement('td');
                 td.colSpan = 2;
-                td.textContent = '(no paths)';
+                td.textContent = 'no path after filtering for validity and factuality';
                 td.style.textAlign = 'center';
                 td.style.padding = '20px';
                 td.style.color = '#999';

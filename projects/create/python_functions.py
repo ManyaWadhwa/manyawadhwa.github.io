@@ -12,7 +12,7 @@ To add more functions:
 DATASET_CONFIG = {
     "GPT-4.1-mini": {
         "original": "data/GPT-4.1_model_name_gpt-4.1_variation_original.jsonl",
-        "iterate":"data/GPT-4.1_model_name_gpt-4.1_variation_iterate.jsonl",
+        # "iterate":"data/GPT-4.1_model_name_gpt-4.1_variation_iterate.jsonl",
         # "creative": "connections-dev/res_gptoss20b_creative_1_None_0.7_4096_gpt-4_1-mini-2025-04-14"
     },
     "Gemini-3-Pro":{
@@ -167,16 +167,25 @@ def format_path_for_display(path):
             return []
         
         if isinstance(item, list) or isinstance(item, np.ndarray):
-            # Check if this is a triple (list with 2-3 elements)
+            # If first element is a list, this is a path (list of triples), not a triple - recurse
+            if len(item) >= 1 and isinstance(item[0], list):
+                result = []
+                for sub_item in item:
+                    try:
+                        result.extend(extract_triples(sub_item))
+                    except Exception:
+                        continue
+                return result
+            
+            # Check if this is a triple (list with 2-3 scalar elements: strings/numbers)
             if len(item) >= 2:
-                # Check if elements can be converted to strings (triples are usually strings)
                 try:
-                    # Try to convert first few elements to strings
                     test_elements = item[:min(3, len(item))]
-                    # If we can convert them to strings, it's likely a triple
-                    converted = [str(x) for x in test_elements]
-                    if len(converted) >= 2:
-                        return [converted]
+                    # Triples have scalar elements; paths have list elements
+                    if not any(isinstance(x, list) for x in test_elements):
+                        converted = [str(x) for x in test_elements]
+                        if len(converted) >= 2:
+                            return [converted]
                 except (TypeError, ValueError):
                     pass
             
@@ -299,26 +308,35 @@ def process_paths_with_scores(instance):
     return result
 
 
+def _has_displayable_path(entry):
+    """Check if a path entry passes the valid+factual filter (matches data-browser logic)."""
+    valid = entry.get('valid') in (True, 1, '1') or str(entry.get('valid', '')).lower() == 'true'
+    factual = entry.get('factual') in (True, 1, '1') or str(entry.get('factual', '')).lower() == 'true'
+    return valid and factual
+
+
 def preprocess_dataset(dataset):
     """
     Pre-process an entire dataset by adding processed_paths to each instance.
+    Removes instances that have no paths (before or after valid+factual filtering).
     
     Args:
         dataset: List of instance dictionaries
     
     Returns:
-        List of instances with 'processed_paths' field added to each instance
+        List of instances with 'processed_paths' field added, excluding instances with no displayable paths
     """
     if not dataset:
         return []
     
     processed_dataset = []
     for instance in dataset:
-        # Create a copy of the instance
         processed_instance = dict(instance)
-        # Add processed paths
         processed_instance['processed_paths'] = process_paths_with_scores(instance)
-        processed_dataset.append(processed_instance)
+        paths = processed_instance['processed_paths']
+        # Skip if no paths at all, or no path passes valid+factual filter
+        if paths and any(_has_displayable_path(p) for p in paths):
+            processed_dataset.append(processed_instance)
     
     return processed_dataset
 
