@@ -13,23 +13,22 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
-            color: #2c3e50;
-            line-height: 1.7;
+            background: #ffffff;
+            color: #1f2933;
+            line-height: 1.6;
             min-height: 100vh;
-            font-size: 14px;
+            font-size: 13px;
         }
         
         /* Header */
         .header {
             background-color: #fff;
-            padding: 24px 40px;
-            border-bottom: 1px solid rgba(87, 6, 140, 0.1);
+            padding: 16px 32px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.4);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
         
         .logo-section {
@@ -39,20 +38,13 @@
         }
         
         .logo-icon {
-            width: 80px;
-            height: 80px;
+            width: 64px;
+            height: 64px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
-            box-shadow: 0 4px 12px rgba(87, 6, 140, 0.2);
-            transition: transform 0.3s ease;
-        }
-        
-        .logo-icon:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(87, 6, 140, 0.3);
         }
         
         .logo-icon img {
@@ -78,14 +70,14 @@
         }
         
         .logo-title {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
+            font-size: 26px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #111827 0%, #4b5563 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-top: 0;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.4px;
         }
         
         .header-right {
@@ -106,30 +98,23 @@
         }
         
         .btn-secondary {
-            padding: 14px 28px;
-            background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
+            padding: 8px 14px;
+            background: #111827;
             color: white;
             border: none;
-            border-radius: 24px;
+            border-radius: 999px;
             text-decoration: none;
-            font-size: 17px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 500;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(87, 6, 140, 0.2);
+            gap: 6px;
+            transition: background-color 0.15s ease;
             cursor: pointer;
         }
         
         .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(87, 6, 140, 0.3);
-            background: linear-gradient(135deg, #45056F 0%, #57068C 100%);
-        }
-        
-        .btn-secondary:active {
-            transform: translateY(0);
+            background: #020617;
         }
         
         .btn-secondary span {
@@ -138,15 +123,15 @@
         
         /* Navigation */
         .nav-btn {
-            padding: 14px 28px;
-            background-color: #f8f9fa;
-            color: #495057;
+            padding: 8px 14px;
+            background-color: transparent;
+            color: #4b5563;
             border: none;
-            border-radius: 20px;
+            border-radius: 999px;
             cursor: pointer;
-            font-size: 17px;
+            font-size: 14px;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: background-color 0.15s ease, color 0.15s ease;
             text-decoration: none;
             display: inline-block;
             position: relative;
@@ -154,27 +139,20 @@
         }
         
         .nav-btn:hover {
-            background-color: #e9ecef;
-            transform: translateY(-1px);
-            color: #57068C;
+            background-color: #f3f4f6;
+            color: #111827;
         }
         
         .nav-btn.active {
-            background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
-            color: white;
-            box-shadow: 0 2px 8px rgba(87, 6, 140, 0.25);
-        }
-        
-        .nav-btn.active:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(87, 6, 140, 0.3);
+            background: #111827;
+            color: #f9fafb;
         }
         
         /* Main Content */
         .container {
-            max-width: 1400px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 40px;
+            padding: 32px 24px 48px;
         }
         
         /* Full width container for data browser */
@@ -194,26 +172,26 @@
         
         /* Overview Section */
         .overview-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
             margin-top: 0;
-            padding-top: 20px;
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
         
         .overview-left {
             background: #ffffff;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            padding: 24px 24px 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.4);
         }
         
         .overview-left h2 {
-            font-size: 36px;
-            margin-bottom: 28px;
-            color: #2c3e50;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+            font-size: 22px;
+            margin-bottom: 16px;
+            color: #111827;
+            font-weight: 600;
+            letter-spacing: -0.03em;
         }
         
         .overview-list {
@@ -222,12 +200,12 @@
         }
         
         .overview-list li {
-            font-size: 20px;
-            margin-bottom: 24px;
-            padding-left: 40px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            padding-left: 20px;
             position: relative;
-            color: #495057;
-            line-height: 1.8;
+            color: #4b5563;
+            line-height: 1.6;
         }
         
         .overview-list li::before {
@@ -258,26 +236,160 @@
         }
         
         .overview-right {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            max-width: 860px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 0 8px;
         }
         
         .overview-right h2 {
-            font-size: 36px;
-            margin-bottom: 24px;
-            color: #2c3e50;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #111827;
+            font-weight: 600;
+            letter-spacing: -0.03em;
         }
         
         .overview-right p {
-            font-size: 20px;
-            color: #495057;
-            line-height: 2.0;
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.7;
         }
         
+        /* Leaderboard plot */
+        .leaderboard-section {
+            margin-top: 24px;
+            max-width: 860px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .leaderboard-header {
+            margin-bottom: 16px;
+        }
+        .leaderboard-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+        .leaderboard-desc {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        .leaderboard-card {
+            background: #fff;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            border-radius: 14px;
+            padding: 18px 20px 20px;
+        }
+        .leaderboard-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .leaderboard-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .leaderboard-model-picker {
+            position: relative;
+        }
+        .leaderboard-model-picker details {
+            position: relative;
+        }
+        .leaderboard-model-picker summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            background: #f9fafb;
+            font-size: 13px;
+            color: #111827;
+            font-weight: 500;
+        }
+        .leaderboard-model-picker summary::-webkit-details-marker { display: none; }
+        .leaderboard-model-picker details[open] summary {
+            border-color: #57068C;
+            box-shadow: 0 0 0 1px rgba(87, 6, 140, 0.2);
+        }
+        .leaderboard-model-picker .picker-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            min-width: 260px;
+            max-height: 280px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+            padding: 8px 10px;
+            z-index: 30;
+        }
+        .leaderboard-model-picker .picker-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 8px;
+            font-size: 13px;
+            color: #111827;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .leaderboard-model-picker .picker-item:hover {
+            background: #f3f4f6;
+        }
+        .leaderboard-model-picker .picker-item input {
+            width: 16px;
+            height: 16px;
+            accent-color: #57068C;
+        }
+        .leaderboard-chart-wrap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .leaderboard-chart-area {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 380px;
+            min-height: 380px;
+            position: relative;
+        }
+        #leaderboard-chart {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .leaderboard-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            padding: 8px 0 4px;
+            min-height: 32px;
+        }
+        .leaderboard-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #374151;
+        }
+        .leaderboard-legend-swatch {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
         /* Data Browser Styles (for EXPLORE tab) */
         .data-browser-container {
             background-color: #fff;
@@ -285,7 +397,15 @@
             border-radius: 0;
             overflow: hidden;
             width: 100%;
-            margin: 0;
+            max-width: 860px;
+            margin: 32px auto 0;
+        }
+        
+        .data-browser-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            margin: 0 0 16px 0;
         }
         
         .data-browser-container iframe {
@@ -313,15 +433,16 @@
         }
         
         .tab-content h2 {
-            font-size: 26px;
-            color: #333;
-            margin-bottom: 20px;
+            font-size: 20px;
+            color: #111827;
+            margin-bottom: 16px;
+            font-weight: 600;
         }
         
         .tab-content p {
-            font-size: 15px;
-            color: #666;
-            line-height: 1.8;
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.6;
         }
         
         /* Smooth animations */
@@ -342,17 +463,12 @@
         
         /* Responsive */
         @media (max-width: 968px) {
-            .overview-section {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            
             .container {
-                padding: 40px 24px;
+                padding: 24px 16px 40px;
             }
             
             .header {
-                padding: 20px 24px;
+                padding: 14px 16px;
             }
             
             .nav {
@@ -377,7 +493,7 @@
             .header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 16px;
+                gap: 10px;
             }
             
             .header-right {
@@ -397,33 +513,33 @@
             }
             
             .logo-title {
-                font-size: 28px;
+                font-size: 22px;
             }
             
             .overview-left, .overview-right {
-                padding: 28px;
+                padding: 20px;
             }
             
             .overview-left h2, .overview-right h2 {
-                font-size: 30px;
+                font-size: 18px;
             }
             
             .overview-list li {
-                font-size: 18px;
+                font-size: 14px;
             }
             
             .overview-right p {
-                font-size: 18px;
+                font-size: 13px;
             }
             
             .nav-btn {
-                font-size: 15px;
-                padding: 12px 22px;
+                font-size: 13px;
+                padding: 6px 10px;
             }
             
             .btn-secondary {
-                font-size: 15px;
-                padding: 12px 24px;
+                font-size: 13px;
+                padding: 8px 12px;
             }
         }
     </style>
@@ -443,87 +559,78 @@
         <div class="header-right">
             <div class="header-nav">
                 <button class="nav-btn active" data-tab="home">Home</button>
-                <button class="nav-btn" data-tab="explore">Explore</button>
-                <button class="nav-btn" data-tab="compare">Compare</button>
-                <button class="nav-btn" data-tab="downloads">Downloads</button>
-                <button class="nav-btn" data-tab="evaluation">Evaluation</button>
             </div>
             <div class="header-links">
                 <a href="#" class="btn-secondary" id="paper-link">
                     <span>📄</span> Paper
                 </a>
-                <a href="#" class="btn-secondary" id="code-link">
+                <a href="https://github.com/ManyaWadhwa/CREATE" class="btn-secondary" id="code-link" target="_blank" rel="noopener noreferrer">
                     <span>{ }</span> Code
                 </a>
             </div>
         </div>
     </div>
     
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Home Tab -->
-        <div id="home-tab" class="tab-content active">
-            <!-- Overview Section -->
-            <div class="overview-section">
-                <div class="overview-left">
-                    <h2>Overview of CREATE</h2>
-                    <ul class="overview-list">
-                        <li> 900 creative association tasks </li>
-                        <li>Benchmarking LLM creative capabilities with multiple prompting strategies</li>
-                        <li>Comprehensive evaluation of LLM creative capabilities</li>
-                        <li>Large collection of examples with queries, source paths, and predictions</li>
-                        <li>Tasks require creative thinking: <a href="#explore" onclick="showTab('explore')">browse and see for yourself!</a></li>
-                    </ul>
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Home Tab -->
+            <div id="home-tab" class="tab-content active">
+                <!-- Overview Section -->
+                <div class="overview-section">
+                    <div class="overview-right">
+                        <h2>CREATE: Testing LLMs at Associative Creativity </h2>
+                        <p>
+                            A key component of creativity is associative reasoning: the ability to draw novel yet meaningful connections between concepts. 
+                            In this work, we introduce CREATE, a benchmark designed to evaluate models' capacity for creative associative reasoning. 
+                            The benchmark requires models to generate valid paths connecting concepts, for example: "what are different ways of connecting <i>Dakota Johnson</i> connected to <i>people who starred in fantasy/sci-fi movies?"" </i><br><br>
+                            We evaluate the model responses using a unified metric, <i> creative utility</i>, that combines the quality and diversity of connections generated by the model. 
+                            Inspired by notions of patience in ranked retrieval metrics, we vary how utility is weighted using a patience parameter, <i>p</i>. This paramter reflects different levels of user exploration, from users who want only a few strong options to those willing to browse longer lists. <br>
+                            <!-- To know more about the benchmark and evaluation metrics please refer to the paper. -->
+                        <!-- A creative model needs to generate connections that have high strength, based on how many concepts would have a similar connection, and high diversity, based on how novel the connection is relative to previous generations. -->
+                        <!-- Our setting requires nontrivial brainstorming drawing on parametric knowledge, reflecting the demands of real creativity tasks like hypothesis generation, yet crucially remains objectively verifiable.  -->
+                        <!-- CREATE illustrates tradeoffs between thinking and non-thinking models: thinking models can find more connections with very high token budgets, and recent proposed approaches for  -->
+                        <!-- "creative prompting" give some limited additional improvement.  -->
+                        <!-- Unlike benchmarks derived from human creativity tests such as the Alternative Uses Test, our benchmark displays less saturation, with stronger models achieving higher utility. -->
+                        <!-- CREATE is an effective yardstick for measuring gains in models to be deployed for combinatorial creativity. -->
+                        </p>
+                    </div>
+
+                    <!-- Leaderboard Plot -->
+                    <section class="leaderboard-section">
+                        <header class="leaderboard-header">
+                            <h3 class="leaderboard-title">Leaderboard</h3>
+                            <p class="leaderboard-desc">
+                                Use the drop down to select models to see how creative utility changes with patience. A low patience value only selects the a few top connections based on quality and diversity, whereas a high patience value selects more connections.
+                            </p>
+                        </header>
+                        <div class="leaderboard-card">
+                            <div class="leaderboard-toolbar">
+                                <label class="leaderboard-label">Models</label>
+                                <div class="leaderboard-model-picker" id="model-picker"></div>
+                            </div>
+                            <div class="leaderboard-chart-wrap">
+                                <div class="leaderboard-chart-area">
+                                    <canvas id="leaderboard-chart" aria-label="Utility vs Patience chart"></canvas>
+                                </div>
+                                <div class="leaderboard-legend" id="leaderboard-legend" role="list"></div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <div class="overview-right">
-                    <h2>CREATE: Creative Associations Test for LLMs</h2>
-                    <p>
-                        A key component of creativity is associative reasoning: the ability to draw novel yet meaningful connections between concepts. 
-                        We introduce CREATE, a benchmark designed to evaluate models' capacity for creative associative reasoning. 
-                        The benchmark requires models to  generate valid paths connecting concepts where exhaustive search is infeasible.
-                    A creative model needs to generate connections that have high strength, based on how many concepts would have a similar connection, and high diversity, based on how novel the connection is relative to previous generations.
-                    Our setting requires nontrivial brainstorming drawing on parametric knowledge, reflecting the demands of real creativity tasks like hypothesis generation, yet crucially remains objectively verifiable. 
-                    CREATE illustrates tradeoffs between thinking and non-thinking models: thinking models can find more connections with very high token budgets, and recent proposed approaches for 
-                    "creative prompting" give some limited additional improvement. 
-                    Unlike benchmarks derived from human creativity tests such as the Alternative Uses Test, our benchmark displays less saturation, with stronger models achieving higher utility.
-                    CREATE is an effective yardstick for measuring gains in models to be deployed for combinatorial creativity.
-                    </p>
+
+                <!-- Data Explorer (embedded on Home page) -->
+                <div class="data-browser-container">
+                    <h3 class="data-browser-title">Data Browser</h3>
+                    <iframe src="data-browser.html" title="CREATE Data Browser"></iframe>
                 </div>
             </div>
         </div>
-        
-        <!-- Explore Tab (Data Browser) -->
-        <div id="explore-tab" class="tab-content">
-            <div class="data-browser-container">
-                <iframe src="data-browser.html" title="CREATE Data Browser"></iframe>
-            </div>
-        </div>
-        
-        <!-- Compare Tab -->
-        <div id="compare-tab" class="tab-content">
-            <div class="compare-container">
-                <iframe src="compare.html" title="CREATE Compare"></iframe>
-            </div>
-        </div>
-        
-        <!-- Downloads Tab -->
-        <div id="downloads-tab" class="tab-content">
-            <h2>Downloads</h2>
-            <p>Download links and resources will be available here.</p>
-        </div>
-        
-        <!-- Evaluation Tab -->
-        <div id="evaluation-tab" class="tab-content">
-            <h2>Evaluation</h2>
-            <p>Evaluation metrics and results will be available here.</p>
-        </div>
-    </div>
     
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script type="application/json" id="utility-data">{"GPT-4.1":{"0.5":10.6,"0.6":11.7,"0.7":13.3,"0.8":15.8,"0.9":20.0,"1.0":28.8},"GPT-5 (med)":{"0.5":9.5,"0.6":10.4,"0.7":11.8,"0.8":13.9,"0.9":17.6,"1.0":26.6},"Claude-Haiku-4.5 (high)":{"0.5":7.9,"0.6":8.4,"0.7":9.1,"0.8":9.9,"0.9":11.0,"1.0":12.5},"Gemini-3-pro":{"0.5":10.8,"0.6":12.0,"0.7":13.7,"0.8":16.4,"0.9":21.1,"1.0":30.3},"GPT-4.1-mini":{"0.5":10.8,"0.6":11.9,"0.7":13.4,"0.8":15.6,"0.9":19.1,"1.0":25.2},"GPT-5-mini (low)":{"0.5":9.2,"0.6":10.0,"0.7":11.1,"0.8":12.7,"0.9":15.2,"1.0":19.4},"GPT-5-mini (med)":{"0.5":9.0,"0.6":9.9,"0.7":11.1,"0.8":12.9,"0.9":16.1,"1.0":22.5},"GPT-5-mini (high)":{"0.5":8.9,"0.6":9.7,"0.7":10.9,"0.8":12.9,"0.9":16.5,"1.0":26.2},"Claude-3-Haiku":{"0.5":8.4,"0.6":8.9,"0.7":9.6,"0.8":10.4,"0.9":11.4,"1.0":12.6},"Claude-Haiku-4.5 (low)":{"0.5":7.9,"0.6":8.4,"0.7":9.0,"0.8":9.9,"0.9":10.9,"1.0":12.3},"Claude-Haiku-4.5 (med)":{"0.5":7.9,"0.6":8.4,"0.7":9.1,"0.8":10.0,"0.9":11.1,"1.0":12.6},"Qwen3-30B-Instruct":{"0.5":10.1,"0.6":11.1,"0.7":12.6,"0.8":15.0,"0.9":19.5,"1.0":29.8},"Qwen/Qwen3-32B (16k)":{"0.5":9.5,"0.6":10.2,"0.7":11.2,"0.8":12.5,"0.9":14.2,"1.0":16.5},"Qwen/Qwen3-32B (32k)":{"0.5":9.6,"0.6":10.4,"0.7":11.4,"0.8":12.7,"0.9":14.5,"1.0":16.9},"Olmo-3.1-32B-Instruct":{"0.5":9.0,"0.6":9.7,"0.7":10.6,"0.8":11.8,"0.9":13.6,"1.0":16.4},"Olmo-3.1-32B-Think (16k)":{"0.5":7.5,"0.6":7.9,"0.7":8.5,"0.8":9.2,"0.9":10.2,"1.0":11.7},"Olmo-3.1-32B-Think (32k)":{"0.5":7.7,"0.6":8.2,"0.7":8.8,"0.8":9.5,"0.9":10.6,"1.0":12.3}}</script>
     <script>
         // Tab switching functionality
         function showTab(tabName) {
-            const container = document.querySelector('.container');
-            
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -538,13 +645,6 @@
             const selectedTab = document.getElementById(`${tabName}-tab`);
             if (selectedTab) {
                 selectedTab.classList.add('active');
-                
-                // Make container full width for explore and compare tabs
-                if (tabName === 'explore' || tabName === 'compare') {
-                    container.classList.add('full-width');
-                } else {
-                    container.classList.remove('full-width');
-                }
             }
             
             // Add active class to corresponding nav button
@@ -568,10 +668,215 @@
             alert('Paper link will be added here');
         });
         
-        document.getElementById('code-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Code link will be added here');
-        });
+
+        // Leaderboard plot
+        (function initLeaderboardPlot() {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js failed to load. Leaderboard plot disabled.');
+                return;
+            }
+            const COLORS = ['#57068C','#F97316','#2563EB','#16A34A','#EC4899','#0D9488','#EAB308','#EF4444','#6366F1','#14B8A6','#D946EF','#FB7185','#10B981','#F59E0B','#1D4ED8','#84CC16','#F43F5E'];
+            const DEFAULT_MODELS = ['GPT-4.1', 'GPT-5 (med)', 'Claude-Haiku-4.5 (high)', 'Gemini-3-pro'];
+            const canvas = document.getElementById('leaderboard-chart');
+            const pickerEl = document.getElementById('model-picker');
+            if (!canvas || !pickerEl) {
+                console.warn('Leaderboard elements not found. Are you on the CREATE page?');
+                return;
+            }
+
+            let chart = null;
+            let rawData = {};
+            let patienceKeys = [];
+            let modelColors = {};
+
+            async function getData() {
+                const el = document.getElementById('utility-data');
+                if (el) return JSON.parse(el.textContent);
+                try {
+                    const res = await fetch('utility_data.json');
+                    return res.ok ? await res.json() : null;
+                } catch {
+                    return null;
+                }
+            }
+
+            function parsePatienceKeys(modelData) {
+                return Object.keys(modelData)
+                    .map(k => ({ k, v: parseFloat(k) }))
+                    .filter(x => !isNaN(x.v) && x.v >= 0.5 && x.v <= 1)
+                    .sort((a, b) => a.v - b.v)
+                    .map(x => x.k);
+            }
+
+            function buildSeries(modelName) {
+                const byP = rawData[modelName] || {};
+                return patienceKeys.map(k => byP[k] ?? null);
+            }
+
+            function createChart() {
+                chart = new Chart(canvas.getContext('2d'), {
+                    type: 'line',
+                    data: { labels: [], datasets: [] },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 16 } },
+                        scales: {
+                            x: {
+                                type: 'category',
+                                title: { display: true, text: 'Patience (p)' }
+                            },
+                            y: {
+                                title: { display: true, text: 'Utility' },
+                                min: 7,
+                                max: 31
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                mode: 'nearest',
+                                intersect: false,
+                                callbacks: {
+                                    title: (items) => {
+                                        if (!items.length || !chart?.data?.labels) return '';
+                                        const idx = items[0].dataIndex;
+                                        const lbl = chart.data.labels[idx];
+                                        return lbl != null ? 'p = ' + lbl : '';
+                                    }
+                                }
+                            }
+                        },
+                        interaction: { mode: 'nearest', intersect: false }
+                    }
+                });
+            }
+
+            function setVisible(modelName, visible) {
+                if (!chart?.data?.datasets) return;
+                const ds = chart.data.datasets.find(d => d.label === modelName);
+                if (ds) ds.hidden = !visible;
+                chart.update();
+                renderLegend();
+            }
+
+            function renderLegend() {
+                const el = document.getElementById('leaderboard-legend');
+                if (!el || !chart?.data?.datasets) return;
+                const visible = chart.data.datasets.filter(d => !d.hidden);
+                el.innerHTML = '';
+                visible.forEach(ds => {
+                    const item = document.createElement('div');
+                    item.className = 'leaderboard-legend-item';
+                    item.setAttribute('role', 'listitem');
+                    const swatch = document.createElement('span');
+                    swatch.className = 'leaderboard-legend-swatch';
+                    swatch.style.backgroundColor = ds.borderColor || ds.backgroundColor;
+                    item.appendChild(swatch);
+                    item.appendChild(document.createTextNode(ds.label));
+                    el.appendChild(item);
+                });
+            }
+
+            function renderPicker(modelNames) {
+                const total = modelNames.length;
+                const details = document.createElement('details');
+                details.className = 'model-picker-details';
+                const summary = document.createElement('summary');
+                summary.textContent = `All models (${total})`;
+                details.appendChild(summary);
+
+                const menu = document.createElement('div');
+                menu.className = 'picker-menu';
+                menu.addEventListener('click', e => e.stopPropagation());
+
+                const selectAll = document.createElement('label');
+                selectAll.className = 'picker-item';
+                const selectAllCb = document.createElement('input');
+                selectAllCb.type = 'checkbox';
+                selectAll.appendChild(selectAllCb);
+                selectAll.appendChild(document.createTextNode('(Select all)'));
+                menu.appendChild(selectAll);
+
+                const checkboxes = {};
+                modelNames.forEach(name => {
+                    const label = document.createElement('label');
+                    label.className = 'picker-item';
+                    const cb = document.createElement('input');
+                    cb.type = 'checkbox';
+                    cb.checked = DEFAULT_MODELS.includes(name);
+                    checkboxes[name] = cb;
+                    label.appendChild(cb);
+                    label.appendChild(document.createTextNode(name));
+                    menu.appendChild(label);
+                    cb.addEventListener('change', () => {
+                        setVisible(name, cb.checked);
+                        syncSummary();
+                    });
+                });
+
+                function syncSummary() {
+                    const n = modelNames.filter(n => checkboxes[n].checked).length;
+                    selectAllCb.checked = n === total;
+                    summary.textContent = n === 0 ? 'Select models' : n === total ? `All models (${total})` : `${n} / ${total} models`;
+                }
+
+                selectAllCb.addEventListener('change', () => {
+                    const on = selectAllCb.checked;
+                    modelNames.forEach(n => { checkboxes[n].checked = on; setVisible(n, on); });
+                    syncSummary();
+                });
+
+                details.appendChild(menu);
+                pickerEl.innerHTML = '';
+                pickerEl.appendChild(details);
+                syncSummary();
+
+                if (!pickerEl._closeOnClickOutside) {
+                    pickerEl._closeOnClickOutside = true;
+                    document.addEventListener('click', function(e) {
+                        const d = pickerEl.querySelector('details[open]');
+                        if (d && !pickerEl.contains(e.target)) d.open = false;
+                    });
+                }
+            }
+
+            async function load() {
+                rawData = await getData();
+                if (!rawData || !Object.keys(rawData).length) return;
+
+                const modelNames = Object.keys(rawData);
+                patienceKeys = parsePatienceKeys(rawData[modelNames[0]] || {});
+                if (!patienceKeys.length) return;
+
+                if (!chart) createChart();
+
+                chart.data.labels = patienceKeys.map(k => parseFloat(k).toFixed(1));
+                chart.data.datasets = modelNames.map((name, i) => {
+                    modelColors[name] = COLORS[i % COLORS.length];
+                    const isDefault = DEFAULT_MODELS.includes(name);
+                    return {
+                        label: name,
+                        data: buildSeries(name),
+                        borderColor: modelColors[name],
+                        backgroundColor: modelColors[name] + '33',
+                        fill: false,
+                        tension: 0.25,
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                        spanGaps: true,
+                        hidden: !isDefault
+                    };
+                });
+
+                renderPicker(modelNames);
+                chart.update('none');
+                renderLegend();
+            }
+
+            load().catch(err => console.error('Leaderboard plot failed:', err));
+        })();
     </script>
 </body>
 </html>

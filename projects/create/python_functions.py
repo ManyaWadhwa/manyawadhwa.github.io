@@ -8,15 +8,18 @@ To add more functions:
 3. Create a JavaScript wrapper function if needed
 """
 
-# Dataset configuration: model -> prompt_type -> HuggingFace dataset repository
+# Dataset configuration: model -> prompt_type -> local JSONL path (relative to data-browser.html)
 DATASET_CONFIG = {
     "GPT-4.1-mini": {
-        "original": "connections-dev/res_gptoss20b_original_1_None_0.7_4096_gpt-4_1-mini-2025-04-14",
-        "creative": "connections-dev/res_gptoss20b_creative_1_None_0.7_4096_gpt-4_1-mini-2025-04-14"
+        "original": "data/GPT-4.1_model_name_gpt-4.1_variation_original.jsonl",
+        "iterate":"data/GPT-4.1_model_name_gpt-4.1_variation_iterate.jsonl",
+        # "creative": "connections-dev/res_gptoss20b_creative_1_None_0.7_4096_gpt-4_1-mini-2025-04-14"
     },
-    "Olmo-31-32B":{
-        "original":"connections-dev/res_gptoss20b_original_1_reason_None_0.7_16384_Olmo-3_1-32B-T",
-        "creative":"connections-dev/res_gptoss20b_creative_1_reason_None_0.7_16384_Olmo-3_1-32B-T"
+    "Gemini-3-Pro":{
+        "original":"data/Gemini-3-pro_model_name_gemini-3-pro.jsonl",
+    },
+    "Olmo-3.1-32B-Think (32k)":{
+        "original":"data/Olmo-3.1-32B-Think (32k)_model_name_allenai_Olmo-3.1-32B-Think.jsonl"
     }
 }
 
@@ -235,6 +238,15 @@ def process_paths_with_scores(instance):
     factualiy_scores_0 = instance.get('factualiy_scores_0')
     factuality_scores_0 = instance.get('factuality_scores_0')
     min_salience_scores_0 = instance.get('min_salience_scores_0')
+
+    # Handle paths_0 if it's a string (parse JSON)
+    if isinstance(paths_0, str):
+        import json
+        try:
+            paths_0 = json.loads(paths_0)
+        except (json.JSONDecodeError, ValueError):
+            # If JSON parsing fails, return empty list
+            return []
     
     # Handle numpy arrays for paths_0
     try:
@@ -248,7 +260,7 @@ def process_paths_with_scores(instance):
     
     if not paths_0:
         return []
-    
+
     # Format paths (convert to list of lists)
     formatted_paths = format_paths(paths_0)
     

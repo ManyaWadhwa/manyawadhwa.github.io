@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREATE: Creative Associations Test for LLMs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background-color: #fff;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-subtitle {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .logo-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2d8659;
+            margin-top: 2px;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-secondary {
+            padding: 8px 16px;
+            background-color: #2d8659;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #23704a;
+        }
+        
+        /* Navigation */
+        .nav {
+            background-color: #f8f9fa;
+            padding: 15px 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            background-color: #e9ecef;
+            color: #333;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-btn:hover {
+            background-color: #dee2e6;
+        }
+        
+        .nav-btn.active {
+            background-color: #2d8659;
+            color: white;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        
+        /* Home Tab Content */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .examples-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .example-card {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .example-card h3 {
+            color: #2d8659;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .example-card h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .example-card p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .example-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .example-card li {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 6px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .example-card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #2d8659;
+            font-weight: bold;
+        }
+        
+        /* Overview Section */
+        .overview-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .overview-left h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .overview-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .overview-list li {
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+            color: #555;
+        }
+        
+        .overview-list li::before {
+            content: "▲";
+            position: absolute;
+            left: 0;
+            color: #2d8659;
+            font-size: 12px;
+        }
+        
+        .overview-list strong {
+            color: #333;
+        }
+        
+        .overview-list a {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+        
+        .overview-right h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .overview-right p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        /* Data Browser Styles (for EXPLORE tab) */
+        .data-browser-container {
+            background-color: #fff;
+            padding: 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .data-browser-container iframe {
+            width: 100%;
+            height: 1400px;
+            border: none;
+            display: block;
+        }
+        
+        .tab-content h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .tab-content p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .overview-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .examples-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <img src="logo.jpg" alt="CREATE Logo">
+            </div>
+            <div class="logo-text">
+                <div class="logo-subtitle">Creative Associations Test</div>
+                <div class="logo-title">CREATE</div>
+            </div>
+        </div>
+        <div class="header-links">
+            <a href="#" class="btn-secondary" id="paper-link">
+                <span>📄</span> Paper
+            </a>
+            <a href="#" class="btn-secondary" id="code-link">
+                <span>{ }</span> Code
+            </a>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="nav">
+        <div class="nav-buttons">
+            <button class="nav-btn active" data-tab="home">Home</button>
+            <button class="nav-btn" data-tab="explore">Explore</button>
+            <button class="nav-btn" data-tab="downloads">Downloads</button>
+            <button class="nav-btn" data-tab="evaluation">Evaluation</button>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Tab -->
+        <div id="home-tab" class="tab-content active">
+            <!-- Example Tasks Section -->
+            <div class="examples-section">
+                <div class="example-card">
+                    <h3>Creative Writing</h3>
+                    <h4>Task Objective:</h4>
+                    <p>Generate creative associations and connections between concepts</p>
+                    <h4>Task Procedure:</h4>
+                    <p>Given a query, identify creative pathways and connections</p>
+                    <h4>Input Sections:</h4>
+                    <ul>
+                        <li>Query text</li>
+                        <li>Source context</li>
+                    </ul>
+                    <h4>Output Sections:</h4>
+                    <ul>
+                        <li>Creative pathways</li>
+                        <li>Association predictions</li>
+                    </ul>
+                </div>
+                
+                <div class="example-card">
+                    <h3>Original Prompting</h3>
+                    <h4>Task Objective:</h4>
+                    <p>Standard association task with original prompting strategies</p>
+                    <h4>Task Procedure:</h4>
+                    <p>Follow standard prompting approaches for concept associations</p>
+                    <h4>Input Sections:</h4>
+                    <ul>
+                        <li>Query text</li>
+                        <li>Triple labels</li>
+                    </ul>
+                    <h4>Output Sections:</h4>
+                    <ul>
+                        <li>Path predictions</li>
+                        <li>Association results</li>
+                    </ul>
+                </div>
+                
+                <div class="example-card">
+                    <h3>Creative Prompting</h3>
+                    <h4>Task Objective:</h4>
+                    <p>Enhanced creative associations with creative prompting techniques</p>
+                    <h4>Task Procedure:</h4>
+                    <p>Apply creative prompting strategies to generate novel connections</p>
+                    <h4>Input Sections:</h4>
+                    <ul>
+                        <li>Query text</li>
+                        <li>Creative context</li>
+                    </ul>
+                    <h4>Output Sections:</h4>
+                    <ul>
+                        <li>Creative path predictions</li>
+                        <li>Novel associations</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Overview Section -->
+            <div class="overview-section">
+                <div class="overview-left">
+                    <h2>Overview of CREATE</h2>
+                    <ul class="overview-list">
+                        <li><strong>Expert-authored</strong> creative association tasks</li>
+                        <li>Multiple prompting strategies (original and creative)</li>
+                        <li>Comprehensive evaluation of LLM creative capabilities</li>
+                        <li>Large collection of examples with queries, source paths, and predictions</li>
+                        <li>Tasks require creative thinking: <a href="#explore" onclick="showTab('explore')">browse and see for yourself!</a></li>
+                    </ul>
+                </div>
+                <div class="overview-right">
+                    <h2>CREATE: Creative Associations Test for LLMs</h2>
+                    <p>
+                        CREATE is a benchmark for evaluating language models on creative association tasks. 
+                        The benchmark focuses on testing how well LLMs can generate creative connections and 
+                        pathways between concepts. It includes multiple prompting strategies, including original 
+                        and creative approaches, to assess the model's ability to think creatively and make 
+                        novel associations. The dataset contains numerous examples with queries, source paths, 
+                        and predictions, providing a comprehensive evaluation framework for creative capabilities 
+                        in language models.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Explore Tab (Data Browser) -->
+        <div id="explore-tab" class="tab-content">
+            <div class="data-browser-container">
+                <iframe src="index.html" title="CREATE Data Browser"></iframe>
+            </div>
+        </div>
+        
+        <!-- Downloads Tab -->
+        <div id="downloads-tab" class="tab-content">
+            <h2>Downloads</h2>
+            <p>Download links and resources will be available here.</p>
+        </div>
+        
+        <!-- Evaluation Tab -->
+        <div id="evaluation-tab" class="tab-content">
+            <h2>Evaluation</h2>
+            <p>Evaluation metrics and results will be available here.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const selectedTab = document.getElementById(`${tabName}-tab`);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Add active class to corresponding nav button
+            const selectedBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('active');
+            }
+        }
+        
+        // Add event listeners to nav buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                showTab(tabName);
+            });
+        });
+        
+        // Handle paper and code links (placeholders for now)
+        document.getElementById('paper-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Paper link will be added here');
+        });
+        
+        document.getElementById('code-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Code link will be added here');
+        });
+    </script>
+</body>
+</html>

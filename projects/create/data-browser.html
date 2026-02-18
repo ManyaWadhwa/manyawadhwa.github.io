@@ -13,14 +13,15 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'SF Pro Display', Roboto, 'Helvetica Neue', Helvetica, Arial, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
-            color: #2c3e50;
+            background: #ffffff;
+            color: #1f2933;
             padding: 0;
             margin: 0;
-            line-height: 1.6;
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
+            font-size: 13px;
         }
         
         .container {
@@ -28,7 +29,7 @@
             max-width: 100%;
             margin: 0;
             background: white;
-            padding: 30px;
+            padding: 24px;
             border-radius: 0;
             box-shadow: none;
         }
@@ -41,14 +42,14 @@
         
         .controls {
             display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
             align-items: center;
-            padding: 12px 16px;
-            background: #f8f9fa;
+            padding: 10px 14px;
+            background: #f9fafb;
             border-radius: 8px;
-            border: 1px solid rgba(87, 6, 140, 0.1);
+            border: 1px solid rgba(148, 163, 184, 0.4);
         }
         
         .control-group {
@@ -58,41 +59,38 @@
         }
         
         label {
-            font-weight: 600;
-            color: #495057;
-            font-size: 14px;
+            font-weight: 500;
+            color: #4b5563;
+            font-size: 13px;
             letter-spacing: -0.01em;
         }
         
         select, input {
-            padding: 8px 12px;
-            border: 1px solid rgba(87, 6, 140, 0.15);
+            padding: 6px 10px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
             border-radius: 6px;
-            font-size: 14px;
-            min-width: 180px;
+            font-size: 13px;
+            min-width: 160px;
             font-family: inherit;
             background: white;
         }
         
         button {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #57068C 0%, #7B2CBF 100%);
+            padding: 7px 14px;
+            background: #111827;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 500;
             font-family: inherit;
-            transition: all 0.3s ease;
+            transition: background-color 0.15s ease;
             letter-spacing: -0.01em;
-            box-shadow: 0 2px 8px rgba(87, 6, 140, 0.2);
         }
         
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(87, 6, 140, 0.3);
-            background: linear-gradient(135deg, #45056F 0%, #57068C 100%);
+            background: #020617;
         }
         
         button:disabled {
@@ -101,59 +99,57 @@
         }
         
         .data-display {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-            border: 1px solid #e0e0e0;
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
         }
         
         .data-section {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         .data-section-card {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            padding: 24px;
-            margin-bottom: 24px;
+            border-radius: 10px;
+            border: 1px solid rgba(209, 213, 219, 0.9);
+            padding: 18px 18px 16px;
+            margin-bottom: 16px;
         }
         
         .query-section {
-            background: linear-gradient(135deg, rgba(87, 6, 140, 0.05) 0%, rgba(123, 44, 191, 0.05) 100%);
-            border-radius: 12px;
-            padding: 24px 28px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(87, 6, 140, 0.1);
-            box-shadow: 0 2px 12px rgba(87, 6, 140, 0.08);
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 18px 18px 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(209, 213, 219, 0.9);
         }
         
         .query-label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            color: #57068C;
+            color: #4b5563;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
         
         .data-section h3 {
-            color: #2c3e50;
-            margin-bottom: 6px;
-            font-size: 20px;
-            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
+            font-size: 16px;
+            font-weight: 600;
             letter-spacing: -0.02em;
         }
         
         .data-section-subtitle {
-            color: #6c757d;
-            font-size: 14px;
-            margin-bottom: 16px;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 10px;
             font-weight: 400;
             line-height: 1.5;
         }
@@ -166,10 +162,10 @@
         }
         
         .data-content {
-            background: #f8f9fa;
-            padding: 16px;
+            background: #f9fafb;
+            padding: 12px;
             border-radius: 6px;
-            border: 1px solid #e9ecef;
+            border: 1px solid #e5e7eb;
         }
         
         .source-section {
@@ -212,8 +208,8 @@
         }
         
         .reasoning-toggle {
-            font-size: 18px;
-            color: #57068C;
+            font-size: 16px;
+            color: #4b5563;
             margin-left: 12px;
             transition: transform 0.2s ease;
         }
@@ -223,11 +219,11 @@
         }
         
         .reasoning-content {
-            max-height: 400px;
+            max-height: 320px;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 20px;
-            background: #f8f9fa;
+            padding: 14px;
+            background: #f9fafb;
             border-radius: 6px;
             border: 1px solid #e9ecef;
             white-space: pre-wrap;
@@ -235,9 +231,9 @@
             overflow-wrap: break-word;
             word-break: break-word;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'SF Pro Display', Roboto, 'Helvetica Neue', Helvetica, Arial, Oxygen, Ubuntu, Cantarell, sans-serif;
-            font-size: 15px;
-            line-height: 1.7;
-            color: #2c3e50;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #111827;
             letter-spacing: -0.01em;
             /* Better handling of empty lines and spacing */
             tab-size: 4;
@@ -266,16 +262,16 @@
         }
         
         .query {
-            font-size: 17px;
-            color: #2c3e50;
-            line-height: 1.7;
+            font-size: 14px;
+            color: #111827;
+            line-height: 1.6;
             letter-spacing: -0.01em;
         }
         
         .source-path {
             font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
-            font-size: 18px;
-            color: #2c3e50;
+            font-size: 14px;
+            color: #111827;
             word-break: break-all;
             line-height: 1.8;
             letter-spacing: 0.01em;
@@ -313,7 +309,7 @@
             border-collapse: separate;
             border-spacing: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'SF Pro Display', Roboto, 'Helvetica Neue', Helvetica, Arial, Oxygen, Ubuntu, Cantarell, sans-serif;
-            font-size: 18px;
+            font-size: 14px;
         }
         
         .paths-table thead {
@@ -324,12 +320,12 @@
         }
         
         .paths-table th {
-            padding: 14px 16px;
+            padding: 10px 12px;
             text-align: left;
             font-weight: 600;
-            color: #2c3e50;
-            border-bottom: 2px solid #57068C;
-            font-size: 18px;
+            color: #111827;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
             letter-spacing: -0.01em;
         }
         
@@ -341,10 +337,10 @@
         }
         
         .paths-table td {
-            padding: 14px 16px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(209, 213, 219, 0.8);
             vertical-align: top;
-            line-height: 1.8;
+            line-height: 1.6;
             letter-spacing: -0.01em;
         }
         
@@ -390,43 +386,43 @@
         }
         
         .path-step {
-            padding: 12px 16px;
-            background: rgba(87, 6, 140, 0.02);
-            border-radius: 8px;
-            border-left: 3px solid #57068C;
-            line-height: 1.8;
-            font-size: 18px;
+            padding: 10px 12px;
+            background: #f9fafb;
+            border-radius: 6px;
+            border-left: 3px solid #111827;
+            line-height: 1.6;
+            font-size: 14px;
         }
         
         .path-entity {
             font-weight: normal;
-            color: #2c3e50;
+            color: #111827;
             font-family: inherit;
-            font-size: 18px;
+            font-size: 14px;
         }
         
         .path-relation {
-            color: #2c3e50;
+            color: #374151;
             font-style: normal;
             font-weight: normal;
             font-family: inherit;
-            font-size: 18px;
+            font-size: 14px;
         }
         
         .path-arrow {
-            color: #57068C;
+            color: #6b7280;
             font-weight: normal;
             margin: 0 4px;
             font-family: inherit;
-            font-size: 18px;
+            font-size: 14px;
         }
         
         .triple-start,
         .triple-end {
-            color: #2c3e50;
+            color: #9ca3af;
             font-weight: normal;
             margin: 0 2px;
-            font-size: 18px;
+            font-size: 14px;
         }
         
         .score-cell {
@@ -436,9 +432,9 @@
         
         .score-badge {
             display: inline-block;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
             font-weight: 600;
         }
         
@@ -489,26 +485,26 @@
         
         .filter-bar {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
-            margin-bottom: 16px;
-            padding: 12px;
-            background: #f8f9fa;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f9fafb;
             border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(209, 213, 219, 0.8);
             flex-wrap: wrap;
         }
         
         .filter-control {
-            padding: 8px 12px;
-            border: 1px solid rgba(87, 6, 140, 0.15);
+            padding: 6px 10px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-family: inherit;
             background: white;
-            color: #2c3e50;
+            color: #1f2933;
             cursor: pointer;
-            transition: border-color 0.2s;
+            transition: border-color 0.15s;
         }
         
         .filter-control:hover {
@@ -531,8 +527,8 @@
             align-items: center;
             gap: 6px;
             cursor: pointer;
-            font-size: 14px;
-            color: #2c3e50;
+            font-size: 13px;
+            color: #1f2933;
             user-select: none;
         }
         
@@ -549,14 +545,13 @@
         
         .navigation {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
-            margin-bottom: 24px;
-            padding: 16px 20px;
+            margin-bottom: 16px;
+            padding: 10px 12px;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+            border: 1px solid rgba(209, 213, 219, 0.9);
             flex-wrap: wrap;
         }
         
@@ -574,56 +569,66 @@
         
         .index-info {
             margin-left: auto;
-            color: #666;
-            font-size: 15px;
+            color: #4b5563;
+            font-size: 13px;
             font-weight: 500;
             letter-spacing: -0.01em;
         }
         
         .error {
-            color: #dc3545;
-            background-color: #f8d7da;
-            padding: 15px;
-            border-radius: 4px;
-            margin-top: 20px;
-            border: 1px solid #f5c6cb;
-            font-size: 15px;
-            line-height: 1.6;
+            color: #b91c1c;
+            background-color: #fef2f2;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+            border: 1px solid #fecaca;
+            font-size: 13px;
+            line-height: 1.5;
         }
         
         .loading {
             text-align: center;
-            padding: 20px;
-            color: #6c757d;
-            font-size: 15px;
+            padding: 14px;
+            color: #6b7280;
+            font-size: 13px;
             font-weight: 500;
+        }
+        
+        /* Model + variation tabs */
+        .data-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 4px 0;
+        }
+        .data-tab {
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            background: #f9fafb;
+            color: #4b5563;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        }
+        .data-tab:hover {
+            background: #f3f4f6;
+            border-color: rgba(87, 6, 140, 0.3);
+            color: #111827;
+        }
+        .data-tab.active {
+            background: #111827;
+            border-color: #111827;
+            color: #fff;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- <h1>Data Browser</h1> -->
-        
-        <div class="controls" id="controls">
-            <div class="control-group">
-                <label for="model-select">Model</label>
-                <select id="model-select">
-                    <option value="">Select a model</option>
-                </select>
-            </div>
-            
-            <div class="control-group">
-                <label for="prompt-select">Prompt Type</label>
-                <select id="prompt-select" disabled>
-                    <option value="">Select a prompt type</option>
-                </select>
-            </div>
-            
-            <div class="control-group" style="justify-content: flex-end;">
-                <label>&nbsp;</label>
-                <button id="load-btn" disabled>Load Dataset</button>
-            </div>
-        </div>
+        <div id="data-tabs" class="data-tabs" role="tablist"></div>
         
         <div id="data-display" class="data-display" style="display: none;">
             <div class="navigation">
@@ -643,7 +648,7 @@
                 </div>
             </div>
             
-            <div class="data-section source-section">
+            <!-- <div class="data-section source-section">
                 <div class="data-section-card">
                     <h3>Source Path</h3>
                     <div class="data-section-subtitle">Input triples used to generate candidate paths</div>
@@ -651,29 +656,22 @@
                         <div class="source-path" id="source-path-display"></div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
             <div class="data-section prediction-section">
                 <div class="data-section-card">
                     <h3>Predictions</h3>
-                    <div class="data-section-subtitle">
+                    <!-- <div class="data-section-subtitle">
                         Ranked inferred relationship chains
                         <span class="statistics-info" id="predictions-stats"></span>
-                    </div>
+                    </div> -->
                     <div class="filter-bar">
-                        <select id="filter-show" class="filter-control">
-                            <option value="all">Show: All</option>
-                            <option value="valid">Show: Structurally Valid Only</option>
-                            <option value="invalid">Show: Structurally Invalid Only</option>
-                            <option value="factual">Show: Factually Correct Only</option>
-                            <option value="not-factual">Show: Not Factually Correct Only</option>
-                        </select>
                         <select id="filter-quality" class="filter-control">
-                            <option value="">Quality: All</option>
+                            <option value="" selected>Quality: All</option>
                             <option value="0">Quality ≥ 0</option>
                             <option value="1">Quality ≥ 1</option>
                             <option value="2">Quality ≥ 2</option>
-                            <option value="3" selected>Quality ≥ 3</option>
+                            <option value="3">Quality ≥ 3</option>
                             <option value="4">Quality ≥ 4</option>
                             <option value="5">Quality ≥ 5</option>
                         </select>
@@ -684,8 +682,6 @@
                             <thead>
                                 <tr>
                                     <th>Path</th>
-                                    <th>Structurally Valid</th>
-                                    <th>Factually Correct</th>
                                     <th>Quality</th>
                                 </tr>
                             </thead>
@@ -722,9 +718,12 @@
     <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
     
     <script type="module">
-        // Configuration mapping: model -> prompt_type -> dataset_repo
-        // This will be loaded from Python (python_functions.py)
-        let DATASET_CONFIG = {};
+        // Tabs: [{ label: "ModelName / variation", file: "data/..." }], built from Python DATASET_CONFIG after init
+        let DATA_TABS = [];
+
+        // Set to true (or add ?debug=1 to URL) to log path processing details in the console
+        const DEBUG_PATHS = typeof URLSearchParams !== 'undefined' && new URLSearchParams(window.location.search).get('debug') === '1';
+        if (DEBUG_PATHS) console.log('[Paths debug] Enabled. You will see input paths_0, Python output, and filtered paths in the console.');
 
         // In-memory dataset cache
         let datasetCache = {};
@@ -732,7 +731,6 @@
         let currentIndex = 0;
         let totalInstances = 0;
         let pyodide = null;
-        let configLoaded = false;
 
         // Initialize Pyodide (Python runtime in browser)
         async function initPyodide() {
@@ -741,7 +739,10 @@
             document.getElementById('pyodide-loading').style.display = 'block';
             try {
                 pyodide = await loadPyodide();
-                
+                // Redirect Python print() to browser console for debugging
+                pyodide.setStdout({ batched: (msg) => console.log('[Python]', msg) });
+                pyodide.setStderr({ batched: (msg) => console.warn('[Python stderr]', msg) });
+
                 // Try to load python_functions.py from the server
                 let pythonCode = '';
                 
@@ -805,15 +806,15 @@
                                     console.log('=== END FILE CHECK ===');
                                 }
                                 
-                                // Verify it looks like Python code (contains DATASET_CONFIG)
+                                // Verify it looks like Python code (function definitions)
                                 if (text && text.trim().length > 0) {
-                                    if (text.includes('DATASET_CONFIG') || text.includes('def ') || text.includes('import ')) {
+                                    if (text.includes('def ') || text.includes('import ')) {
                                         pythonCode = text;
                                         loaded = true;
                                         console.log(`✓ Successfully loaded python_functions.py from ${path} (${text.length} characters)`);
                                         break;
                                     } else {
-                                        console.warn(`File ${path} doesn't look like Python code (missing DATASET_CONFIG or function definitions)`);
+                                        console.warn(`File ${path} doesn't look like Python code (missing function definitions)`);
                                     }
                                 } else {
                                     console.warn(`File ${path} is empty`);
@@ -853,55 +854,30 @@
                     throw new Error('Failed to execute Python code: ' + error.message);
                 }
                 
-                // Load DATASET_CONFIG from Python
+                // Build DATA_TABS from Python DATASET_CONFIG for model+variation tabs
                 try {
-                    // Check if DATASET_CONFIG exists in Python globals
-                    const availableGlobals = Array.from(pyodide.globals.keys());
-                    console.log('Available Python globals:', availableGlobals);
-                    
-                    if (!pyodide.globals.has('DATASET_CONFIG')) {
-                        throw new Error('DATASET_CONFIG not found in Python globals. Available: ' + availableGlobals.join(', '));
+                    if (pyodide.globals.has('DATASET_CONFIG')) {
+                        const jsonStr = pyodide.runPython('import json; json.dumps(DATASET_CONFIG)');
+                        const config = JSON.parse(jsonStr);
+                        DATA_TABS = [];
+                        for (const model of Object.keys(config)) {
+                            for (const variation of Object.keys(config[model])) {
+                                const file = config[model][variation];
+                                if (file && typeof file === 'string') {
+                                    DATA_TABS.push({ label: `${model} / ${variation}`, file });
+                                }
+                            }
+                        }
+                        if (DATA_TABS.length === 0) {
+                            DATA_TABS = [{ label: 'Default', file: 'data/GPT-4.1_model_name_gpt-4.1_variation_original.jsonl' }];
+                        }
+                        console.log('DATA_TABS:', DATA_TABS);
                     }
-                    
-                    const pyConfig = pyodide.globals.get('DATASET_CONFIG');
-                    console.log('Python DATASET_CONFIG type:', typeof pyConfig);
-                    
-                    if (!pyConfig) {
-                        throw new Error('DATASET_CONFIG is None or empty');
-                    }
-                    
-                    // Convert Python dict to JavaScript object using JSON serialization
-                    // This is the most reliable method across Pyodide versions
-                    const jsonStr = pyodide.runPython('import json; json.dumps(DATASET_CONFIG)');
-                    DATASET_CONFIG = JSON.parse(jsonStr);
-                    console.log('Converted DATASET_CONFIG:', DATASET_CONFIG);
-                    
-                    // DEBUG: Log detailed model list
-                    console.log('=== DATASET_CONFIG DEBUG ===');
-                    console.log('Model keys:', Object.keys(DATASET_CONFIG));
-                    console.log('Number of models:', Object.keys(DATASET_CONFIG).length);
-                    Object.keys(DATASET_CONFIG).forEach(model => {
-                        console.log(`  - Model: "${model}"`);
-                        console.log(`    Prompt types:`, Object.keys(DATASET_CONFIG[model]));
-                    });
-                    console.log('=== END DEBUG ===');
-                    
-                    // Validate that we got a valid config
-                    if (!DATASET_CONFIG || typeof DATASET_CONFIG !== 'object' || Object.keys(DATASET_CONFIG).length === 0) {
-                        throw new Error('DATASET_CONFIG is empty or invalid. Got: ' + JSON.stringify(DATASET_CONFIG));
-                    }
-                    
-                    configLoaded = true;
-                    console.log('Dataset config loaded successfully from Python:', DATASET_CONFIG);
-                    
-                    // Initialize models dropdown after config is loaded
-                    initModels();
-                } catch (error) {
-                    console.error('Could not load dataset config from Python:', error);
-                    console.error('Error details:', error.stack);
-                    throw new Error('Failed to load DATASET_CONFIG from python_functions.py: ' + error.message);
+                } catch (e) {
+                    console.warn('Could not load DATASET_CONFIG for tabs, using default:', e);
+                    DATA_TABS = [{ label: 'Default', file: 'data/GPT-4.1_model_name_gpt-4.1_variation_original.jsonl' }];
                 }
-                
+
                 document.getElementById('pyodide-loading').style.display = 'none';
                 console.log('Pyodide initialized successfully');
             } catch (error) {
@@ -978,33 +954,6 @@
             }
         }
 
-        // Initialize models dropdown
-        function initModels() {
-            if (!configLoaded || Object.keys(DATASET_CONFIG).length === 0) {
-                console.warn('DATASET_CONFIG not loaded yet, models dropdown not initialized');
-                return;
-            }
-            
-            const modelSelect = document.getElementById('model-select');
-            // Clear existing options except the first one
-            while (modelSelect.options.length > 1) {
-                modelSelect.remove(1);
-            }
-            
-            const modelKeys = Object.keys(DATASET_CONFIG);
-            console.log('Initializing models dropdown with models:', modelKeys);
-            
-            modelKeys.forEach(model => {
-                const option = document.createElement('option');
-                option.value = model;
-                option.textContent = model;
-                modelSelect.appendChild(option);
-                console.log(`  Added model option: "${model}"`);
-            });
-            
-            console.log(`Models dropdown initialized with ${modelKeys.length} model(s)`);
-        }
-
         // Format source path from triple labels (with Python fallback)
         async function formatSourcePath(triple1_labels, triple2_labels, triple3_labels) {
             if (pyodide) {
@@ -1078,10 +1027,30 @@
 
         // Process paths with scores (using Python) - for single instance
         async function processPathsWithScores(instance) {
+            if (DEBUG_PATHS) {
+                const paths0 = instance.paths_0;
+                console.group('[DEBUG] process_paths_with_scores input');
+                console.log('paths_0 type:', typeof paths0);
+                console.log('paths_0 is string:', typeof paths0 === 'string');
+                if (typeof paths0 === 'string') console.log('paths_0 (first 200 chars):', paths0.substring(0, 200));
+                else console.log('paths_0 length:', Array.isArray(paths0) ? paths0.length : (paths0 ? 1 : 0), 'sample:', paths0 ? (Array.isArray(paths0) ? paths0[0] : paths0) : null);
+                console.log('validity_per_path_0:', instance.validity_per_path_0);
+                console.log('factuality_scores_0 / factualiy_scores_0:', instance.factuality_scores_0 || instance.factualiy_scores_0);
+                console.log('min_salience_scores_0:', instance.min_salience_scores_0);
+                console.groupEnd();
+            }
             if (pyodide) {
                 try {
-                    console.log('Calling Python function process_paths_with_scores with instance:', instance);
-                    return await callPythonFunction('process_paths_with_scores', instance);
+                    const result = await callPythonFunction('process_paths_with_scores', instance);
+                    if (DEBUG_PATHS) {
+                        console.group('[DEBUG] process_paths_with_scores output');
+                        console.log('processed_paths length:', result.length);
+                        result.forEach((entry, i) => {
+                            console.log(`  [${i}] path:`, entry.path, 'valid:', entry.valid, 'factual:', entry.factual, 'quality:', entry.quality);
+                        });
+                        console.groupEnd();
+                    }
+                    return result;
                 } catch (error) {
                     console.warn('Python function failed, using JS fallback:', error);
                 }
@@ -1124,9 +1093,9 @@
             return processedInstances;
         }
 
-        // Load dataset from HuggingFace using their API
-        async function loadDatasetFromHF(repoName) {
-            const cacheKey = repoName;
+        // Load dataset from local JSONL file on disk
+        async function loadDatasetFromFile(filePath) {
+            const cacheKey = filePath;
             
             if (datasetCache[cacheKey]) {
                 return datasetCache[cacheKey];
@@ -1136,73 +1105,34 @@
             hideError();
 
             try {
-                // Use HuggingFace Dataset Viewer API
-                // First, get dataset info to find the split
-                const infoResponse = await fetch(`https://datasets-server.huggingface.co/info?dataset=${encodeURIComponent(repoName)}`);
-                
-                if (!infoResponse.ok) {
-                    throw new Error(`Failed to get dataset info: ${infoResponse.statusText}`);
-                }
-                
-                const info = await infoResponse.json();
-                
-                // Determine which split to use (prefer 'train', otherwise first available)
-                let split = 'train';
-                if (info.splits && info.splits.length > 0) {
-                    if (info.splits.includes('train')) {
-                        split = 'train';
-                    } else {
-                        split = info.splits[0];
-                    }
+                // Fetch local JSONL file via HTTP
+                console.log(`Attempting to load dataset from: ${filePath}`);
+                const response = await fetch(filePath);
+                console.log(`Response status: ${response.status} ${response.statusText}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
 
-                // Load dataset rows in batches (limit to 50 instances)
+                const text = await response.text();
+
+                // Parse JSONL (one JSON object per line)
                 const dataset = [];
-                const maxInstances = 50;
-                const batchSize = 50; // Load in batches of 50
-                let offset = 0;
-                let hasMore = true;
-                let totalRows = info.splits ? (info.splits.find(s => s.split === split)?.num_rows || 0) : 0;
+                const maxInstances = 200;
+                const lines = text.split('\n');
 
-                while (hasMore && dataset.length < maxInstances) {
-                    // Calculate how many rows we still need
-                    const remaining = maxInstances - dataset.length;
-                    const length = Math.min(batchSize, remaining);
-                    
-                    const url = `https://datasets-server.huggingface.co/rows?dataset=${encodeURIComponent(repoName)}&config=default&split=${encodeURIComponent(split)}&offset=${offset}&length=${length}`;
-                    const response = await fetch(url);
-                    
-                    if (!response.ok) {
-                        throw new Error(`Failed to load dataset rows: ${response.statusText}`);
-                    }
-
-                    const data = await response.json();
-                    
-                    if (data.rows && data.rows.length > 0) {
-                        // Extract the row data (only up to maxInstances)
-                        for (const row of data.rows) {
-                            if (dataset.length >= maxInstances) {
-                                break;
-                            }
-                            dataset.push(row.row);
-                        }
-                        offset += data.rows.length;
-                        
-                        // Update loading message
-                        document.getElementById('loading').textContent = 
-                            `Loading dataset... Loaded ${dataset.length} of ${maxInstances} instances`;
-                        
-                        // Check if we've reached the limit or if there are no more rows
-                        if (dataset.length >= maxInstances || data.rows.length < length || (totalRows > 0 && offset >= totalRows)) {
-                            hasMore = false;
-                        }
-                    } else {
-                        hasMore = false;
+                for (let i = 0; i < lines.length && dataset.length < maxInstances; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    try {
+                        const obj = JSON.parse(line);
+                        dataset.push(obj);
+                    } catch (e) {
+                        console.warn(`Skipping invalid JSONL line ${i}:`, e);
                     }
                 }
 
                 if (dataset.length === 0) {
-                    throw new Error('No data found in dataset');
+                    throw new Error('No data found in local dataset file');
                 }
 
                 // Pre-process the dataset (add processed_paths to each instance)
@@ -1216,7 +1146,7 @@
             } catch (error) {
                 showLoading(false);
                 console.error('Error loading dataset:', error);
-                throw new Error(`Failed to load dataset: ${error.message}. Please check that the dataset exists and is publicly accessible.`);
+                throw new Error(`Failed to load local dataset file "${filePath}": ${error.message}. Please check that the file exists and is accessible from the web server.`);
             }
         }
 
@@ -1233,12 +1163,12 @@
             const query = instance.query || '';
             document.getElementById('query-display').textContent = query || '(empty)';
 
-            // Format and display source path (using Python if available)
-            const triple1_labels = instance.triple1_labels || '';
-            const triple2_labels = instance.triple2_labels || '';
-            const triple3_labels = instance.triple3_labels || '';
-            const sourcePath = await formatSourcePath(triple1_labels, triple2_labels, triple3_labels);
-            document.getElementById('source-path-display').textContent = sourcePath || '(empty)';
+            // // Format and display source path (using Python if available)
+            // const triple1_labels = instance.triple1_labels || '';
+            // const triple2_labels = instance.triple2_labels || '';
+            // const triple3_labels = instance.triple3_labels || '';
+            // const sourcePath = await formatSourcePath(triple1_labels, triple2_labels, triple3_labels);
+            // document.getElementById('source-path-display').textContent = sourcePath || '(empty)';
 
             // Check for and display reasoning_0 if it exists
             const reasoningSection = document.getElementById('reasoning-section');
@@ -1310,7 +1240,13 @@
 
             // Display paths in a table (using pre-processed data)
             const processedPaths = instance.processed_paths || [];
-            
+            if (DEBUG_PATHS) {
+                console.group('[DEBUG] displayData paths');
+                console.log('instance index:', index, 'processed_paths length:', processedPaths.length);
+                processedPaths.forEach((p, i) => console.log(`  [${i}] path:`, p.path, 'valid:', p.valid, 'factual:', p.factual, 'quality:', p.quality));
+                console.groupEnd();
+            }
+
             const tbody = document.getElementById('paths-tbody');
             tbody.innerHTML = '';
 
@@ -1381,43 +1317,6 @@
                 return parts.length > 0 ? parts.join('') : String(pathTriples);
             }
             
-            // Helper function to get score badge class
-            function getScoreBadgeClass(value, type) {
-                if (value === null || value === undefined) return 'score-na';
-                
-                if (type === 'valid') {
-                    return value === true || value === 1 || String(value).toLowerCase() === 'true' 
-                        ? 'score-valid' 
-                        : 'score-invalid';
-                } else if (type === 'factual') {
-                    const boolValue = value === true || value === 1 || value === '1' || String(value).toLowerCase() === 'true';
-                    if (boolValue) {
-                        return 'score-factual';
-                    } else {
-                        return 'score-not-factual';
-                    }
-                }
-                return '';
-            }
-            
-            // Helper function to format score value with human-readable labels
-            function formatScoreValue(value, type) {
-                if (value === null || value === undefined) return 'N/A';
-                
-                // Convert to boolean/number for comparison
-                const boolValue = value === true || value === 1 || value === '1' || String(value).toLowerCase() === 'true';
-                
-                if (type === 'valid') {
-                    return boolValue ? '✓ Valid' : '✗ Invalid';
-                } else if (type === 'factual') {
-                    return boolValue ? '✓ Correct' : '✗ Incorrect';
-                } else if (type === 'quality') {
-                    // For quality, show stars
-                    return formatQualityStars(value);
-                }
-                return String(value);
-            }
-            
             // Helper function to format quality as stars
             function formatQualityStars(value) {
                 const numValue = parseFloat(value);
@@ -1439,19 +1338,25 @@
                 return starsHTML;
             }
 
-            if (processedPaths.length > 0) {
-                processedPaths.forEach((entry, index) => {
+            // Keep only paths that are structurally valid AND factually correct
+            const filteredPaths = processedPaths.filter(entry => {
+                const valid = entry.valid === true || entry.valid === 1 || entry.valid === '1' || String(entry.valid).toLowerCase() === 'true';
+                const factual = entry.factual === true || entry.factual === 1 || entry.factual === '1' || String(entry.factual).toLowerCase() === 'true';
+                return valid && factual;
+            });
+            if (DEBUG_PATHS) {
+                console.log('[DEBUG] After filter (valid+factual):', processedPaths.length, '->', filteredPaths.length, 'paths');
+            }
+
+            if (filteredPaths.length > 0) {
+                filteredPaths.forEach((entry, index) => {
                     const tr = document.createElement('tr');
                     tr.setAttribute('data-path-index', index);
                     
                     // Store original data as data attributes for filtering
-                    const validBool = entry.valid === true || entry.valid === 1 || entry.valid === '1' || String(entry.valid).toLowerCase() === 'true';
-                    const factualBool = entry.factual === true || entry.factual === 1 || entry.factual === '1' || String(entry.factual).toLowerCase() === 'true';
                     const qualityNum = parseFloat(entry.quality) || 0;
                     const pathText = JSON.stringify(entry.path).toLowerCase();
                     
-                    tr.setAttribute('data-valid', validBool ? 'true' : 'false');
-                    tr.setAttribute('data-factual', factualBool ? 'true' : 'false');
                     tr.setAttribute('data-quality', qualityNum);
                     tr.setAttribute('data-path-text', pathText);
                     
@@ -1463,33 +1368,13 @@
                     pathCell.innerHTML = `<div class="path-step">${pathHTML}</div>`;
                     tr.appendChild(pathCell);
                     
-                    // Status column (Structurally Valid/Invalid) with semantic color
-                    const validCell = document.createElement('td');
-                    validCell.className = 'score-cell';
-                    const validValue = entry.valid;
-                    const validBadge = document.createElement('span');
-                    validBadge.className = `score-badge ${getScoreBadgeClass(validValue, 'valid')}`;
-                    validBadge.textContent = formatScoreValue(validValue, 'valid');
-                    validCell.appendChild(validBadge);
-                    tr.appendChild(validCell);
-                    
-                    // Truth column (Factually Correct/Incorrect) with semantic color
-                    const factualCell = document.createElement('td');
-                    factualCell.className = 'score-cell';
-                    const factualValue = entry.factual;
-                    const factualBadge = document.createElement('span');
-                    factualBadge.className = `score-badge ${getScoreBadgeClass(factualValue, 'factual')}`;
-                    factualBadge.innerHTML = formatScoreValue(factualValue, 'factual');
-                    factualCell.appendChild(factualBadge);
-                    tr.appendChild(factualCell);
-                    
-                    // Quality column with stars
+                    // Quality column with stars (only column shown besides path)
                     const qualityCell = document.createElement('td');
                     qualityCell.className = 'score-cell';
                     const qualityValue = entry.quality;
                     const qualityBadge = document.createElement('span');
                     qualityBadge.className = 'quality-stars';
-                    qualityBadge.innerHTML = formatScoreValue(qualityValue, 'quality');
+                    qualityBadge.innerHTML = formatQualityStars(qualityValue);
                     qualityCell.appendChild(qualityBadge);
                     tr.appendChild(qualityCell);
                     
@@ -1501,7 +1386,7 @@
             } else {
                 const tr = document.createElement('tr');
                 const td = document.createElement('td');
-                td.colSpan = 4;
+                td.colSpan = 2;
                 td.textContent = '(no paths)';
                 td.style.textAlign = 'center';
                 td.style.padding = '20px';
@@ -1512,14 +1397,12 @@
 
             // Calculate and display prediction statistics
             const totalPaths = processedPaths.length;
-            const validPaths = processedPaths.filter(entry => {
-                const valid = entry.valid;
-                return valid === true || valid === 1 || valid === '1' || String(valid).toLowerCase() === 'true';
-            }).length;
+            const keptPaths = filteredPaths.length;
             
             const statsElement = document.getElementById('predictions-stats');
             if (statsElement && totalPaths > 0) {
-                statsElement.textContent = `${totalPaths} paths, ${validPaths}/${totalPaths} valid`;
+                // statsElement.textContent =``;  `${keptPaths}/${totalPaths} paths are valid and factually correct`;
+                statsElement.textContent =``;
             } else if (statsElement) {
                 statsElement.textContent = '';
             }
@@ -1534,7 +1417,6 @@
 
         // Filter functions
         function applyFilters() {
-            const showFilter = document.getElementById('filter-show').value;
             const qualityFilter = document.getElementById('filter-quality').value;
             const searchTerm = document.getElementById('filter-search').value.toLowerCase().trim();
             
@@ -1542,21 +1424,10 @@
             let visibleCount = 0;
             
             rows.forEach(row => {
-                const isValid = row.getAttribute('data-valid') === 'true';
-                const isFactual = row.getAttribute('data-factual') === 'true';
                 const quality = parseFloat(row.getAttribute('data-quality')) || 0;
                 const pathText = row.getAttribute('data-path-text') || '';
                 
                 let show = true;
-                
-                // Apply show filter
-                if (showFilter !== 'all') {
-                    if (showFilter === 'valid' && !isValid) show = false;
-                    if (showFilter === 'invalid' && isValid) show = false;
-                    if (showFilter === 'factual' && !isFactual) show = false;
-                    if (showFilter === 'not-factual' && isFactual) show = false;
-                }
-                
                 // Apply quality filter
                 if (qualityFilter !== '' && quality < parseFloat(qualityFilter)) {
                     show = false;
@@ -1582,7 +1453,6 @@
         
         // Set up filter event listeners
         function setupFilters() {
-            document.getElementById('filter-show').addEventListener('change', applyFilters);
             document.getElementById('filter-quality').addEventListener('change', applyFilters);
             document.getElementById('filter-search').addEventListener('input', applyFilters);
         }
@@ -1616,58 +1486,6 @@
         }
 
         // Event handlers
-        document.getElementById('model-select').addEventListener('change', function() {
-            const model = this.value;
-            const promptSelect = document.getElementById('prompt-select');
-            const loadBtn = document.getElementById('load-btn');
-            
-            if (model && DATASET_CONFIG[model]) {
-                promptSelect.innerHTML = '<option value="">Select a prompt type</option>';
-                Object.keys(DATASET_CONFIG[model]).forEach(type => {
-                    const option = document.createElement('option');
-                    option.value = type;
-                    option.textContent = type;
-                    promptSelect.appendChild(option);
-                });
-                promptSelect.disabled = false;
-            } else {
-                promptSelect.innerHTML = '<option value="">Select a prompt type</option>';
-                promptSelect.disabled = true;
-                loadBtn.disabled = true;
-            }
-        });
-
-        document.getElementById('prompt-select').addEventListener('change', function() {
-            const loadBtn = document.getElementById('load-btn');
-            loadBtn.disabled = !this.value;
-        });
-
-        document.getElementById('load-btn').addEventListener('click', async function() {
-            const model = document.getElementById('model-select').value;
-            const promptType = document.getElementById('prompt-select').value;
-            
-            if (!model || !promptType) {
-                showError('Please select both model and prompt type');
-                return;
-            }
-
-            if (!DATASET_CONFIG[model] || !DATASET_CONFIG[model][promptType]) {
-                showError('Invalid model or prompt type');
-                return;
-            }
-
-            const repoName = DATASET_CONFIG[model][promptType];
-            
-            try {
-                currentDataset = await loadDatasetFromHF(repoName);
-                totalInstances = currentDataset.length;
-                displayData(0);
-            } catch (error) {
-                showError('Error loading dataset: ' + error.message);
-                console.error(error);
-            }
-        });
-
         document.getElementById('next-btn').addEventListener('click', navigateNext);
         document.getElementById('prev-btn').addEventListener('click', navigatePrev);
         document.getElementById('jump-btn').addEventListener('click', function() {
@@ -1722,10 +1540,62 @@
         }
         
         // Initialize on page load
-        // Note: initModels() will be called automatically after Pyodide loads the config
-        initPyodide(); // Initialize Python runtime and load DATASET_CONFIG
+        initPyodide(); // Initialize Python runtime
         setupKeyboardShortcuts(); // Setup keyboard navigation
         setupReasoningToggle(); // Setup reasoning section toggle
+
+        // Build tab bar and load first tab
+        async function initTabs() {
+            const container = document.getElementById('data-tabs');
+            container.innerHTML = '';
+            if (DATA_TABS.length === 0) return;
+            DATA_TABS.forEach((tab, index) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'data-tab' + (index === 0 ? ' active' : '');
+                btn.textContent = tab.label;
+                btn.setAttribute('data-file', tab.file);
+                btn.setAttribute('role', 'tab');
+                btn.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+                btn.addEventListener('click', async () => {
+                    container.querySelectorAll('.data-tab').forEach((b, i) => {
+                        b.classList.toggle('active', i === index);
+                        b.setAttribute('aria-selected', i === index ? 'true' : 'false');
+                    });
+                    try {
+                        showLoading(true);
+                        hideError();
+                        currentDataset = await loadDatasetFromFile(tab.file);
+                        totalInstances = currentDataset.length;
+                        await displayData(0);
+                    } catch (error) {
+                        showError('Error loading dataset: ' + error.message);
+                        console.error('Tab load error:', error);
+                    } finally {
+                        showLoading(false);
+                    }
+                });
+                container.appendChild(btn);
+            });
+            // Load first tab
+            try {
+                showLoading(true);
+                hideError();
+                currentDataset = await loadDatasetFromFile(DATA_TABS[0].file);
+                totalInstances = currentDataset.length;
+                await displayData(0);
+            } catch (error) {
+                showError('Error loading dataset: ' + error.message);
+                console.error('Initial tab load error:', error);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        (async () => {
+            await initPyodide();
+            await initTabs();
+        })();
     </script>
 </body>
 </html>
