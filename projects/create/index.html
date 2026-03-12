@@ -757,7 +757,7 @@
                 return;
             }
             const COLORS = ['#57068C','#F97316','#2563EB','#16A34A','#EC4899','#0D9488','#EAB308','#EF4444','#6366F1','#14B8A6','#D946EF','#FB7185','#10B981','#F59E0B','#1D4ED8','#84CC16','#F43F5E'];
-            const DEFAULT_MODELS = ['GPT-4.1', 'GPT-5 (med)', 'Claude-Haiku-4.5 (high)', 'Gemini-3-pro'];
+            const DEFAULT_MODELS = ['GPT-5.4', 'Gemini-3.1-Pro-Preview', 'Claude-Sonnet-4.6'];
             const canvas = document.getElementById('leaderboard-chart');
             const pickerEl = document.getElementById('model-picker');
             if (!canvas || !pickerEl) {
@@ -825,9 +825,7 @@
                                 title: { display: true, text: 'Patience (p)' }
                             },
                             y: {
-                                title: { display: true, text: 'Utility' },
-                                min: 3,
-                                max: 17
+                                title: { display: true, text: 'Utility' }
                             }
                         },
                         plugins: {
