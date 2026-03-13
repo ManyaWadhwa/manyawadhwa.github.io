@@ -61,7 +61,7 @@
         }
         
         .logo-subtitle {
-            font-size: 11px;
+            font-size: 15px;
             color: #6c757d;
             text-transform: uppercase;
             letter-spacing: 1.5px;
@@ -99,8 +99,8 @@
         
         .btn-secondary {
             padding: 8px 14px;
-            background: #111827;
-            color: white;
+            background-color: transparent;
+            color: #4b5563;
             border: none;
             border-radius: 999px;
             text-decoration: none;
@@ -109,12 +109,14 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: background-color 0.15s ease;
+            transition: background-color 0.15s ease, color 0.15s ease;
             cursor: pointer;
+            outline: none;
         }
         
         .btn-secondary:hover {
-            background: #020617;
+            background-color: #f3f4f6;
+            color: #111827;
         }
         
         .btn-secondary span {
@@ -434,29 +436,53 @@
             flex-shrink: 0;
         }
 
-        /* Data Browser Styles (for EXPLORE tab) */
-        .data-browser-container {
-            background-color: #fff;
-            padding: 0;
-            border-radius: 0;
-            overflow: hidden;
-            width: 100%;
-            max-width: 860px;
-            margin: 32px auto 0;
+        /* Utility Table */
+        .utility-table-wrap {
+            overflow-x: auto;
         }
-        
-        .data-browser-title {
-            font-size: 20px;
+        .utility-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .utility-table th {
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 12px;
             font-weight: 600;
-            color: #111827;
-            margin: 0 0 16px 0;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(148, 163, 184, 0.4);
         }
-        
-        .data-browser-container iframe {
-            width: 100%;
-            height: 1400px;
-            border: none;
-            display: block;
+        .utility-table th:not(:first-child) {
+            text-align: right;
+        }
+        .utility-table td {
+            padding: 9px 12px;
+            color: #111827;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .utility-table td:not(:first-child) {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+        .utility-table tr:last-child td {
+            border-bottom: none;
+        }
+        .utility-table tbody tr:hover {
+            background: #f9fafb;
+        }
+        .utility-table-empty {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 13px;
+            padding: 24px 0;
+        }
+
+        /* Data Browser Tab */
+        #data-browser-tab {
+            padding: 0;
         }
         
         /* Compare Container Styles */
@@ -505,6 +531,33 @@
             }
         }
         
+        /* Citation section */
+        .citation-section {
+            max-width: 860px;
+            width: 100%;
+            margin: 32px auto 0;
+            padding: 0;
+        }
+
+        .citation-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+
+        .citation-section code {
+            display: block;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 12px;
+            white-space: pre;
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: #111827;
+            overflow-x: auto;
+        }
+
         /* Responsive */
         @media (max-width: 968px) {
             .container {
@@ -597,19 +650,23 @@
             </div>
             <div class="logo-text">
                 <div class="logo-subtitle">Creative Associations Test</div>
-                <div class="logo-title">CREATE</div>
+                <!-- <div class="logo-title">CREATE</div> -->
             </div>
         </div>
         <div class="header-right">
             <div class="header-nav">
                 <button class="nav-btn active" data-tab="home">Home</button>
+                <button class="nav-btn" data-tab="data-browser">Data Browser</button>
             </div>
             <div class="header-links">
-                <a href="#" class="btn-secondary" id="paper-link">
+                <a href="https://arxiv.org/abs/2603.09970" class="btn-secondary" id="paper-link" target="_blank" rel="noopener noreferrer">
                     <span>📄</span> Paper
                 </a>
                 <a href="https://github.com/ManyaWadhwa/CREATE" class="btn-secondary" id="code-link" target="_blank" rel="noopener noreferrer">
-                    <span>{ }</span> Code
+                    <span>{}</span> Code
+                </a>
+                <a href="https://huggingface.co/datasets/wadhma/CREATE" class="btn-secondary" id="data-link" target="_blank" rel="noopener noreferrer">
+                    <span>🤗</span> Data
                 </a>
             </div>
         </div>
@@ -694,16 +751,40 @@
                                     <canvas id="leaderboard-chart" aria-label="Utility vs Patience chart"></canvas>
                                 </div>
                                 <div class="leaderboard-legend" id="leaderboard-legend" role="list"></div>
+                                <div class="utility-table-wrap" style="margin-top:20px;">
+                                    <table class="utility-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Model</th>
+                                                <th> Creative Utility (p = 0.7)</th>
+                                                <th> Creative Utility (p = 0.9) ↑</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="utility-table-body">
+                                            <tr><td colspan="3" class="utility-table-empty">Select models above to populate the table.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </section>
+
+                    <!-- Citation Section -->
+                    <section class="citation-section" aria-labelledby="citation-heading">
+                        <h3 id="citation-heading">Citation</h3>
+                        <code>@InProceedings{Wadhwa-Et-Al-2026:CREATE,
+  title = {CREATE: Testing LLMs for Associative Creativity},
+  author = {Manya Wadhwa and Tiasa Singha Roy and Harvey Lederman and Junyi Jessy Li and Greg Durrett},
+  booktitle = {arXiv},
+  year = {2026},
+}</code>
+                    </section>
                 </div>
 
-                <!-- Data Explorer (embedded on Home page) -->
-                <div class="data-browser-container">
-                    <h3 class="data-browser-title">Data Browser</h3>
-                    <iframe src="data-browser.html" title="CREATE Data Browser"></iframe>
-                </div>
+            </div>
+
+            <!-- Data Browser Tab -->
+            <div id="data-browser-tab" class="tab-content">
             </div>
         </div>
     
@@ -712,26 +793,30 @@
     <script>
         // Tab switching functionality
         function showTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Remove active class from all nav buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Show selected tab
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
             const selectedTab = document.getElementById(`${tabName}-tab`);
-            if (selectedTab) {
-                selectedTab.classList.add('active');
-            }
-            
-            // Add active class to corresponding nav button
+            if (selectedTab) selectedTab.classList.add('active');
+
             const selectedBtn = document.querySelector(`[data-tab="${tabName}"]`);
-            if (selectedBtn) {
-                selectedBtn.classList.add('active');
+            if (selectedBtn) selectedBtn.classList.add('active');
+
+            // Toggle full-width container for data browser
+            const container = document.querySelector('.container');
+            if (tabName === 'data-browser') {
+                container.classList.add('full-width');
+                // Lazy-load iframe on first visit
+                const tab = document.getElementById('data-browser-tab');
+                if (!tab.querySelector('iframe')) {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = 'data-browser.html';
+                    iframe.title = 'CREATE Data Browser';
+                    iframe.style.cssText = 'width:100%;height:100vh;border:none;display:block;';
+                    tab.appendChild(iframe);
+                }
+            } else {
+                container.classList.remove('full-width');
             }
         }
         
@@ -744,10 +829,10 @@
         });
         
         // Handle paper and code links (placeholders for now)
-        document.getElementById('paper-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Paper link will be added here');
-        });
+        // document.getElementById('paper-link').addEventListener('click', function(e) {
+        //     e.preventDefault();
+        //     alert('Paper link will be added here');
+        // });
         
 
         // Leaderboard plot
@@ -757,7 +842,7 @@
                 return;
             }
             const COLORS = ['#57068C','#F97316','#2563EB','#16A34A','#EC4899','#0D9488','#EAB308','#EF4444','#6366F1','#14B8A6','#D946EF','#FB7185','#10B981','#F59E0B','#1D4ED8','#84CC16','#F43F5E'];
-            const DEFAULT_MODELS = ['GPT-5.4', 'Gemini-3.1-Pro-Preview', 'Claude-Sonnet-4.6'];
+            const DEFAULT_MODELS = ['GPT-5.4', 'Claude-Sonnet-4.6', 'Gemini-3.1-Pro'];
             const canvas = document.getElementById('leaderboard-chart');
             const pickerEl = document.getElementById('model-picker');
             if (!canvas || !pickerEl) {
@@ -769,6 +854,35 @@
             let rawData = {};
             let patienceKeys = [];
             let modelColors = {};
+
+            function getValueAt(modelData, target) {
+                const key = Object.keys(modelData).find(k => {
+                    const v = parseFloat(k);
+                    return !isNaN(v) && Math.abs(v - target) < 0.001;
+                });
+                return key != null ? modelData[key] : null;
+            }
+
+            function renderTable() {
+                const tbody = document.getElementById('utility-table-body');
+                if (!tbody || !chart?.data?.datasets) return;
+                const visible = chart.data.datasets.filter(d => !d.hidden).map(d => d.label);
+                if (!visible.length) {
+                    tbody.innerHTML = '<tr><td colspan="3" class="utility-table-empty">Select models above to populate the table.</td></tr>';
+                    return;
+                }
+                const sorted = visible.slice().sort((a, b) => {
+                    const va = getValueAt(rawData[a] || {}, 0.9) ?? -Infinity;
+                    const vb = getValueAt(rawData[b] || {}, 0.9) ?? -Infinity;
+                    return vb - va;
+                });
+                tbody.innerHTML = sorted.map(name => {
+                    const d = rawData[name] || {};
+                    const v7 = getValueAt(d, 0.7);
+                    const v9 = getValueAt(d, 0.9);
+                    return `<tr><td>${name}</td><td>${v7 != null ? v7.toFixed(2) : '—'}</td><td>${v9 != null ? v9.toFixed(2) : '—'}</td></tr>`;
+                }).join('');
+            }
 
             async function getData() {
                 const el = document.getElementById('utility-data');
@@ -825,7 +939,8 @@
                                 title: { display: true, text: 'Patience (p)' }
                             },
                             y: {
-                                title: { display: true, text: 'Utility' }
+                                title: { display: true, text: 'Utility' },
+                                grace: '10%'
                             }
                         },
                         plugins: {
@@ -854,6 +969,7 @@
                 if (ds) ds.hidden = !visible;
                 chart.update();
                 renderLegend();
+                renderTable();
             }
 
             function renderLegend() {
@@ -969,10 +1085,12 @@
                 renderPicker(modelNames);
                 chart.update('none');
                 renderLegend();
+                renderTable();
             }
 
             load().catch(err => console.error('Leaderboard plot failed:', err));
         })();
+
     </script>
 </body>
 </html>
