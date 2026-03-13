@@ -10,15 +10,24 @@ To add more functions:
 
 # Dataset configuration: model -> prompt_type -> local JSONL path (relative to data-browser.html)
 DATASET_CONFIG = {
-    "GPT-4.1-mini": {
-        "original": "data/GPT-4.1_model_name_gpt-4.1_variation_original.jsonl",
-        # "iterate":"data/GPT-4.1_model_name_gpt-4.1_variation_iterate.jsonl",
-        # "creative": "connections-dev/res_gptoss20b_creative_1_None_0.7_4096_gpt-4_1-mini-2025-04-14"
+    # "GPT-4.1-mini": {
+    #     "original": "data/GPT-4.1_model_name_gpt-4.1_variation_original.jsonl",
+    #     # "iterate":"data/GPT-4.1_model_name_gpt-4.1_variation_iterate.jsonl",
+    #     # "creative": "connections-dev/res_gptoss20b_creative_1_None_0.7_4096_gpt-4_1-mini-2025-04-14"
+    # },
+    # "Gemini-3-Pro":{
+    #     "original":"data/Gemini-3-pro_model_name_gemini-3-pro.jsonl",
+    # },
+    "GPT-5.4": {
+        "original": "data/res_gptoss120b_original_1_reason_medium_0.7_4096_gpt_54.jsonl",
     },
-    "Gemini-3-Pro":{
-        "original":"data/Gemini-3-pro_model_name_gemini-3-pro.jsonl",
+    "Claude-Sonnet-4.6": {
+        "original": "data/res_gptoss120b_original_1_medium_0.7_4096_claude-sonnet-4-6.jsonl",
     },
-    "Olmo-3.1-32B-Think (32k)":{
+    "Gemini-3.1-Pro": {
+        "original": "data/res_gptoss120b_original_1_medium_0.7_16384_gemini-3_1-pro-preview.jsonl",
+    },
+     "Olmo-3.1-32B-Think (32k)":{
         "original":"data/Olmo-3.1-32B-Think (32k)_model_name_allenai_Olmo-3.1-32B-Think.jsonl"
     }
 }
@@ -315,6 +324,48 @@ def _has_displayable_path(entry):
     return valid and factual
 
 
+def _is_empty_reasoning(reasoning_value):
+    """
+    Return True if the reasoning trace is effectively empty.
+    
+    We treat it as empty when it is:
+    - None or empty/whitespace
+    - The literal string "null" (any casing)
+    - Consists only of <think>...</think> blocks plus whitespace
+    """
+    if reasoning_value is None:
+        return True
+    
+    text = str(reasoning_value).strip()
+    if not text:
+        return True
+    
+    if text.lower() == "null":
+        return True
+    
+    try:
+        import re
+        # Remove all <think>...</think> blocks (case-insensitive, multiline)
+        text_without_think = re.sub(
+            r"<\s*think\s*>.*?<\s*/\s*think\s*>",
+            "",
+            text,
+            flags=re.IGNORECASE | re.DOTALL,
+        ).strip()
+    except Exception:
+        # If anything goes wrong, fall back to original text
+        text_without_think = text
+    
+    # If nothing remains after removing think blocks, treat as empty
+    if not text_without_think:
+        return True
+    
+    if text_without_think.lower() == "null":
+        return True
+    
+    return False
+
+
 def preprocess_dataset(dataset):
     """
     Pre-process an entire dataset by adding processed_paths to each instance.
@@ -332,6 +383,12 @@ def preprocess_dataset(dataset):
     processed_dataset = []
     for instance in dataset:
         processed_instance = dict(instance)
+        
+        # Clean up reasoning traces that are effectively empty so they don't show up in the UI.
+        for key in ('reasoning_0', 'reasoning', 'reasoning_trace', 'reasoning_trace_0'):
+            if key in processed_instance and _is_empty_reasoning(processed_instance.get(key)):
+                processed_instance[key] = None
+        
         processed_instance['processed_paths'] = process_paths_with_scores(instance)
         paths = processed_instance['processed_paths']
         # Skip if no paths at all, or no path passes valid+factual filter

@@ -728,6 +728,8 @@
         // In-memory dataset cache
         let datasetCache = {};
         let currentDataset = null;
+        // Track which dataset file is currently loaded so we can condition UI (e.g., reasoning) on the active model.
+        let currentFilePath = null;
         let currentIndex = 0;
         let totalInstances = 0;
         let pyodide = null;
@@ -1178,11 +1180,26 @@
             // const sourcePath = await formatSourcePath(triple1_labels, triple2_labels, triple3_labels);
             // document.getElementById('source-path-display').textContent = sourcePath || '(empty)';
 
-            // Check for and display reasoning_0 if it exists
+            // Check for and display reasoning_0 if it exists.
+            // Only show reasoning for the Olmo dataset; hide for all other models.
             const reasoningSection = document.getElementById('reasoning-section');
             const reasoningDisplay = document.getElementById('reasoning-display');
             
-            if (instance.reasoning_0 !== undefined && instance.reasoning_0 !== null && instance.reasoning_0 !== '') {
+            // Determine whether the currently loaded dataset file corresponds to Olmo.
+            const filePath = (currentFilePath || '').toLowerCase();
+            const isOlmoDataset =
+                filePath.includes('olmo-3.1-32b-think') ||
+                filePath.includes('allenai_olmo-3.1-32b-think') ||
+                filePath.includes('olmo');
+
+            // If the active dataset is not Olmo, never show reasoning, regardless of instance content.
+            if (!isOlmoDataset) {
+                reasoningSection.style.display = 'none';
+                const tokenCountElement = document.getElementById('reasoning-token-count');
+                if (tokenCountElement) {
+                    tokenCountElement.textContent = '';
+                }
+            } else if (instance.reasoning_0 !== undefined && instance.reasoning_0 !== null && instance.reasoning_0 !== '') {
                 // Format reasoning text - handle newlines and other escape sequences
                 let reasoningText = String(instance.reasoning_0);
                 
@@ -1574,6 +1591,7 @@
                     try {
                         showLoading(true);
                         hideError();
+                        currentFilePath = tab.file;
                         currentDataset = await loadDatasetFromFile(tab.file);
                         totalInstances = currentDataset.length;
                         await displayData(0);
@@ -1590,6 +1608,7 @@
             try {
                 showLoading(true);
                 hideError();
+                currentFilePath = DATA_TABS[0].file;
                 currentDataset = await loadDatasetFromFile(DATA_TABS[0].file);
                 totalInstances = currentDataset.length;
                 await displayData(0);
