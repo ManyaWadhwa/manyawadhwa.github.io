@@ -110,6 +110,16 @@ header {
   -webkit-font-smoothing:subpixel-antialiased;
 }
 
+.news-items {
+  max-height: 120px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.news-items p {
+  margin: 0 0 10px;
+}
+
 header ul {
   list-style:none;
   height:40px;
