@@ -404,10 +404,10 @@
         }
         .leaderboard-chart-area {
             width: 100%;
-            max-width: 800px;
+            max-width: 640px;
             margin: 0 auto;
-            height: 380px;
-            min-height: 380px;
+            height: 480px;
+            min-height: 480px;
             position: relative;
         }
         #leaderboard-chart {
@@ -426,7 +426,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 12px;
+            font-size: 14px;
             color: #374151;
         }
         .leaderboard-legend-swatch {
@@ -842,8 +842,8 @@
                 console.error('Chart.js failed to load. Leaderboard plot disabled.');
                 return;
             }
-            const COLORS = ['#57068C','#F97316','#2563EB','#16A34A','#EC4899','#0D9488','#EAB308','#EF4444','#6366F1','#14B8A6','#D946EF','#FB7185','#10B981','#F59E0B','#1D4ED8','#84CC16','#F43F5E'];
-            const DEFAULT_MODELS = ['GPT-5.4', 'Claude-Sonnet-4.6', 'Gemini-3.1-Pro'];
+            const COLORS = ['#57068C','#F97316','#2563EB','#16A34A','#EC4899','#0D9488','#EAB308','#EF4444','#6366F1','#BE185D','#D946EF','#FB7185','#4B5563','#F59E0B','#C2410C','#84CC16','#166534','#0EA5E9','#7C3AED','#854D0E'];
+            const DEFAULT_MODELS = ['GPT-5.5', 'GPT-6.1-Sol (med)', 'Claude-Opus-5.5 (med)', 'Claude-Opus-4.7 (xhigh)', 'Gemini-3.8-Flash (med)', 'Gemini-3.1-Pro', 'KG Search'];
             const canvas = document.getElementById('leaderboard-chart');
             const pickerEl = document.getElementById('model-picker');
             if (!canvas || !pickerEl) {
@@ -937,10 +937,12 @@
                         scales: {
                             x: {
                                 type: 'category',
-                                title: { display: true, text: 'Patience (p)' }
+                                title: { display: true, text: 'Patience (p)', font: { size: 14 } },
+                                ticks: { font: { size: 14 } }
                             },
                             y: {
-                                title: { display: true, text: 'Utility' },
+                                title: { display: true, text: 'Utility', font: { size: 14 } },
+                                ticks: { font: { size: 14 } },
                                 grace: '10%'
                             }
                         },

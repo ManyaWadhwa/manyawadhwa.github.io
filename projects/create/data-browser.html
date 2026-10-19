@@ -606,7 +606,7 @@
         .data-tab {
             padding: 10px 18px;
             border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.5);
+            border: 1px solid var(--tab-border, rgba(148, 163, 184, 0.5));
             background: #f9fafb;
             color: #4b5563;
             font-size: 14px;
@@ -616,12 +616,12 @@
         }
         .data-tab:hover {
             background: #f3f4f6;
-            border-color: rgba(87, 6, 140, 0.3);
+            border-color: var(--tab-color, rgba(87, 6, 140, 0.3));
             color: #111827;
         }
         .data-tab.active {
-            background: #111827;
-            border-color: #111827;
+            background: var(--tab-color, #111827);
+            border-color: var(--tab-color, #111827);
             color: #fff;
         }
     </style>
@@ -733,6 +733,73 @@
         let currentIndex = 0;
         let totalInstances = 0;
         let pyodide = null;
+
+        function hexToRgba(hex, alpha) {
+            const h = String(hex || '').trim().replace('#', '');
+            if (!(h.length === 3 || h.length === 6)) return `rgba(148, 163, 184, ${alpha})`;
+            const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+            const r = parseInt(full.slice(0, 2), 16);
+            const g = parseInt(full.slice(2, 4), 16);
+            const b = parseInt(full.slice(4, 6), 16);
+            if ([r, g, b].some(Number.isNaN)) return `rgba(148, 163, 184, ${alpha})`;
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function getModelFromTabLabel(label) {
+            const text = String(label || '');
+            const parts = text.split(' / ');
+            return (parts[0] || text).trim();
+        }
+
+        function getColorForModel(model) {
+            const name = String(model || '').trim();
+            const key = name.toLowerCase();
+            // Explicit colors for known models (keeps them stable across sessions).
+            const known = {
+                'gpt-4.1': '#DC2626',                 // red
+                'gpt-5.4': '#2563EB',                 // blue
+                'claude-sonnet-4.6': '#F97316',       // orange
+                'gemini-3.1-pro': '#10B981',          // green
+                'olmo-3.1-32b-think (32k)': '#A855F7' // violet
+            };
+            if (known[key]) return known[key];
+
+            // Deterministic fallback: hash model name into a palette (keeps unique-ish colors for new models).
+            const palette = ['#2563EB', '#F97316', '#10B981', '#A855F7', '#EF4444', '#14B8A6', '#EAB308', '#EC4899', '#6366F1'];
+            let hash = 0;
+            for (let i = 0; i < key.length; i++) hash = ((hash << 5) - hash) + key.charCodeAt(i);
+            const idx = Math.abs(hash) % palette.length;
+            return palette[idx];
+        }
+
+        function assignUniqueModelColors(tabs) {
+            const palette = ['#2563EB', '#F97316', '#10B981', '#A855F7', '#EF4444', '#14B8A6', '#EAB308', '#EC4899', '#6366F1'];
+            const used = new Set();
+            const modelToColor = new Map();
+
+            for (const tab of tabs || []) {
+                const modelName = getModelFromTabLabel(tab.label);
+                if (modelToColor.has(modelName)) continue;
+
+                let color = getColorForModel(modelName);
+                if (used.has(color)) {
+                    // Resolve collisions deterministically by walking the palette.
+                    let startIdx = palette.indexOf(color);
+                    if (startIdx < 0) startIdx = 0;
+                    for (let i = 0; i < palette.length; i++) {
+                        const candidate = palette[(startIdx + i + 1) % palette.length];
+                        if (!used.has(candidate)) {
+                            color = candidate;
+                            break;
+                        }
+                    }
+                }
+                used.add(color);
+                modelToColor.set(modelName, color);
+            }
+
+            return modelToColor;
+        }
 
         // Initialize Pyodide (Python runtime in browser)
         async function initPyodide() {
@@ -1575,11 +1642,17 @@
             const container = document.getElementById('data-tabs');
             container.innerHTML = '';
             if (DATA_TABS.length === 0) return;
+            const modelColors = assignUniqueModelColors(DATA_TABS);
             DATA_TABS.forEach((tab, index) => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = 'data-tab' + (index === 0 ? ' active' : '');
                 btn.textContent = tab.label;
+                // Assign a deterministic, per-model color so each model is visually distinct.
+                const modelName = getModelFromTabLabel(tab.label);
+                const modelColor = modelColors.get(modelName) || getColorForModel(modelName);
+                btn.style.setProperty('--tab-color', modelColor);
+                btn.style.setProperty('--tab-border', hexToRgba(modelColor, 0.35));
                 btn.setAttribute('data-file', tab.file);
                 btn.setAttribute('role', 'tab');
                 btn.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
