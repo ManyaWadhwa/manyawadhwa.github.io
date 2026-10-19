@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Training Reasoning Models to Generate Diverse Scientific Ideas</title>
+<meta name="description" content="A set-level RL objective that trains an 8B model to write diverse, high-quality, grounded research ideas in one generation.">
+<meta property="og:title" content="Training Reasoning Models to Generate Diverse Scientific Ideas">
+<meta property="og:description" content="A set-level RL objective that trains an 8B model to write diverse, high-quality, grounded research ideas in one generation.">
+<meta property="og:type" content="website">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;-webkit-font-smoothing:antialiased}img{max-width:100%}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: paper-style project page. Centered masthead, one 720px text column, figures break out to 960px. */
+:root {
+  --bg: #ffffff;
+  --fig: #f5f6f8;
+  --rule: #dcdfe5;
+  --fg: #23262d;
+  --muted: #6b7180;
+  --accent: #b44f35;
+  --ours: #2f6f73;
+  --gold: #b88a1e;
+  --serif: "Source Sans 3", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15171c; --fig: #1d2027; --rule: #353a46; --fg: #e4e6ec; --muted: #9ba2b1;
+  --accent: #df7a5e; --ours: #61b4b8; --gold: #e0b54a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #15171c; --fig: #1d2027; --rule: #353a46; --fg: #e4e6ec; --muted: #9ba2b1;
+  --accent: #df7a5e; --ours: #61b4b8; --gold: #e0b54a; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font: 18px/1.6 var(--serif); }
+.page { max-width: 960px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 56px 72px; }
+.text { max-width: 800px; margin-inline: auto; }
+h1, h2, h3 { text-wrap: balance; }
+h1 { font-weight: 700; font-size: clamp(24px, 2.9vw, 30px); line-height: 1.15; margin: 0 auto; text-align: center; }
+@media (min-width: 900px) { h1 { white-space: nowrap; } }
+h2 { font-weight: 600; font-size: 26px; line-height: 1.25; margin: 56px 0 14px; padding-top: 18px; border-top: 1px solid var(--rule); }
+h3 { font-weight: 600; font-size: 19px; margin: 26px 0 6px; }
+p { margin: 0 0 14px; }
+a { color: var(--ours); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--ours); outline-offset: 2px; }
+em { font-style: italic; }
+sub, sup { line-height: 0; }
+
+/* masthead */
+.mast { text-align: center; display: grid; gap: 14px; margin-bottom: 36px; }
+.authors { font-size: 18px; line-height: 1.7; }
+.authors span { white-space: nowrap; }
+.affil { font-size: 15.5px; color: var(--muted); }
+.affil span { white-space: nowrap; margin-inline: 6px; }
+.btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.btns a { font: 500 14px/1 var(--mono); color: var(--bg); background: var(--fg); text-decoration: none; border-radius: 999px; padding: 10px 18px; }
+.btns a:hover { background: var(--ours); }
+
+/* figures */
+figure { margin: 26px 0 30px; }
+figcaption { font-size: 15.5px; line-height: 1.5; color: var(--muted); max-width: 800px; margin: 12px auto 0; }
+figcaption b { color: var(--fg); font-weight: 600; }
+svg text { font-family: var(--mono); }
+
+/* Figure 1: animated walkthrough */
+.story { background: var(--fig); border-radius: 6px; padding: 26px 24px 16px; }
+.story-grid { display: grid; grid-template-columns: .9fr 28px 1.5fr 28px 1fr; gap: 0 10px; align-items: start; }
+.story-grid > div { min-width: 0; display: grid; gap: 9px; align-content: start; }
+.lab { font: 13px/1.2 var(--mono); color: var(--muted); }
+.chev { align-self: center; color: var(--muted); font: 20px/1 var(--mono); text-align: center; }
+.reveal { opacity: .16; transition: opacity .5s ease; }
+.reveal.on { opacity: 1; }
+.doc { border: 1.5px solid var(--rule); background: var(--bg); border-radius: 4px; padding: 9px 11px; font-size: 14.5px; line-height: 1.38; }
+.doc b { font: 600 13px/1.4 var(--mono); display: block; }
+.doc b i { font-style: normal; font-weight: 400; color: var(--muted); }
+.doc .more { font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+.doc { transition: border-color .3s, box-shadow .3s, opacity .5s; }
+.doc.reading { border-color: var(--ours); box-shadow: 0 0 0 1px var(--ours); }
+.doc.etc { border-style: dashed; background: transparent; color: var(--muted); font: 13px/1.4 var(--mono); text-align: center; }
+.think { background: var(--bg); border: 1.5px solid var(--rule); border-radius: 4px; padding: 11px 13px; height: 340px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-start; gap: 8px; font: 12.5px/1.5 var(--mono); }
+.think.scrolled { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 56px); mask-image: linear-gradient(to bottom, transparent 0, #000 56px); }
+.think > * { flex: none; }
+.think .tag { color: var(--muted); }
+.t { color: var(--fg); }
+.t.emit { color: var(--ours); }
+.t:empty { display: none; }
+.t.typing::after { content: "▍"; color: var(--ours); animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.idea { border-left: 3px solid var(--ours); background: var(--bg); padding: 7px 11px; font-size: 15px; line-height: 1.35; }
+.idea .k { font: 600 12.5px/1.5 var(--mono); color: var(--ours); display: block; }
+.idea .k span { color: var(--muted); font-weight: 400; }
+.idea { max-height: 140px; overflow: hidden; transition: opacity .5s, max-height .6s, padding .6s, margin .6s, border-color .3s; }
+.idea .why { display: none; font: 12px/1.4 var(--mono); color: var(--accent); }
+.idea.cut { border-left-color: var(--accent); }
+.idea .k::after { content: ""; }
+.idea.ok .k::after { content: " ✓"; color: var(--ours); }
+.idea.cut.on { opacity: .5; }
+.idea.cut .txt { text-decoration: line-through; text-decoration-color: var(--accent); }
+.idea.cut .why { display: block; }
+.idea.gone.on { max-height: 0; opacity: 0; padding-block: 0; }
+.s-space { fill: none; stroke: var(--rule); stroke-width: 1.5; stroke-dasharray: 6 6; }
+.s-lab { fill: var(--muted); font-size: 13px; }
+
+/* Figure 1: headline comparison (same visual language as Figure 2) */
+.hl-prompt { font: 15px/1.5 var(--mono); text-align: center; margin: 0 auto 16px; padding: 11px 16px; border: 1.5px solid var(--rule); border-radius: 6px; max-width: 760px; background: var(--bg); color: var(--muted); transition: border-color .4s, color .4s; }
+.hl-prompt b { color: var(--fg); font-weight: 600; }
+.hl-prompt q { color: var(--fg); }
+.hl-prompt.on { border-color: var(--fg); }
+.hl [data-at] { opacity: .1; transition: opacity .45s ease; }
+.hl [data-at].on { opacity: 1; }
+.hl .s-arrow { stroke-dasharray: 260; stroke-dashoffset: 260; transition: stroke-dashoffset .7s ease-out, opacity .2s; }
+.hl .s-arrow:not(.on) { opacity: 0; }
+.hl .s-arrow.on { stroke-dashoffset: 0; }
+.hl .s-dot { transform-box: fill-box; transform-origin: center; transform: scale(.4); transition: transform .35s ease-out, opacity .35s; }
+.hl .s-dot.on { transform: none; }
+.hl-tk { fill: var(--muted); font-size: 12.5px; }
+.hl-call { fill: var(--muted); font-size: 11.5px; }
+.hl-gold { fill: var(--gold); }
+.hl-goldlab { fill: var(--gold); font-size: 12px; }
+.hl-note { fill: var(--muted); font-size: 11px; }
+.hl-emit { fill: var(--ours); font-size: 12.5px; font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .hl [data-at], .hl .s-arrow, .hl .s-dot { transition: none; } }
+
+/* Figure 2: sketch comparison */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.compare > div { background: var(--fig); border-radius: 6px; padding: 18px 16px 10px; min-width: 0; }
+.compare svg { width: 100%; height: auto; display: block; }
+.c-title { font-size: 17px; font-weight: 600; letter-spacing: .04em; }
+.c-sub { fill: var(--muted); font-size: 13px; }
+.s-box { fill: var(--bg); stroke: var(--rule); stroke-width: 1.5; }
+.s-boxtext { fill: var(--fg); font-size: 18px; }
+.base .c-title, .base .s-verdict, .base .s-dot { fill: var(--accent); }
+.base .s-arrow { stroke: var(--accent); }
+.ours .c-title, .ours .s-verdict, .ours .s-dot { fill: var(--ours); }
+.ours .s-arrow { stroke: var(--ours); }
+.s-arrow { stroke-width: 2; fill: none; }
+.s-link { stroke: var(--ours); stroke-width: 1.2; stroke-dasharray: 3 4; fill: none; opacity: .7; }
+.s-verdict { font-size: 15px; }
+.draw .s-arrow { stroke-dasharray: 300; animation: draw 1s ease-out both; }
+.draw .s-dot { animation: pop .4s ease-out both; transform-box: fill-box; transform-origin: center; }
+.draw .d1 { animation-delay: .5s } .draw .d2 { animation-delay: .7s } .draw .d3 { animation-delay: .9s }
+.draw .a2 { animation-delay: .2s } .draw .a3 { animation-delay: .4s }
+@keyframes draw { from { stroke-dashoffset: 300 } to { stroke-dashoffset: 0 } }
+@keyframes pop { from { transform: scale(.2) } to { transform: scale(1) } }
+
+/* equations */
+.eq { font: 17px/1.6 var(--mono); text-align: center; margin: 18px 0; overflow-x: auto; white-space: nowrap; padding-block: 4px; }
+.eq .n { color: var(--muted); float: right; font-size: 15px; }
+
+/* booktabs-style tables */
+.tbl { overflow-x: auto; margin: 18px 0 6px; }
+table { border-collapse: collapse; margin: 0 auto; font-size: 15.5px; font-variant-numeric: tabular-nums lining-nums; border-top: 1.5px solid var(--fg); border-bottom: 1.5px solid var(--fg); }
+th, td { padding: 6px 14px; text-align: center; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 600; border-bottom: 1px solid var(--fg); }
+tr.grp td { font-style: italic; color: var(--muted); padding-top: 12px; }
+tr.ours td { background: color-mix(in srgb, var(--ours) 9%, transparent); }
+td .sd { color: var(--muted); font-size: 12.5px; vertical-align: -2px; }
+td b { font-weight: 700; }
+.tcap { font-size: 15.5px; color: var(--muted); text-align: center; max-width: 800px; margin: 8px auto 26px; }
+.tcap b { color: var(--fg); }
+
+/* charts */
+.charts { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items: start; }
+.charts > figure { margin: 0; min-width: 0; }
+.charts svg { width: 100%; height: auto; display: block; }
+.ax { stroke: var(--rule); stroke-width: 1; }
+.tk { fill: var(--muted); font-size: 11px; }
+.at { fill: var(--muted); font-size: 11.5px; }
+.pl { fill: var(--fg); font-size: 11px; }
+.p-general { fill: var(--muted); }
+.p-competing { fill: var(--accent); }
+.p-sft { fill: var(--bg); stroke: var(--ours); stroke-width: 1.5; }
+.p-ours { fill: var(--ours); }
+.hum { stroke: var(--gold); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.huml { fill: var(--gold); font-size: 11px; }
+
+ul.plain { padding-left: 20px; margin: 0 0 14px; }
+ul.plain li { margin-bottom: 6px; }
+.cite { color: var(--muted); white-space: nowrap; }
+.cite a { color: var(--ours); text-decoration: none; }
+.cite a:hover { text-decoration: underline; }
+.prior { border: 1.5px solid var(--ours); border-radius: 6px; padding: 16px 18px; margin: 22px 0; background: color-mix(in srgb, var(--ours) 6%, transparent); }
+.prior .lead { font: 600 13px/1.4 var(--mono); color: var(--ours); display: block; margin-bottom: 6px; }
+.prior p:last-child { margin-bottom: 0; }
+.builds { font-size: 15.5px; color: var(--muted); margin: 0; }
+.builds a { font-weight: 600; }
+pre.bib { font: 13px/1.6 var(--mono); background: var(--fig); border-radius: 6px; padding: 16px 18px; overflow-x: auto; margin: 0; }
+footer { margin-top: 56px; font-size: 14px; color: var(--muted); text-align: center; }
+
+@media (max-width: 820px) {
+  .story-grid { grid-template-columns: 1fr; gap: 14px; }
+  .chev { transform: rotate(90deg); }
+  .think { height: 300px; }
+  .compare, .charts { grid-template-columns: 1fr; }
+  body { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) { .draw * { animation: none !important; } .reveal { transition: none; } }
+</style>
+
+</head>
+<body>
+<div class="page">
+  <header class="mast">
+    <h1>Training Reasoning Models to Generate Diverse Scientific Ideas</h1>
+    <div class="authors">
+      <span>Manya Wadhwa<sup>1</sup>,</span> <span>Pranav Narayanan Venkit<sup>3</sup>,</span> <span>Hiroaki Hayashi<sup>3</sup>,</span>
+      <span>Yu Li<sup>3</sup>,</span> <span>Tuhin Chakrabarty<sup>2</sup>,</span> <span>Chien-Sheng Wu<sup>3</sup></span>
+    </div>
+    <div class="affil"><span><sup>1</sup>New York University</span> <span><sup>2</sup>Stony Brook University</span> <span><sup>3</sup>Salesforce AI Research</span></div>
+    <div class="btns">
+      <a href="https://arxiv.org/abs/2610.22324">arXiv</a>
+      <a href="https://github.com/ManyaWadhwa/diverge_ideation">Code &amp; Data</a>
+    </div>
+  </header>
+
+  <figure>
+
+      <div class="text">
+    <!-- <h2></h2> -->
+    <p>LLMs are increasingly used to generate research ideas, but most of the work focusing on training an ideator, optimizes the quality of a single idea and overlooks diversity. We study document-grounded ideation, where given prior papers, a model must propose a set of ideas that are high-quality, distinct from each other, and grounded in the prior work.</p>
+</div>
+    <div class="hl" id="hl">
+      <div class="hl-prompt" data-at="0">model <b>M</b>( prior work <b>d₁, d₂, …, dₙ</b> ) → <q>Give me good research ideas.</q></div>
+      <div class="compare">
+      <div class="base">
+        <svg viewBox="0 0 480 364" role="img" aria-label="Prior work: the model writes one idea, optimized toward a gold idea by similarity or preference.">
+          <defs><marker id="hl-ah-base" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" style="fill:var(--accent)"/></marker></defs>
+          <text class="c-title" x="12" y="24">PRIOR WORK</text>
+          <text class="c-sub" x="12" y="46">one idea, optimized toward a gold idea</text>
+          <rect class="s-box" x="12" y="150" width="170" height="52" rx="5"/>
+          <text class="hl-call" x="24" y="169">one call</text>
+          <text class="hl-tk" x="24" y="189" data-at="1">&lt;think&gt; …</text>
+          <ellipse class="s-space" cx="340" cy="196" rx="128" ry="120"/>
+          <path class="s-arrow" data-at="2" d="M188 176 L340 192" marker-end="url(#hl-ah-base)"/>
+          <circle class="s-dot" data-at="2" cx="356" cy="194" r="11"/>
+          <text class="s-lab" x="350" y="172">u</text>
+          <path class="hl-gold" d="M402 185 l4.5 9.2 10.1 1.5 -7.3 7.1 1.7 10 -9 -4.7 -9 4.7 1.7 -10 -7.3 -7.1 10.1 -1.5z"/>
+          <text class="hl-goldlab" x="402" y="226" text-anchor="middle">gold idea</text>
+          <text class="hl-note" x="402" y="242" text-anchor="middle">by similarity</text>
+          <text class="hl-note" x="402" y="256" text-anchor="middle">or preference</text>
+          <text class="s-lab" x="340" y="336" text-anchor="middle">hypothesis space</text>
+          <text class="s-verdict" x="340" y="356" text-anchor="middle" data-at="7">one idea, scored on its own</text>
+        </svg>
+      </div>
+      <div class="ours">
+        <svg viewBox="0 0 480 364" role="img" aria-label="Ours: one generation with a shared reasoning context writes u1, then u2 while avoiding u1, then u3, so the ideas spread out.">
+          <defs><marker id="hl-ah-ours" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" style="fill:var(--ours)"/></marker></defs>
+          <text class="c-title" x="12" y="24">OURS: K IDEAS IN ONE PASS</text>
+          <text class="c-sub" x="12" y="46">one call, one shared reasoning context</text>
+          <rect class="s-box" x="12" y="86" width="194" height="180" rx="5"/>
+          <text class="hl-call" x="24" y="105">one call</text>
+          <text class="hl-tk" x="24" y="128" data-at="1">&lt;think&gt; read D …</text>
+          <text class="hl-emit" x="24" y="152" data-at="2">→ u₁</text>
+          <text class="hl-tk" x="24" y="176" data-at="3">avoid u₁'s direction…</text>
+          <text class="hl-emit" x="24" y="200" data-at="4">→ u₂</text>
+          <text class="hl-tk" x="24" y="224" data-at="5">what's still open?</text>
+          <text class="hl-emit" x="24" y="248" data-at="6">→ u₃</text>
+          <ellipse class="s-space" cx="340" cy="196" rx="128" ry="120"/>
+          <path class="s-link" data-at="4" d="M330 118 Q 290 180 284 248"/>
+          <path class="s-link" data-at="6" d="M284 248 Q 360 236 420 192"/>
+          <path class="s-link" data-at="6" d="M330 118 Q 390 140 420 192"/>
+          <path class="s-arrow" data-at="2" d="M214 148 L312 121" marker-end="url(#hl-ah-ours)"/>
+          <path class="s-arrow" data-at="4" d="M214 196 L268 242" marker-end="url(#hl-ah-ours)"/>
+          <path class="s-arrow" data-at="6" d="M214 244 L402 197" marker-end="url(#hl-ah-ours)"/>
+          <circle class="s-dot" data-at="2" cx="330" cy="118" r="11"/>
+          <circle class="s-dot" data-at="4" cx="284" cy="250" r="11"/>
+          <circle class="s-dot" data-at="6" cx="420" cy="192" r="11"/>
+          <text class="s-lab" x="348" y="110">u₁</text>
+          <text class="s-lab" x="302" y="270">u₂</text>
+          <text class="s-lab" x="438" y="184">u₃</text>
+          <text class="s-lab" x="340" y="336" text-anchor="middle">hypothesis space</text>
+          <text class="s-verdict" x="340" y="356" text-anchor="middle" data-at="7">diverse by design</text>
+        </svg>
+      </div>
+      </div>
+    </div>
+    <figcaption><b>Figure 1.</b> Left: prior work generates one idea and trains it toward a held-out gold idea, by similarity or preference. Right: our model writes K ideas in one generation, so each idea is written knowing the ones before it.</figcaption>
+  </figure>
+
+  <div class="text">
+    <!-- <h2></h2> -->
+    <!-- <p>One of the first steps of a research pipeline is generating ideas. Large Language Models (LLMs) are increasingly used to automate this step, but most of this work optimizes the quality of individual ideas, while overlooking diversity. In our work, we study document-grounded ideation, focusing on increasing the diversity of LLM generated ideas and ensuring they are high quality. Given prior papers, a model must propose a set of ideas that are each high-quality and clearly distinct from one another, while also being grounded in the input documents.</p> -->
+    <p>We propose training with a <i>set-level</i> RL objective. The model is instructed to generate <i>K</i> idea cards in one generation, and each idea's goodness (or quality) is weighted by its distance from the ideas generated before it. This gives explicit control to the model and trains it to steer each new idea away from the ones it has already written. The objective builds on Creative Utility, the metric from our earlier work <a href="https://arxiv.org/abs/2603.09970">CREATE</a> <span class="cite">(<a href="https://arxiv.org/abs/2603.09970" target="_blank" rel="noopener">Wadhwa et al., 2026</a>)</span>.</p>
+    <p>Our 8B model beats Claude Opus 4.8 and GPT-6 Astra on creative utility, which measures quality and diversity together. In a pilot study with four experts, its sets are judged as promising as Claude Opus 4.8's and contain slightly more unique ideas. When a coding agent runs proof-of-concept experiments on the ideas, our success@k is comparable to Claude Opus 4.8's, so the added diversity does not cost executability.</p>
+
+    <h2>Why sets of ideas?</h2>
+    <p>As researchers, when we generate ideas and brainstorm, we hold multiple hypothesis from the same literature and then pick among them <span class="cite">(<a href="https://doi.org/10.1126/science.146.3642.347" target="_blank" rel="noopener">Platt, 1964</a>; <a href="https://doi.org/10.1207/s15516709cog1201_1" target="_blank" rel="noopener">Klahr &amp; Dunbar, 1988</a>)</span>. We generally do this pre-execution, based our experiment and intuitive. This process of brainstorming can also be thought of as interleaved diversget thinking followed by convergent thinking <span class="cite">(<a href="https://scholar.google.com/scholar?q=Guilford+1967+The+Nature+of+Human+Intelligence" target="_blank" rel="noopener">Guilford, 1967</a>; <a href="https://scholar.google.com/scholar?q=Boden+2004+The+Creative+Mind+Myths+and+Mechanisms" target="_blank" rel="noopener">Boden, 2004</a>)</span>, which is why we chose to use the creative utility formulation as the training/evaluation objective. Independent LLM samples share no context to explore deliberately and no pool to converge over, so any diversity among them is incidental <span class="cite">(<a href="https://arxiv.org/abs/2603.24844" target="_blank" rel="noopener">Puri et al., 2026</a>; <a href="https://openreview.net/forum?id=1kkO8IjjYM" target="_blank" rel="noopener">Bahlous-Boldi et al., 2026</a>)</span>.</p>
+  </div>
+
+  <figure>
+    <div class="story" id="story">
+      <div class="story-grid">
+        <div>
+          <span class="lab">prior work D</span>
+          <div class="doc reveal" data-at="0" data-read="2"><b>d₁ <i>VibeCheck</i></b>LLMs often exhibit subtle yet distinct characteristics. These "vibes" <span class="more">[…]</span></div>
+          <div class="doc reveal" data-at="0" data-read="3"><b>d₂ <i>WildBench</i></b>An automated evaluation framework. Consists of 1,024 tasks <span class="more">[…]</span></div>
+          <div class="doc reveal" data-at="0" data-read="4"><b>d₃ <i>Self-Refine</i></b>We can prompt LLMs to improve their own output, similar to how humans <span class="more">[…]</span></div>
+          <div class="doc etc reveal" data-at="0" data-read="5">⋮ d₄ … dₙ</div>
+        </div>
+        <span class="chev" aria-hidden="true">→</span>
+        <div>
+          <span class="lab">policy, one generation</span>
+          <div class="think reveal" data-at="1">
+            <span class="tag">&lt;think&gt;</span>
+            <span class="t" data-at="1" data-text="Okay, let me start by reading these papers and think about three ideas."></span>
+            <span class="t" data-at="2" data-text="Reading d₁… models differ in subtle 'vibes' that scores don't capture […]"></span>
+            <span class="t" data-at="4" data-text="Reading d₃… models can critique and revise their own outputs […]"></span>
+            <span class="t" data-at="5" data-text="… reading dₙ […]"></span>
+            <span class="t" data-at="6" data-text="Hmm, what are the similarities? They all judge model outputs, but none ask whether the judging itself holds up […]"></span>
+            <span class="t emit" data-at="7" data-text="→ u₁: close the gap between measured capability and real performance."></span>
+            <span class="t emit" data-at="8" data-text="→ u₂: [...]"></span>
+            <span class="t" data-at="9" data-text="Wait, compare u₂ with u₁. Both lean on the same capability-vs-reality gap. Drop u₂."></span>
+            <span class="t emit" data-at="10" data-text="→ u₃: let models self-refine toward a target vibe."></span>
+            <span class="t" data-at="11" data-text="Hmm, u₃ is mostly d₁ and d₃ stuck together. Not a new direction. Drop u₃."></span>
+            <span class="t" data-at="12" data-text="What's still uncovered? Nothing questions the benchmarks themselves, and d₃'s feedback idea is unused […]"></span>
+            <span class="t emit" data-at="13" data-text="→ u₄: audit whether the benchmarks themselves are reliable."></span>
+            <span class="t emit" data-at="14" data-text="→ u₅: use rubrics as rewards for non-verifiable tasks."></span>
+            <span class="t" data-at="15" data-text="Check u₄ and u₅ against u₁ and each other: different gaps, both tied to the sources. Keep them."></span>
+            <span class="t" data-at="16" data-text="Final set: u₁, u₄, u₅."></span>
+          </div>
+        </div>
+        <span class="chev" aria-hidden="true">→</span>
+        <div>
+          <span class="lab" id="set-lab">candidate ideas</span>
+          <div class="idea reveal" data-at="7" data-ok="15"><span class="k">u₁ <span>[Risk Gap]</span></span><span class="txt">Capability-to-performance intervention</span></div>
+          <div class="idea reveal" data-at="8" data-cut="9" data-gone="16"><span class="k">u₂ <span>[Risk Gap]</span></span><span class="txt">Predicting real-task failures from vibe profiles</span><span class="why">✕ same gap as u₁</span></div>
+          <div class="idea reveal" data-at="10" data-cut="11" data-gone="16"><span class="k">u₃ <span>[Bridge Opportunity]</span></span><span class="txt">Self-refinement toward a target vibe</span><span class="why">✕ not a new direction</span></div>
+          <div class="idea reveal" data-at="13" data-ok="15"><span class="k">u₄ <span>[Evidence Gap]</span></span><span class="txt">Diagnostics that audit whether benchmarks are reliable</span></div>
+          <div class="idea reveal" data-at="14" data-ok="15"><span class="k">u₅ <span>[Bridge Opportunity]</span></span><span class="txt">Rubrics and checklists as rewards for non-verifiable tasks</span></div>
+        </div>
+      </div>
+    </div>
+    <figcaption><b>Figure 2.</b> Given prior papers, the model reasons through its context to come up with a set of research ideas that are different from the context but also different from each other.</figcaption>
+    <!-- previous Figure 2 (sampling vs. set sketch), kept for reference
+    <div class="compare" id="compare">
+      <div class="base">
+        <svg viewBox="0 0 480 370" role="img" aria-label="Independent samples are drawn without seeing each other, so they can land close together in the hypothesis space.">
+          <defs><marker id="ah-base" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" style="fill:var(--accent)"/></marker></defs>
+          <text class="c-title" x="12" y="24">SAMPLE K TIMES</text>
+          <text class="c-sub" x="12" y="46">each draw is blind to the others</text>
+          <g transform="translate(0 40)">
+            <rect class="s-box" x="12" y="140" width="66" height="44" rx="5"/>
+            <text class="s-boxtext" x="45" y="168" text-anchor="middle">D</text>
+            <ellipse class="s-space" cx="310" cy="160" rx="158" ry="120"/>
+            <path class="s-arrow a1" d="M84 154 L262 138" marker-end="url(#ah-base)"/>
+            <path class="s-arrow a2" d="M84 162 L258 162" marker-end="url(#ah-base)"/>
+            <path class="s-arrow a3" d="M84 170 L262 186" marker-end="url(#ah-base)"/>
+            <circle class="s-dot d1" cx="278" cy="137" r="11"/>
+            <circle class="s-dot d2" cx="274" cy="162" r="11"/>
+            <circle class="s-dot d3" cx="278" cy="187" r="11"/>
+            <text class="s-lab" x="296" y="141">u₁</text>
+            <text class="s-lab" x="292" y="166">u₂</text>
+            <text class="s-lab" x="296" y="191">u₃</text>
+            <text class="s-lab" x="310" y="300" text-anchor="middle">hypothesis space</text>
+            <text class="s-verdict" x="310" y="322" text-anchor="middle">diverse by chance</text>
+          </g>
+        </svg>
+      </div>
+      <div class="ours">
+        <svg viewBox="0 0 480 370" role="img" aria-label="One generation writes ideas that condition on each other and spread across the hypothesis space.">
+          <defs><marker id="ah-ours" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" style="fill:var(--ours)"/></marker></defs>
+          <text class="c-title" x="12" y="24">GENERATE THE SET</text>
+          <text class="c-sub" x="12" y="46">each idea sees the ones before it</text>
+          <g transform="translate(0 40)">
+            <rect class="s-box" x="12" y="140" width="66" height="44" rx="5"/>
+            <text class="s-boxtext" x="45" y="168" text-anchor="middle">D</text>
+            <ellipse class="s-space" cx="310" cy="160" rx="158" ry="120"/>
+            <path class="s-arrow a1" d="M84 152 L340 104" marker-end="url(#ah-ours)"/>
+            <path class="s-arrow a2" d="M84 162 L218 178" marker-end="url(#ah-ours)"/>
+            <path class="s-arrow a3" d="M84 172 L366 222" marker-end="url(#ah-ours)"/>
+            <path class="s-link" d="M357 104 Q 300 140 235 180"/>
+            <path class="s-link" d="M235 180 Q 300 210 382 224"/>
+            <circle class="s-dot d1" cx="356" cy="101" r="11"/>
+            <circle class="s-dot d2" cx="234" cy="180" r="11"/>
+            <circle class="s-dot d3" cx="382" cy="225" r="11"/>
+            <text class="s-lab" x="336" y="78">u₁</text>
+            <text class="s-lab" x="226" y="208">u₂</text>
+            <text class="s-lab" x="400" y="230">u₃</text>
+            <text class="s-lab" x="310" y="300" text-anchor="middle">hypothesis space</text>
+            <text class="s-verdict" x="310" y="322" text-anchor="middle">diverse by design</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <figcaption><b>Figure 2.</b> Left: K independent samples never see each other, so any spread between them comes from chance and they often overlap. Right: writing all K ideas in one generation lets the model avoid repeating itself and steer later ideas toward directions its earlier ones left uncovered.</figcaption>
+    -->
+  </figure>
+
+  <div class="text">
+    <h2>Method: a set-level reward</h2>
+    <p>The model writes a set U = {u<sub>1</sub>, …, u<sub>K</sub>} after one shared reasoning prefix, and GRPO <span class="cite">(<a href="https://doi.org/10.48550/arXiv.2402.03300" target="_blank" rel="noopener">Shao et al., 2024</a>)</span> scores the whole set:</p>
+    <div class="eq">R<sub>set</sub>(x, U) = Σ<sub>i</sub> q(u<sub>i</sub>) · min<sub>j&lt;i</sub> d(u<sub>i</sub>, u<sub>j</sub>),&nbsp;&nbsp; min<sub>j&lt;1</sub> d := 1</div>
+    <p>Each idea's quality is multiplied by its distance to the closest idea written before it, so a redundant idea earns almost nothing, however good it is.</p>
+    <!-- <div class="prior">
+      <span class="lead">Built on our earlier metric: Creative Utility</span>
+      <p>This reward is adapted from Creative Utility (CU), the metric we introduced in <a href="https://arxiv.org/abs/2603.09970">CREATE: Testing LLMs for Associative Creativity</a> <span class="cite">(<a href="https://arxiv.org/abs/2603.09970" target="_blank" rel="noopener">Wadhwa et al., 2026</a>)</span>. CU scores a set of ideas by the quality each one adds beyond the ideas already selected. In CREATE it is an evaluation metric; here we turn it into a training signal.</p>
+      <p>We make two changes for training. We drop CU's patience discount on later ideas, so every idea in the set is weighted equally and the model cannot fall back on weak later ideas. And we score ideas in the order the model writes them instead of the best ordering, so the reward comes straight from a single rollout. At evaluation we report CU as defined in CREATE.</p>
+    </div> -->
+    <p><strong>Quality.</strong> We measure long-term scientific impact, judged pairwise against the target paper's own idea: 1 if the generated idea is better, 0.5 for a tie, 0 otherwise. Anchoring to the gold idea means the judgment reflects what the field found worth pursuing. We use SciJudge-30B <span class="cite">(<a href="https://arxiv.org/abs/2603.14473" target="_blank" rel="noopener">Tong et al., 2026</a>)</span>.</p>
+    <p><strong>Distance.</strong> Two ideas can share a problem and still differ completely in method, so we score distance separately over the problem, claim and method fields and average them, judged by gpt-oss-120b <span class="cite">(<a href="https://arxiv.org/abs/2508.10925" target="_blank" rel="noopener">OpenAI, 2025</a>)</span>.</p>
+    <p><strong>Training.</strong> We start from Qwen3-8B <span class="cite">(<a href="https://arxiv.org/abs/2505.09388" target="_blank" rel="noopener">Team, 2025</a>)</span> with a light SFT stage that teaches the idea-card format and a reasoning pattern. The traces come from hindsight prompting: a teacher model sees its own ideas and writes the exploration that leads to them. We then run GRPO with K = 3, with and without thinking.</p>
+
+    <h2>Experimental setup</h2>
+    <p>The input is summaries of the papers a target paper builds on. The model writes K idea cards, each with a problem gap, a core claim, a method, and the source papers it draws on. The target's own idea is held out as the gold idea.</p>
+    <p>We train on 7,172 instances built from GiantsBench <span class="cite">(<a href="https://arxiv.org/abs/2604.09793" target="_blank" rel="noopener">He-Yueya et al., 2026</a>)</span> and test on a contamination-free set of 1,740 papers from 2026 across 16 domains. We also evaluate on the GiantsBench test split and on IdeaSeed <span class="cite">(<a href="https://arxiv.org/abs/2607.01233" target="_blank" rel="noopener">Chen et al., 2026</a>)</span>.</p>
+    <p>Baselines: Claude Opus 4.8, GPT-6 Astra, Nemotron 120B <span class="cite">(<a href="https://arxiv.org/abs/2512.20856" target="_blank" rel="noopener">NVIDIA, 2025</a>)</span>, DARLING <span class="cite">(<a href="https://arxiv.org/abs/2509.02534" target="_blank" rel="noopener">Li et al., 2025</a>)</span>, impact-only RL, our reward without SFT, and the base and SFT checkpoints. The main metric is Creative Utility (CU) from CREATE <span class="cite">(<a href="https://arxiv.org/abs/2603.09970" target="_blank" rel="noopener">Wadhwa et al., 2026</a>)</span>.</p>
+
+    <h2>Results</h2>
+    <p>Our no-think model reaches the highest creative utility: 0.64, up from 0.03 for the base model and 0.21 after SFT. Claude Opus 4.8 reaches 0.38 and GPT-6 Astra 0.28.</p>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Model</th><th>CU ↑</th><th>LC win rate (q) ↑</th><th>Avg. distance (d) ↑</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <p class="tcap"><b>Table 1.</b> Results on our test set (1,740 instances). LC win rate is length-controlled <span class="cite">(<a href="https://openreview.net/forum?id=CybBmzWBX0" target="_blank" rel="noopener">Dubois et al., 2024</a>)</span>. Subscripts are standard deviations across instances. Best in bold.</p>
+
+  <div class="text">
+    <p>Training for quality alone gives a 43% win rate but collapses the set: average distance falls to 0.38, as the model settles on one good idea instead of several. DARLING, which rewards diversity across separate single-idea rollouts, reaches 0.52 CU with lower distance (0.67 vs. 0.88). Rewarding diversity within the set works better.</p>
+    <p>The SFT warm-start keeps the model grounded. Skipping it still gets 0.51 CU, but grounding drops to 0.19, because the model gets its diversity by drifting from its sources. Thinking also helps grounding: the think variant has lower utility (0.51 vs. 0.64) but higher grounding (0.81 vs. 0.61).</p>
+  </div>
+
+  <!-- <div class="charts" style="grid-template-columns: 1fr; max-width: 760px; margin-inline: auto;">
+    <figure>
+      <svg viewBox="0 0 600 390" role="img" aria-label="Scatter of creative utility against grounding for each system.">
+        <g id="scatter"></g>
+      </svg>
+      <figcaption><b>Figure 3.</b> Creative utility against grounding. The highest-CU systems are less grounded than Claude and the SFT-only models. Grey: general and base models; red: competing objectives; open teal: SFT only; filled teal: ours.</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 420 260" role="img" aria-label="Normalized entropy of method-paradigm labels per system, with human proposals at 0.87.">
+        <g id="entropy"></g>
+      </svg>
+      <figcaption><b>Figure 4.</b> Idea-type diversity on IdeaSeed (normalized entropy, method axis). Every model is more concentrated than human proposals. DARLING collapses to a single label pair.</figcaption>
+    </figure>
+  </div> -->
+<!-- <br> -->
+  <div class="text">
+    <!-- <p> On GiantsBench, our model wins against the gold idea 68.3% of the time, compared with 18.3% for GIANTS-4B <span class="cite">(<a href="https://arxiv.org/abs/2604.09793" target="_blank" rel="noopener">He-Yueya et al., 2026</a>)</span>. Sampling GIANTS-4B three times gives near-identical restatements of the same insight (average distance 0.025, against 0.939 for ours).</p> -->
+     <p>
+      We talk about more results in the paper, including results from Giants-4B, distribution of idea types across the population and how grounding and quality trade off! 
+     </p>
+
+    <h2>Do the ideas hold up?</h2>
+    <p>Four NLP researchers, each with a PhD and at least four top-venue papers, judged 60 idea sets blind. For each set they marked which ideas are worth pursuing and the largest subset that pursues different directions.</p>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>System</th><th>Promising</th><th>Unique</th><th>Unique &amp; promising</th></tr></thead>
+      <tbody>
+        <tr><td>Qwen3-8B</td><td>1.52</td><td>2.52</td><td>1.42</td></tr>
+        <tr><td>Claude Opus 4.8</td><td><b>2.20</b></td><td>2.72</td><td>2.03</td></tr>
+        <tr class="ours"><td>Ours (no think)</td><td>2.17</td><td><b>2.83</b></td><td><b>2.05</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tcap"><b>Table 2.</b> Pilot human study: average number of ideas per 3-idea set.</p>
+
+  <div class="text">
+    <p>We also gave each idea card to a coding agent in a fixed sandbox (90 minutes, $30, no GPU), which designs and runs a proof-of-concept and reports whether the result supports the claim. Our success@k matches Claude Opus 4.8 and rises with k, so a set of ideas is more useful than a single one.</p>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>System</th><th>k = 1</th><th>k = 2</th><th>k = 3</th></tr></thead>
+      <tbody>
+        <tr><td>Claude Opus 4.8</td><td><b>13%</b></td><td>20%</td><td>27%</td></tr>
+        <tr class="ours"><td>Ours (no think)</td><td>11%</td><td><b>22%</b></td><td><b>33%</b></td></tr>
+        <tr class="ours"><td>Ours (think)</td><td>10%</td><td>19%</td><td>29%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tcap"><b>Table 3.</b> Execution success@k on 15 instances.</p>
+
+  <div class="text">
+    <h2>BibTeX</h2>
+<pre class="bib">@article{wadhwa2026training,
+  title   = {Training Reasoning Models to Generate Diverse Scientific Ideas},
+  author  = {Wadhwa, Manya and Venkit, Pranav Narayanan and Hayashi, Hiroaki and
+             Li, Yu and Chakrabarty, Tuhin and Wu, Chien-Sheng},
+  journal = {arXiv preprint arXiv:2610.22324},
+  year    = {2026}
+}</pre>
+  </div>
+
+  <!-- <footer>Work done while Manya Wadhwa was at Salesforce AI Research.</footer> -->
+</div>
+
+<script>
+const ROWS = [
+  { g: "General models" },
+  { m: "Claude Opus 4.8", grp: "general", cu: [.38,.22], lc: .21, d: [.80,.07], gr: .98 },
+  { m: "GPT-6 Astra", grp: "general", cu: [.28,.24], lc: .15, d: [.86,.06], gr: .94 },
+  { m: "Nemotron 120B", grp: "general", cu: [.14,.18], lc: .05, d: [.79,.10] },
+  { g: "Competing objectives" },
+  { m: "DARLING", grp: "competing", cu: [.52,.17], lc: .38, d: [.67,.13], gr: .09 },
+  { m: "Impact-only RL", grp: "competing", cu: [.38,.18], lc: .43, d: [.38,.17], gr: .74 },
+  { m: "Impact + diversity, no SFT", grp: "competing", cu: [.51,.26], lc: .30, d: [.92,.07], gr: .19 },
+  { g: "Base and SFT" },
+  { m: "Qwen3-8B", grp: "general", cu: [.03,.10], lc: .01, d: [.80,.11], gr: .91 },
+  { m: "SFT (no think)", grp: "sft", cu: [.21,.19], lc: .07, d: [.77,.09], gr: .90 },
+  { m: "SFT (think)", grp: "sft", cu: [.16,.18], lc: .06, d: [.76,.10], gr: .91 },
+  { g: "Ours (SFT + RL)" },
+  { m: "Ours (no think)", grp: "ours", cu: [.64,.23], lc: .50, d: [.88,.07], gr: .61 },
+  { m: "Ours (think)", grp: "ours", cu: [.51,.23], lc: .34, d: [.83,.08], gr: .81 },
+];
+const models = ROWS.filter(r => r.m);
+const val = (r, k) => Array.isArray(r[k]) ? r[k][0] : r[k];
+const best = k => Math.max(...models.map(r => val(r, k)));
+const f = v => v.toFixed(2);
+const cell = (r, k) => {
+  const v = val(r, k), sd = Array.isArray(r[k]) ? `<span class="sd">(${f(r[k][1])})</span>` : "";
+  return `<td>${v === best(k) ? `<b>${f(v)}</b>` : f(v)}${sd}</td>`;
+};
+const tbody = document.getElementById("tbody");
+if (tbody) tbody.innerHTML = ROWS.map(r => r.g
+  ? `<tr class="grp"><td colspan="4">${r.g}</td></tr>`
+  : `<tr class="${r.grp === "ours" ? "ours" : ""}"><td>${r.m}</td>${["cu","lc","d"].map(k => cell(r, k)).join("")}</tr>`
+).join("");
+
+// Figure 3: x = grounding [0,1], y = CU [0,0.7]
+const X = g => 70 + g * 500, Y = c => 340 - c / 0.7 * 310;
+const LP = {
+  "Claude Opus 4.8": [-12, -10, "end"], "GPT-6 Astra": [-12, 4, "end"], "Qwen3-8B": [-12, 4, "end"],
+  "SFT (no think)": [-12, 4, "end"], "SFT (think)": [-12, 4, "end"],
+  "DARLING": [12, -8, "start"], "Impact-only RL": [0, 22, "middle"], "Impact + diversity, no SFT": [12, 20, "start"],
+  "Ours (no think)": [12, 4, "start"], "Ours (think)": [-12, 4, "end"],
+};
+let s = "";
+[0, .1, .2, .3, .4, .5, .6, .7].forEach(c => s += `<line class="ax" x1="70" x2="570" y1="${Y(c)}" y2="${Y(c)}" opacity="${c ? .5 : 1}"/><text class="tk" x="62" y="${Y(c) + 4}" text-anchor="end">${c.toFixed(1)}</text>`);
+[0, .25, .5, .75, 1].forEach(g => s += `<text class="tk" x="${X(g)}" y="358" text-anchor="middle">${g}</text>`);
+s += `<text class="at" x="320" y="382" text-anchor="middle">grounding (g)</text><text class="at" transform="translate(16 185) rotate(-90)" text-anchor="middle">creative utility (CU)</text>`;
+models.filter(r => r.gr !== undefined).forEach(r => {
+  const x = X(r.gr), y = Y(r.cu[0]), [dx, dy, a] = LP[r.m];
+  s += `<circle class="p-${r.grp}" cx="${x}" cy="${y}" r="${r.grp === "ours" ? 7 : 5.5}"/><text class="pl" x="${x + dx}" y="${y + dy}" text-anchor="${a}">${r.m}</text>`;
+});
+const scatter = document.getElementById("scatter");
+if (scatter) scatter.innerHTML = s;
+
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Figure 2: redraw on a loop (doesn't depend on scroll detection, which is unreliable inside embeds)
+const compare = document.getElementById("compare");
+function playCompare() {
+  compare.classList.remove("draw");
+  void compare.offsetWidth;  // restart the CSS animation
+  compare.classList.add("draw");
+}
+if (compare && !reduce) { playCompare(); setInterval(playCompare, 6000); }
+
+// Figure 1: step-driven walkthrough
+const story = document.getElementById("story");
+if (story) {
+const HOLD = [1200, 2000, 1800, 1600, 1700, 1300, 3400, 1700, 1700, 3000, 1700, 3000, 3200, 1700, 1700, 3200, 5000];
+const cuts = [...story.querySelectorAll("[data-cut]")];
+const oks = [...story.querySelectorAll("[data-ok]")];
+const setLab = document.getElementById("set-lab");
+const docs = [...story.querySelectorAll("[data-read]")];
+const think = story.querySelector(".think");
+function follow() {
+  think.scrollTop = think.scrollHeight;
+  think.classList.toggle("scrolled", think.scrollTop > 0);
+}
+const items = [...story.querySelectorAll("[data-at]")];
+const lines = [...story.querySelectorAll(".t")];
+let step = -1, timer = null, typer = null, paused = false;
+
+function typeLine(el) {
+  clearInterval(typer);
+  const text = el.dataset.text;
+  if (reduce) { el.textContent = text; follow(); return; }
+  let n = 0;
+  el.classList.add("typing");
+  typer = setInterval(() => {
+    el.textContent = text.slice(0, ++n);
+    follow();
+    if (n >= text.length) { clearInterval(typer); el.classList.remove("typing"); }
+  }, 22);
+}
+function show(s) {
+  step = s;
+  items.forEach(el => el.classList.toggle("on", +el.dataset.at <= s));
+  docs.forEach(el => el.classList.toggle("reading", +el.dataset.read === s));
+  cuts.forEach(el => {
+    const gone = s >= +el.dataset.gone;
+    el.classList.toggle("cut", s >= +el.dataset.cut);
+    el.classList.toggle("gone", gone);
+    if (!gone) el.hidden = false;
+    else setTimeout(() => { if (el.classList.contains("gone")) el.hidden = true; }, reduce ? 0 : 650);
+  });
+  oks.forEach(el => el.classList.toggle("ok", s >= +el.dataset.ok));
+  setLab.textContent = s >= HOLD.length - 1 ? "idea set U" : "candidate ideas";
+  lines.forEach(el => {
+    const at = +el.dataset.at;
+    if (at < s) { el.textContent = el.dataset.text; el.classList.remove("typing"); }
+    else if (at > s) { el.textContent = ""; el.classList.remove("typing"); }
+  });
+  const cur = lines.find(el => +el.dataset.at === s);
+  if (cur) typeLine(cur);
+  follow();
+}
+function tick() {
+  clearTimeout(timer);
+  if (paused) return;
+  timer = setTimeout(() => { show((step + 1) % HOLD.length); tick(); }, HOLD[step]);
+}
+if (reduce) { paused = true; show(HOLD.length - 1); }
+else { show(0); tick(); }
+}
+
+// Figure 1 (headline): short looping comparison
+const hl = document.getElementById("hl");
+if (hl) {
+  const HL_HOLD = [700, 1200, 1500, 1200, 1400, 1200, 1400, 3800];
+  const hlItems = [...hl.querySelectorAll("[data-at]")];
+  let hlStep = -1;
+  const hlShow = n => { hlStep = n; hlItems.forEach(el => el.classList.toggle("on", +el.dataset.at <= n)); };
+  const hlTick = () => setTimeout(() => { hlShow((hlStep + 1) % HL_HOLD.length); hlTick(); }, HL_HOLD[hlStep]);
+  if (reduce) hlShow(HL_HOLD.length - 1);
+  else { hlShow(0); hlTick(); }
+}
+</script>
+</body>
+</html>
